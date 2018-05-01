@@ -47,11 +47,7 @@ public class User
         this.loginId = loginId;
     }
 
-    @Override
-    public String toString()
-    {
-        return "User{" + "username=" + username + ", password=" + password + ", loginId=" + loginId + '}';
-    }
+    
 
     
  

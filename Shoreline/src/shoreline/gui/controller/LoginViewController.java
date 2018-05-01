@@ -39,12 +39,13 @@ public class LoginViewController implements Initializable {
     @FXML
     private JFXPasswordField txtPassword;
     
-    private String checkUser, checkPw;
+//    private String checkUser, checkPw;
     @FXML
     private Label lblMessage;
     
     LoginViewModel lvm;
     UserModel um;
+    boolean Users = false;
     
     
 //    String user = "user";
@@ -71,25 +72,32 @@ public class LoginViewController implements Initializable {
     @FXML
     private void loginBtn(ActionEvent event)
     {
-        checkUser = txtUserName.getText().toString();
-        checkPw = txtPassword.getText().toString();
+        loginBtn.arm();
+        String username = txtUserName.getText();
+        String password = txtPassword.getText();
         
         lvm.loadUsers();
         List<User> users = lvm.getAllUsers();
-        User user = new User();
         
-        if (checkUser.equals(user.getUsername()) && checkPw.equals(user.getPassword()))
+        for (int i = 0; i < users.size(); i++) {
+        User user = users.get(i);
+        
+        
+        if (username.equals(user.getUsername()) && password.equals(user.getPassword()) && Users == false)
         {
+            Users = true;
             lblMessage.setText("Successful");
         }
-        else
-        {
+        }
+        if (Users == false)
+        { 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Failed to login.");
             alert.setHeaderText("Login failed.");
             alert.setContentText("Wrong username or password");
             alert.showAndWait();
             alert.close();
+        
         }
     }
     
@@ -98,3 +106,4 @@ public class LoginViewController implements Initializable {
 //    }
     
 }
+

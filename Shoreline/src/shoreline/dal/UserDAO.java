@@ -30,7 +30,7 @@ public class UserDAO
         
         try (Connection con = dbConnector.getConnection()) {
             PreparedStatement pstmt
-                    = con.prepareStatement("SELECT * FROM User");
+                    = con.prepareStatement("SELECT * FROM Login");
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 User user = new User();

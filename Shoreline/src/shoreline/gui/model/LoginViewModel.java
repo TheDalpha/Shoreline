@@ -29,8 +29,5 @@ public class LoginViewModel
     users.addAll(allUsers);
     }
     
-//    public void loadStudents() {
-//        studentList.clear();
-//        studentList.addAll(stdMan.getAllStudents());
-//    }
+
 }
