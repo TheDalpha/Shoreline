@@ -24,7 +24,7 @@ public class DataBaseConnector {
     {;
         dataSource.setServerName("EASV-DB2");
         dataSource.setPortNumber(1433);
-        dataSource.setDatabaseName("AutisticAttendance");
+        dataSource.setDatabaseName("Ministre_Shoreline");
         dataSource.setUser("CS2017A_27");
         dataSource.setPassword("Donttype12398");
     }

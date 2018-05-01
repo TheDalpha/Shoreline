@@ -14,6 +14,8 @@ public class User
  public String username;
  
  public String password;
+ 
+ public int loginId;
 
     public String getUsername()
     {
@@ -35,11 +37,23 @@ public class User
         this.password = password;
     }
 
+    public int getLoginId()
+    {
+        return loginId;
+    }
+
+    public void setLoginId(int loginId)
+    {
+        this.loginId = loginId;
+    }
+
     @Override
     public String toString()
     {
-        return "login{" + "username=" + username + ", password=" + password + '}';
+        return "User{" + "username=" + username + ", password=" + password + ", loginId=" + loginId + '}';
     }
+
+    
  
     
     

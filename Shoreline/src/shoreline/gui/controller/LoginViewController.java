@@ -8,13 +8,22 @@ package shoreline.gui.controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import shoreline.be.User;
+import shoreline.bll.UserManager;
+import shoreline.gui.model.LoginViewModel;
+import shoreline.gui.model.UserModel;
 
 /**
  * FXML Controller class
@@ -34,15 +43,29 @@ public class LoginViewController implements Initializable {
     @FXML
     private Label lblMessage;
     
-    String user = "user";
-    String password = "password";
+    LoginViewModel lvm;
+    UserModel um;
+    
+    
+//    String user = "user";
+//    String password = "password";
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        lvm = new LoginViewModel();
+        try
+        {
+            um = UserModel.getInstance();
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(LoginViewController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex)
+        {
+            Logger.getLogger(LoginViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }    
 
     @FXML
@@ -50,7 +73,12 @@ public class LoginViewController implements Initializable {
     {
         checkUser = txtUserName.getText().toString();
         checkPw = txtPassword.getText().toString();
-        if (checkUser.equals(user) && checkPw.equals(password))
+        
+        lvm.loadUsers();
+        List<User> users = lvm.getAllUsers();
+        User user = new User();
+        
+        if (checkUser.equals(user.getUsername()) && checkPw.equals(user.getPassword()))
         {
             lblMessage.setText("Successful");
         }
@@ -64,5 +92,9 @@ public class LoginViewController implements Initializable {
             alert.close();
         }
     }
+    
+//    public void setModel(LoginViewModel lvm) {
+//        this.lvm = lvm;
+//    }
     
 }
