@@ -8,7 +8,9 @@ package shoreline.gui.model;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import shoreline.be.Admin;
 import shoreline.be.User;
+import shoreline.bll.AdminManager;
 import shoreline.bll.UserManager;
 
 /**
@@ -18,7 +20,9 @@ import shoreline.bll.UserManager;
 public class LoginViewModel
 {
     private UserManager uManager = new UserManager();
+    private AdminManager aManager = new AdminManager();
     private ObservableList<User> users = FXCollections.observableArrayList();
+    private ObservableList<Admin> admins = FXCollections.observableArrayList();
     
     public ObservableList<User> getAllUsers() {
         return users;
@@ -29,5 +33,13 @@ public class LoginViewModel
     users.addAll(allUsers);
     }
     
+    public ObservableList<Admin> getAllAdmins() {
+        return admins;
+    }
+    
+    public void loadAdmins() {
+        List<Admin> allAdmins = aManager.getAllAdmins();
+        admins.addAll(allAdmins);
+    }
 
 }

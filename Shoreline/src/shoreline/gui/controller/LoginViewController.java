@@ -20,6 +20,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import shoreline.be.Admin;
 import shoreline.be.User;
 import shoreline.bll.UserManager;
 import shoreline.gui.model.LoginViewModel;
@@ -46,6 +47,7 @@ public class LoginViewController implements Initializable {
     LoginViewModel lvm;
     UserModel um;
     boolean Users = false;
+    boolean admuns = false;
     
     
 //    String user = "user";
@@ -72,10 +74,23 @@ public class LoginViewController implements Initializable {
     @FXML
     private void loginBtn(ActionEvent event)
     {
-        loginBtn.arm();
         String username = txtUserName.getText();
         String password = txtPassword.getText();
         
+        lvm.loadAdmins();
+        List<Admin> admins = lvm.getAllAdmins();
+        
+        for (int j = 0; j < admins.size(); j++) {
+            Admin admin = admins.get(j);
+            
+            if (username.equals(admin.getaUsername()) && password.equals(admin.getaPassword()) && admuns == false) {
+                admuns = true;
+                lblMessage.setText("Admin Successful");
+            }
+        }
+        
+        if (admuns == false)
+        {
         lvm.loadUsers();
         List<User> users = lvm.getAllUsers();
         
@@ -98,6 +113,7 @@ public class LoginViewController implements Initializable {
             alert.showAndWait();
             alert.close();
         
+        }
         }
     }
     
