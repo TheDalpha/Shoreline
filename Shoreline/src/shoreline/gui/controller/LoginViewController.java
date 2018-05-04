@@ -17,9 +17,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 import shoreline.be.Admin;
 import shoreline.be.User;
 import shoreline.bll.UserManager;
@@ -72,7 +76,7 @@ public class LoginViewController implements Initializable {
     }    
 
     @FXML
-    private void loginBtn(ActionEvent event)
+    private void loginBtn(ActionEvent event) throws IOException
     {
         String username = txtUserName.getText();
         String password = txtPassword.getText();
@@ -86,6 +90,14 @@ public class LoginViewController implements Initializable {
             if (username.equals(admin.getUsername()) && password.equals(admin.getUsername()) && admuns == false) {
                 admuns = true;
                 lblMessage.setText("Admin Successful");
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/shoreline/gui/view/AdminView.fxml"));
+                Parent root = (Parent) fxmlLoader.load();
+                Stage stage = (Stage) loginBtn.getScene().getWindow();
+                stage.close();
+                Stage adminView = new Stage();
+                adminView.setTitle("EASV Students Window");
+                adminView.setScene(new Scene(root));
+                adminView.show();
             }
         }
         
