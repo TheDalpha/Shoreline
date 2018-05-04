@@ -76,7 +76,7 @@ public class AdminViewController implements Initializable {
     @FXML
     private void CreateUser(ActionEvent event) {
         
-        if(tfPassword1.getText().equals(tfPassword2.getText())) {
+        if(tfPassword1.getText().equals(tfPassword2.getText()) && !tfUsername.getText().isEmpty()) {
             Alert userCreatedAlert = new Alert(Alert.AlertType.INFORMATION);
             User user = new User();
             user.setUsername(tfUsername.getText());
