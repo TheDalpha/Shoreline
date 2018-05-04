@@ -30,13 +30,13 @@ public class AdminDAO {
         
         try (Connection con = dbConnector.getConnection()) {
             PreparedStatement pstmt
-                    = con.prepareStatement("SELECT * FROM Admun");
+                    = con.prepareStatement("SELECT * FROM Login");
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 Admin admin = new Admin();
-                admin.setAdminId(rs.getInt("adminId"));
-                admin.setaUsername(rs.getString("aUsername"));
-                admin.setaPassword(rs.getString("aPassword"));
+                admin.setLoginId(rs.getInt("loginId"));
+                admin.setUsername(rs.getString("username"));
+                admin.setPassword(rs.getString("password"));
                 allAdmins.add(admin);
             }
         } catch (SQLException ex) {

@@ -83,7 +83,7 @@ public class LoginViewController implements Initializable {
         for (int j = 0; j < admins.size(); j++) {
             Admin admin = admins.get(j);
             
-            if (username.equals(admin.getaUsername()) && password.equals(admin.getaPassword()) && admuns == false) {
+            if (username.equals(admin.getUsername()) && password.equals(admin.getUsername()) && admuns == false) {
                 admuns = true;
                 lblMessage.setText("Admin Successful");
             }

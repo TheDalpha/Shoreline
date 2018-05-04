@@ -4,28 +4,25 @@
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="295.0" prefWidth="321.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="shoreline.gui.controller.LoginViewController">
+<AnchorPane id="AnchorPane" prefHeight="295.0" prefWidth="321.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="shoreline.gui.controller.LoginViewController">
    <children>
-      <Label fx:id="lblMessage" layoutX="134.0" layoutY="52.0" text="Login">
+      <Label fx:id="lblMessage" layoutX="133.0" layoutY="62.0" text="Login">
          <font>
             <Font name="System Bold" size="21.0" />
          </font>
       </Label>
       <JFXTextField fx:id="txtUserName" layoutX="93.0" layoutY="123.0" promptText="Username" />
       <JFXButton fx:id="loginBtn" layoutX="138.0" layoutY="223.0" onAction="#loginBtn" style="-fx-background-color: #41ABFF;" text="Login" />
-      <Pane layoutX="-4.0" prefHeight="25.0" prefWidth="327.0" style="-fx-background-color: #41ABFF;">
-         <children>
-            <Label alignment="CENTER" layoutX="75.0" layoutY="1.0" prefHeight="23.0" prefWidth="177.0" text="Shoreline">
-               <font>
-                  <Font name="Rockwell Extra Bold" size="19.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
       <JFXPasswordField fx:id="txtPassword" layoutX="93.0" layoutY="164.0" promptText="Password" />
+      <ImageView fitHeight="62.0" fitWidth="200.0" layoutX="61.0">
+         <image>
+            <Image url="@../../../ShorlineLogo.PNG" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
