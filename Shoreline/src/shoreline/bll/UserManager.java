@@ -29,6 +29,10 @@ public class UserManager
     public void updateUser(User user) {
         udao.updateUsers(user);
     }
+
+    public void createUser(User user) {
+        udao.createUser(user);
+    }
     
     
 }

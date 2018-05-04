@@ -17,11 +17,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import shoreline.be.User;
 import shoreline.gui.model.LoginViewModel;
+import shoreline.gui.model.UserModel;
 
 /**
  * FXML Controller class
@@ -44,12 +46,14 @@ public class AdminViewController implements Initializable {
     private TableColumn<User, String> nameClm;
     
     LoginViewModel lvm;
+    UserModel usm;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        usm = new UserModel();
 //        tableView.setItems(lvm.getAllUsers());
         
     }    
@@ -71,6 +75,28 @@ public class AdminViewController implements Initializable {
 
     @FXML
     private void CreateUser(ActionEvent event) {
+        
+        if(tfPassword1.getText().equals(tfPassword2.getText())) {
+            Alert userCreatedAlert = new Alert(Alert.AlertType.INFORMATION);
+            User user = new User();
+            user.setUsername(tfUsername.getText());
+            user.setPassword(tfPassword1.getText());
+            usm.createUser(user);
+            userCreatedAlert.setTitle("Succes!");
+            userCreatedAlert.setHeaderText("Succes!");
+            userCreatedAlert.setContentText("User " + user.getUsername() + " has been created!");
+            userCreatedAlert.showAndWait();
+            userCreatedAlert.close();
+            tfUsername.clear();
+            tfPassword1.clear();
+            tfPassword2.clear();
+        } else {
+            Alert createUserAlert = new Alert(Alert.AlertType.ERROR);
+            createUserAlert.setContentText("Passwords don't match");
+            createUserAlert.showAndWait();
+            createUserAlert.close();
+            
+        }
         
     }
     

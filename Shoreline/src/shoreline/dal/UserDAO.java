@@ -9,8 +9,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import shoreline.be.User;
 
 /**
@@ -47,7 +50,7 @@ public class UserDAO
     }
     
     public void updateUsers(User user) {
-        String sql = "UPDATE User "
+        String sql = "UPDATE Login "
                 + "password = ?, "
                 + " username = ?, "
                 + " WHERE loginId = ? ;";
@@ -63,4 +66,39 @@ public class UserDAO
             System.err.print(ex);
         }
     }
+
+    public void createUser(User user) {
+        try (Connection con = dbConnector.getConnection())
+        {
+            String sql
+                    = "INSERT INTO Login"
+                    + "(username, password) "
+                    + "VALUES(?,?)";
+
+            PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            pstmt.setString(1, user.getUsername());
+            pstmt.setString(2, user.getPassword());
+            
+            int affected = pstmt.executeUpdate();
+            if(affected<1)
+                throw new SQLException("Can't create user");
+            
+            //Get Database generated id and set user id
+            ResultSet rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                user.setLoginId(rs.getInt(1));
+            }
+              
+        } 
+        
+        catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 }
+        
+      
+     
+    
+

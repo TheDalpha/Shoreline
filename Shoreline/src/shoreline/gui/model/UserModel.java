@@ -55,6 +55,10 @@ public class UserModel
     public void setUser(User user) {
         this.user = user;
     }
+
+    public void createUser(User user) {
+        uManager.createUser(user);
+    }
     
     
 }
