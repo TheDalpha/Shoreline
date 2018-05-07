@@ -6,6 +6,8 @@
 package shoreline.gui.model;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -56,7 +58,7 @@ public class UserModel
         this.user = user;
     }
 
-    public void createUser(User user) {
+    public void createUser(User user) throws NoSuchAlgorithmException, InvalidKeySpecException {
         uManager.createUser(user);
     }
     

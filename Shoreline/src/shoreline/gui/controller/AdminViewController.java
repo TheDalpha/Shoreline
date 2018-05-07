@@ -10,6 +10,8 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -74,13 +76,13 @@ public class AdminViewController implements Initializable {
     }
 
     @FXML
-    private void CreateUser(ActionEvent event) {
+    private void CreateUser(ActionEvent event) throws NoSuchAlgorithmException, InvalidKeySpecException {
         
         if(tfPassword1.getText().equals(tfPassword2.getText()) && !tfUsername.getText().isEmpty()) {
             Alert userCreatedAlert = new Alert(Alert.AlertType.INFORMATION);
             User user = new User();
             user.setUsername(tfUsername.getText());
-            user.setPassword(tfPassword1.getText());
+            user.setCleanPassword(tfPassword1.getText());
             usm.createUser(user);
             userCreatedAlert.setTitle("Succes!");
             userCreatedAlert.setHeaderText("Succes!");

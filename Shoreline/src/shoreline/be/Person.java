@@ -13,7 +13,11 @@ public abstract class Person {
     
  public String username;
  
- public String password;
+ public String cleanPassword;
+ 
+ public byte[] encryptedPassword;
+    
+ public byte[] salt;
  
  public int loginId;
 
@@ -25,12 +29,12 @@ public abstract class Person {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getCleanPassword() {
+        return cleanPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setCleanPassword(String password) {
+        this.cleanPassword = password;
     }
 
     public int getLoginId() {
@@ -39,6 +43,22 @@ public abstract class Person {
 
     public void setLoginId(int loginId) {
         this.loginId = loginId;
+    }
+    
+    public byte[] getSalt() {
+        return salt;
+    }
+
+    public void setSalt(byte[] salt) {
+        this.salt = salt;
+    }
+
+    public byte[] getEncryptedPassword() {
+        return encryptedPassword;
+    }
+
+    public void setEncryptedPassword(byte[] encryptedPassword) {
+        this.encryptedPassword = encryptedPassword;
     }
  
 }

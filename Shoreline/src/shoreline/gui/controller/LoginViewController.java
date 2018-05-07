@@ -10,6 +10,8 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -62,10 +64,12 @@ public class LoginViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        lvm = new LoginViewModel();
+        Users = false;
+        admuns = false;
         try
         {
             um = UserModel.getInstance();
+            lvm = LoginViewModel.getInstance();
         } catch (SQLException ex)
         {
             Logger.getLogger(LoginViewController.class.getName()).log(Level.SEVERE, null, ex);
@@ -76,7 +80,7 @@ public class LoginViewController implements Initializable {
     }    
 
     @FXML
-    private void loginBtn(ActionEvent event) throws IOException
+    private void loginBtn(ActionEvent event) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException
     {
         String username = txtUserName.getText();
         String password = txtPassword.getText();
@@ -87,7 +91,7 @@ public class LoginViewController implements Initializable {
         for (int j = 0; j < admins.size(); j++) {
             Admin admin = admins.get(j);
             
-            if (username.equals(admin.getUsername()) && password.equals(admin.getUsername()) && admuns == false) {
+            if (username.equals(admin.getUsername()) && lvm.authenticate(password, admin.getEncryptedPassword(), admin.getSalt()) && admuns == false) {
                 admuns = true;
                 lblMessage.setText("Admin Successful");
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/shoreline/gui/view/AdminView.fxml"));
@@ -110,7 +114,7 @@ public class LoginViewController implements Initializable {
         User user = users.get(i);
         
         
-        if (username.equals(user.getUsername()) && password.equals(user.getPassword()) && Users == false)
+        if (username.equals(user.getUsername()) && lvm.authenticate(password, user.getEncryptedPassword(), user.getSalt()) == true && Users == false)
         {
             Users = true;
             lblMessage.setText("Successful");

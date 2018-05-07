@@ -39,7 +39,9 @@ public class UserDAO
                 User user = new User();
                 user.setLoginId(rs.getInt("loginId"));
                 user.setUsername(rs.getString("username"));
-                user.setPassword(rs.getString("password"));
+                user.setCleanPassword(rs.getString("password"));
+                user.setEncryptedPassword(rs.getBytes("encryptedPassword"));
+                user.setSalt(rs.getBytes("salt"));
                 allUsers.add(user);
             }
         } catch (SQLException ex) {
@@ -51,15 +53,17 @@ public class UserDAO
     
     public void updateUsers(User user) {
         String sql = "UPDATE Login "
+                + "username = ?, "
                 + "password = ?, "
-                + " username = ?, "
+                + "encryptedPassword = ?, "
                 + " WHERE loginId = ? ;";
         try (Connection con = dbConnector.getConnection())
         {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, user.getPassword());
-            ps.setString(2, user.getUsername());
-            ps.setInt(3, user.getLoginId());
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getCleanPassword());
+            ps.setBytes(3, user.getEncryptedPassword());
+            ps.setInt(4, user.getLoginId());
 
             ps.executeUpdate();
         }catch (SQLException ex) {
@@ -72,12 +76,14 @@ public class UserDAO
         {
             String sql
                     = "INSERT INTO Login"
-                    + "(username, password) "
-                    + "VALUES(?,?)";
+                    + "(username, password, encryptedPassword, salt) "
+                    + "VALUES(?,?,?,?)";
 
             PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, user.getUsername());
-            pstmt.setString(2, user.getPassword());
+            pstmt.setString(2, user.getCleanPassword());
+            pstmt.setBytes(3, user.getEncryptedPassword());
+            pstmt.setBytes(4, user.getSalt());
             
             int affected = pstmt.executeUpdate();
             if(affected<1)
