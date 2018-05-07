@@ -12,7 +12,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +25,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import shoreline.be.User;
 import shoreline.gui.model.LoginViewModel;
@@ -42,21 +46,35 @@ public class AdminViewController implements Initializable {
     private JFXPasswordField tfPassword2;
     @FXML
     private JFXButton logOut;
-    @FXML
     private TableView<User> tableView;
     @FXML
     private TableColumn<User, String> nameClm;
     
     LoginViewModel lvm;
     UserModel usm;
+    @FXML
+    private TableView<User> userView;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        usm = new UserModel();
-//        tableView.setItems(lvm.getAllUsers());
+        try {
+            usm = UserModel.getInstance();
+            lvm = LoginViewModel.getInstance();
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminViewController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(AdminViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        usm.loadUsers();
+        System.out.println(usm.getAllUsers());
+        userView.setItems(usm.getAllUsers());
+        
+        nameClm.setCellValueFactory(
+                new PropertyValueFactory("username"));
+        
         
     }    
 

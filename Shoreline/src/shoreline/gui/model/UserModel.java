@@ -24,17 +24,21 @@ public class UserModel
     private static UserModel instance;
         UserManager uManager;
         User user;
-        ObservableList<User> UserList;
+        ObservableList<User> userList;
 
     public UserModel() {
         uManager = new UserManager();
         user = new User();
-        UserList = FXCollections.observableArrayList();
+        userList = FXCollections.observableArrayList();
     }
     
     public void loadUsers() {
-        UserList.clear();
-        UserList.addAll(uManager.getAllUsers());
+        userList.clear();
+        userList.addAll(uManager.getAllUsers());
+    }
+    
+    public ObservableList<User> getAllUsers() {
+        return userList;
     }
     
     public void updateUser(User user) {

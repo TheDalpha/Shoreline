@@ -99,6 +99,7 @@ public class LoginViewController implements Initializable {
                 Stage stage = (Stage) loginBtn.getScene().getWindow();
                 stage.close();
                 Stage adminView = new Stage();
+                AdminViewController amController=fxmlLoader.getController();
                 adminView.setTitle("EASV Students Window");
                 adminView.setScene(new Scene(root));
                 adminView.show();
@@ -112,8 +113,7 @@ public class LoginViewController implements Initializable {
         
         for (int i = 0; i < users.size(); i++) {
         User user = users.get(i);
-        
-        
+           
         if (username.equals(user.getUsername()) && lvm.authenticate(password, user.getEncryptedPassword(), user.getSalt()) == true && Users == false)
         {
             Users = true;
