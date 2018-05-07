@@ -114,7 +114,7 @@ public class LoginViewController implements Initializable {
         for (int i = 0; i < users.size(); i++) {
         User user = users.get(i);
            
-        if (username.equals(user.getUsername()) && lvm.authenticate(password, user.getEncryptedPassword(), user.getSalt()) == true && Users == false)
+        if (username.equals(user.getUsername()) && lvm.authenticate(password, user.getEncryptedPassword(), user.getSalt()) && Users == false)
         {
             Users = true;
             lblMessage.setText("Successful");

@@ -102,6 +102,22 @@ public class UserDAO
         }
     }
 
+    public void deleteUser(User selectedUser) {
+        try (Connection con = dbConnector.getConnection()) {
+            String sql
+                    = "DELETE FROM Login WHERE loginId=?";
+            PreparedStatement pstmt
+                    = con.prepareStatement(sql);
+            pstmt.setInt(1, selectedUser.getLoginId());
+            pstmt.execute();
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+
 }
         
       

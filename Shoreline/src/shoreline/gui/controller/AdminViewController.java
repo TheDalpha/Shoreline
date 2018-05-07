@@ -23,6 +23,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -54,6 +57,10 @@ public class AdminViewController implements Initializable {
     UserModel usm;
     @FXML
     private TableView<User> userView;
+    @FXML
+    private ContextMenu contextMenu;
+    @FXML
+    private MenuItem menuItem;
 
     /**
      * Initializes the controller class.
@@ -69,7 +76,6 @@ public class AdminViewController implements Initializable {
             Logger.getLogger(AdminViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
         usm.loadUsers();
-        System.out.println(usm.getAllUsers());
         userView.setItems(usm.getAllUsers());
         
         nameClm.setCellValueFactory(
@@ -85,10 +91,7 @@ public class AdminViewController implements Initializable {
         
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("/shoreline/gui/view/LoginView.fxml"));
-
         Scene scene = new Scene(root);
-            
-
         stage.setScene(scene);
         stage.show();
     }
@@ -117,6 +120,22 @@ public class AdminViewController implements Initializable {
             createUserAlert.close();
             
         }
+        
+    }
+
+    @FXML
+    private void deleteUser(ActionEvent event) {
+       Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION, "Confirm Delete", ButtonType.YES, ButtonType.NO);
+       deleteAlert.setTitle("Warning");
+       deleteAlert.setContentText("Do you want to delete " + userView.getSelectionModel().getSelectedItem().getUsername() + " ?");
+       deleteAlert.showAndWait();
+       if(deleteAlert.getResult() == ButtonType.YES) {
+       usm.deleteUser(userView.getSelectionModel().getSelectedItem());
+       userView.getItems().remove(userView.getSelectionModel().getSelectedItem());
+       usm.loadUsers();
+       } else if (deleteAlert.getResult() == ButtonType.NO){
+           deleteAlert.close();
+       }
         
     }
     

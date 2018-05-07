@@ -65,5 +65,9 @@ public class UserManager
         random.nextBytes(salt);
         return salt;
     }
+
+    public void deleteUser(User selectedUser) {
+        udao.deleteUser(selectedUser);
+    }
     
 }

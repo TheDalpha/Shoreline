@@ -65,6 +65,10 @@ public class UserModel
     public void createUser(User user) throws NoSuchAlgorithmException, InvalidKeySpecException {
         uManager.createUser(user);
     }
+
+    public void deleteUser(User selectedUser) {
+        uManager.deleteUser(selectedUser);
+    }
     
     
 }
