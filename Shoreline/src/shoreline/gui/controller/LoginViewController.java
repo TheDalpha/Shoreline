@@ -96,6 +96,7 @@ public class LoginViewController implements Initializable {
                 lblMessage.setText("Admin Successful");
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/shoreline/gui/view/AdminView.fxml"));
                 Parent root = (Parent) fxmlLoader.load();
+                root.getStylesheets().add("/shoreline/gui/view/Css/Style.css");
                 Stage stage = (Stage) loginBtn.getScene().getWindow();
                 stage.close();
                 Stage adminView = new Stage();
@@ -120,6 +121,7 @@ public class LoginViewController implements Initializable {
             lblMessage.setText("Successful");
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/shoreline/gui/view/UserView.fxml"));
                 Parent root = (Parent) fxmlLoader.load();
+                root.getStylesheets().add("/shoreline/gui/view/Css/Style.css");
                 Stage stage = (Stage) loginBtn.getScene().getWindow();
                 stage.close();
                 Stage userView = new Stage();

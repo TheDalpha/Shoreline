@@ -22,6 +22,7 @@ public class Shoreline extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("gui/view/LoginView.fxml"));
         
         Scene scene = new Scene(root);
+        scene.getStylesheets().add("/shoreline/gui/view/Css/Style.css");
         
         stage.setScene(scene);
         stage.show();
