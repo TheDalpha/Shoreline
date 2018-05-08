@@ -10,6 +10,6 @@
       <JFXButton layoutX="14.0" layoutY="328.0" onAction="#chooseFile" text="Choose File" />
       <JFXTextField fx:id="filePath" layoutX="99.0" layoutY="328.0" prefHeight="25.0" prefWidth="200.0" />
       <JFXButton layoutX="329.0" layoutY="284.0" onAction="#convertToJson" text="Convert" />
-      <JFXListView layoutX="14.0" layoutY="14.0" prefHeight="271.0" prefWidth="185.0" />
+      <JFXListView fx:id="Lview" layoutX="14.0" layoutY="14.0" prefHeight="271.0" prefWidth="185.0" />
    </children>
 </AnchorPane>

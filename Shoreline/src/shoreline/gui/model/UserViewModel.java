@@ -77,7 +77,7 @@ public class UserViewModel
     }
 
     public void setFilePath(String filePath) throws Exception {
-        fileReader.readXML(filePath);
+        fileReader.readXLSX(filePath);
     }
 
     public void convertToJson(String path) {

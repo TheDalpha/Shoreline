@@ -9,6 +9,8 @@ import com.jfoenix.controls.JFXTextField;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -64,12 +66,10 @@ public class UserViewController implements Initializable {
             if (selectedFiles != null) {
             for (int i = 0; i < selectedFiles.size(); i++) {
             Lview.getItems().add(selectedFiles.get(i).getName());
-            File file = fileChooser.showSaveDialog(null);
-            if (file != null){
-             
-            }
-//            Files.copy(file.toPath(), "@../../../Input"
-            }
+//            File file = fileChooser.showSaveDialog(null);
+//            FileSystems.getDefault().
+//            Files.copy(file.toPath(), 
+                    }
             
             } 
 
