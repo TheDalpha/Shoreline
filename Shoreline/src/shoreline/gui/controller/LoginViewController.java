@@ -27,8 +27,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import shoreline.be.Admin;
+import shoreline.be.Person;
 import shoreline.be.User;
-import shoreline.bll.UserManager;
 import shoreline.gui.model.LoginViewModel;
 import shoreline.gui.model.UserViewModel;
 
@@ -38,7 +38,7 @@ import shoreline.gui.model.UserViewModel;
  * @author Lars
  */
 public class LoginViewController implements Initializable {
-
+    private Person person; 
     @FXML
     private JFXTextField txtUserName;
     @FXML
@@ -123,8 +123,10 @@ public class LoginViewController implements Initializable {
                 Stage stage = (Stage) loginBtn.getScene().getWindow();
                 stage.close();
                 Stage userView = new Stage();
-                userView.setTitle("EASV Students Window");
+                UserViewController uvController=fxmlLoader.getController();
+                userView.setTitle("Shoreline");
                 userView.setScene(new Scene(root));
+                uvController.setUserName(user);
                 userView.show();
         }
         }

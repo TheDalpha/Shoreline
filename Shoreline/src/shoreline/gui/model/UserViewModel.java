@@ -11,6 +11,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import shoreline.be.Person;
 import shoreline.be.User;
 import shoreline.bll.FileReader;
 import shoreline.bll.FileWriter;
@@ -29,6 +30,7 @@ public class UserViewModel
         FileWriter fileWriter;
         User user;
         ObservableList<User> userList;
+    private Person person;
 
     public UserViewModel() {
         uManager = new UserManager();
@@ -83,6 +85,5 @@ public class UserViewModel
     public void convertToJson(String path) {
         fileWriter.convertToJson(path);
     }
-    
-    
+      
 }
