@@ -3,62 +3,131 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="430.0" prefWidth="531.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="shoreline.gui.controller.AdminViewController">
+<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="shoreline.gui.controller.AdminViewController">
    <children>
-      <JFXTextField fx:id="tfUsername" layoutX="17.0" layoutY="148.0" promptText="Username" />
-      <Label layoutX="16.0" layoutY="185.0" text="Put in desired password">
-         <font>
-            <Font name="Arial Bold" size="12.0" />
-         </font>
-      </Label>
-      <JFXButton layoutX="16.0" layoutY="292.0" onAction="#CreateUser" style="-fx-background-color: #41ABFF;" text="Create user" />
-      <Label layoutX="15.0" layoutY="133.0" text="Put in desired username">
-         <font>
-            <Font name="Arial Bold" size="12.0" />
-         </font>
-      </Label>
-      <Label layoutX="15.0" layoutY="242.0" text="Repeat password">
-         <font>
-            <Font name="Arial Bold" size="12.0" />
-         </font>
-      </Label>
-      <JFXPasswordField fx:id="tfPassword1" layoutX="17.0" layoutY="200.0" promptText="Password" />
-      <JFXPasswordField fx:id="tfPassword2" layoutX="18.0" layoutY="257.0" promptText="Password" />
-      <Label layoutX="28.0" layoutY="96.0" text="Create User">
-         <font>
-            <Font name="Arial Bold" size="20.0" />
-         </font>
-      </Label>
-      <TableView fx:id="userView" layoutX="165.0" layoutY="84.0" prefHeight="203.0" prefWidth="148.0">
-        <columns>
-          <TableColumn fx:id="nameClm" prefWidth="144.0" text="Username" />
-        </columns>
-         <contextMenu>
-            <ContextMenu fx:id="contextMenu">
-              <items>
-                <MenuItem fx:id="menuItem" mnemonicParsing="false" onAction="#deleteUser" text="Delete User" />
-              </items>
-            </ContextMenu>
-         </contextMenu>
-      </TableView>
-      <JFXButton fx:id="logOut" layoutX="534.0" layoutY="14.0" onAction="#Logout" text="Logout" />
-      <ImageView fitHeight="75.0" fitWidth="236.0" layoutX="165.0">
-         <image>
-            <Image url="@../../../ShorlineLogo.PNG" />
-         </image>
-      </ImageView>
-      <Separator layoutY="62.0" prefHeight="15.0" prefWidth="589.0" />
-      <Separator layoutX="154.0" layoutY="68.0" orientation="VERTICAL" prefHeight="362.0" prefWidth="14.0" />
+      <BorderPane>
+         <center>
+            <VBox>
+               <BorderPane.margin>
+                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+               </BorderPane.margin>
+               <children>
+                  <TableView fx:id="userView" prefHeight="203.0" prefWidth="148.0">
+                    <columns>
+                      <TableColumn fx:id="nameClm" prefWidth="344.0" text="Username" />
+                    </columns>
+                     <contextMenu>
+                        <ContextMenu fx:id="contextMenu">
+                          <items>
+                            <MenuItem fx:id="menuItem" mnemonicParsing="false" onAction="#deleteUser" text="Delete User" />
+                          </items>
+                        </ContextMenu>
+                     </contextMenu>
+                  </TableView>
+               </children>
+            </VBox>
+         </center>
+         <left>
+            <VBox prefHeight="200.0" prefWidth="150.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="Create User">
+                     <font>
+                        <Font name="Arial Bold" size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <Label text="Put in desired username">
+                     <font>
+                        <Font name="Arial Bold" size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <JFXTextField fx:id="tfUsername" promptText="Username">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </JFXTextField>
+                  <Label text="Put in desired password">
+                     <font>
+                        <Font name="Arial Bold" size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <JFXPasswordField fx:id="tfPassword1" promptText="Password">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </JFXPasswordField>
+                  <Label text="Repeat password">
+                     <font>
+                        <Font name="Arial Bold" size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <JFXPasswordField fx:id="tfPassword2" promptText="Password">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </JFXPasswordField>
+                  <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#CreateUser" prefHeight="25.0" prefWidth="157.0" ripplerFill="BLACK" style="-fx-background-color: #41ABFF;" text="Create user" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets top="50.0" />
+                     </VBox.margin>
+                  </JFXButton>
+               </children>
+               <BorderPane.margin>
+                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+               </BorderPane.margin>
+            </VBox>
+         </left>
+         <top>
+            <GridPane BorderPane.alignment="CENTER">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <ImageView fitHeight="83.0" fitWidth="373.0" GridPane.columnIndex="1">
+                     <image>
+                        <Image url="@../../../LOGO.png" />
+                     </image>
+                  </ImageView>
+                  <JFXButton fx:id="logOut" alignment="CENTER_RIGHT" buttonType="RAISED" contentDisplay="CENTER" onAction="#Logout" ripplerFill="BLACK" text="Log out" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+                     <GridPane.margin>
+                        <Insets right="25.0" />
+                     </GridPane.margin>
+                  </JFXButton>
+               </children>
+            </GridPane>
+         </top>
+      </BorderPane>
    </children>
-</AnchorPane>
+</StackPane>
