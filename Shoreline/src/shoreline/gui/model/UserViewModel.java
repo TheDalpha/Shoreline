@@ -12,23 +12,29 @@ import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import shoreline.be.User;
+import shoreline.bll.FileReader;
+import shoreline.bll.FileWriter;
 import shoreline.bll.UserManager;
 
 /**
  *
  * @author ollie
  */
-public class UserModel
+public class UserViewModel
 {
     
-    private static UserModel instance;
+    private static UserViewModel instance;
         UserManager uManager;
+        FileReader fileReader;
+        FileWriter fileWriter;
         User user;
         ObservableList<User> userList;
 
-    public UserModel() {
+    public UserViewModel() {
         uManager = new UserManager();
         user = new User();
+        fileReader = new FileReader();
+        fileWriter = new FileWriter();
         userList = FXCollections.observableArrayList();
     }
     
@@ -45,11 +51,11 @@ public class UserModel
         uManager.updateUser(user);
     }
     
-    public static UserModel getInstance() throws SQLException, IOException
+    public static UserViewModel getInstance() throws SQLException, IOException
     {
         if (instance == null)
         {
-            instance = new UserModel();
+            instance = new UserViewModel();
         }
         return instance;
     }
@@ -68,6 +74,14 @@ public class UserModel
 
     public void deleteUser(User selectedUser) {
         uManager.deleteUser(selectedUser);
+    }
+
+    public void setFilePath(String filePath) throws Exception {
+        fileReader.readXML(filePath);
+    }
+
+    public void convertToJson(String path) {
+        fileWriter.convertToJson(path);
     }
     
     

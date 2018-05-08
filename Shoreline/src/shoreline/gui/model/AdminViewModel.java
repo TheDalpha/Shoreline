@@ -9,6 +9,6 @@ package shoreline.gui.model;
  *
  * @author ollie
  */
-public class AdminModel {
+public class AdminViewModel {
     
 }

@@ -30,7 +30,7 @@ import shoreline.be.Admin;
 import shoreline.be.User;
 import shoreline.bll.UserManager;
 import shoreline.gui.model.LoginViewModel;
-import shoreline.gui.model.UserModel;
+import shoreline.gui.model.UserViewModel;
 
 /**
  * FXML Controller class
@@ -51,7 +51,7 @@ public class LoginViewController implements Initializable {
     private Label lblMessage;
     
     LoginViewModel lvm;
-    UserModel um;
+    UserViewModel um;
     boolean Users = false;
     boolean admuns = false;
     
@@ -68,7 +68,7 @@ public class LoginViewController implements Initializable {
         admuns = false;
         try
         {
-            um = UserModel.getInstance();
+            um = UserViewModel.getInstance();
             lvm = LoginViewModel.getInstance();
         } catch (SQLException ex)
         {
@@ -118,6 +118,14 @@ public class LoginViewController implements Initializable {
         {
             Users = true;
             lblMessage.setText("Successful");
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/shoreline/gui/view/UserView.fxml"));
+                Parent root = (Parent) fxmlLoader.load();
+                Stage stage = (Stage) loginBtn.getScene().getWindow();
+                stage.close();
+                Stage userView = new Stage();
+                userView.setTitle("EASV Students Window");
+                userView.setScene(new Scene(root));
+                userView.show();
         }
         }
         if (Users == false)

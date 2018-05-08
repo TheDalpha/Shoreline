@@ -32,7 +32,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import shoreline.be.User;
 import shoreline.gui.model.LoginViewModel;
-import shoreline.gui.model.UserModel;
+import shoreline.gui.model.UserViewModel;
 
 /**
  * FXML Controller class
@@ -54,7 +54,7 @@ public class AdminViewController implements Initializable {
     private TableColumn<User, String> nameClm;
     
     LoginViewModel lvm;
-    UserModel usm;
+    UserViewModel usm;
     @FXML
     private TableView<User> userView;
     @FXML
@@ -68,7 +68,7 @@ public class AdminViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            usm = UserModel.getInstance();
+            usm = UserViewModel.getInstance();
             lvm = LoginViewModel.getInstance();
         } catch (SQLException ex) {
             Logger.getLogger(AdminViewController.class.getName()).log(Level.SEVERE, null, ex);
