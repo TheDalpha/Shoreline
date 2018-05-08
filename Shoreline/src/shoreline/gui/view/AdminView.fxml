@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="430.0" prefWidth="531.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="shoreline.gui.controller.AdminViewController">
+<AnchorPane id="AnchorPane" prefHeight="430.0" prefWidth="531.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="shoreline.gui.controller.AdminViewController">
    <children>
       <JFXTextField fx:id="tfUsername" layoutX="17.0" layoutY="148.0" promptText="Username" />
       <Label layoutX="16.0" layoutY="185.0" text="Put in desired password">
@@ -39,13 +39,13 @@
       </Label>
       <TableView fx:id="tableView" layoutX="165.0" layoutY="96.0" prefHeight="371.0" prefWidth="437.0">
         <columns>
-          <TableColumn fx:id="nameClm" prefWidth="436.0" text="C1" />
+          <TableColumn fx:id="nameClm" prefWidth="436.0" text="Users" />
         </columns>
       </TableView>
       <JFXButton fx:id="logOut" layoutX="534.0" layoutY="14.0" onAction="#Logout" text="Logout" />
-      <ImageView fitHeight="75.0" fitWidth="236.0" layoutX="165.0">
+      <ImageView fitHeight="76.0" fitWidth="249.0" layoutX="165.0">
          <image>
-            <Image url="@../../../ShorlineLogo.PNG" />
+            <Image url="@../../../LOGO.png" />
          </image>
       </ImageView>
    </children>

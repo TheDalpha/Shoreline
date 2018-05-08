@@ -101,7 +101,7 @@ public class LoginViewController implements Initializable {
                 stage.close();
                 Stage adminView = new Stage();
                 AdminViewController amController=fxmlLoader.getController();
-                adminView.setTitle("EASV Students Window");
+                adminView.setTitle("Shoreline Admin Window");
                 adminView.setScene(new Scene(root));
                 adminView.show();
             }

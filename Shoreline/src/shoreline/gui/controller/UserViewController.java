@@ -102,6 +102,7 @@ public class UserViewController implements Initializable {
 
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("/shoreline/gui/view/LoginView.fxml"));
+        root.getStylesheets().add("/shoreline/gui/view/Css/Style.css");
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
