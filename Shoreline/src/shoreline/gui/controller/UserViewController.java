@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
@@ -31,12 +32,13 @@ import shoreline.gui.model.UserViewModel;
  */
 public class UserViewController implements Initializable {
 
-    @FXML
     private JFXTextField filePath;
 
     UserViewModel uvm;
     @FXML
     private ListView<String> Lview;
+    @FXML
+    private Label lblUser;
   
 
 
@@ -76,9 +78,8 @@ public class UserViewController implements Initializable {
         }
     
     }
-    @FXML
-    private void convertToJson(ActionEvent event) {
-        uvm.convertToJson(filePath.getText());
-    }
+//    private void convertToJson(ActionEvent event) {
+//        uvm.convertToJson(filePath.getText());
+//    }
    
 }
