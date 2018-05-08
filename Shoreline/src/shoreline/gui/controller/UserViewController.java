@@ -10,12 +10,14 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ListView;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 import shoreline.gui.model.UserViewModel;
@@ -31,6 +33,11 @@ public class UserViewController implements Initializable {
     private JFXTextField filePath;
 
     UserViewModel uvm;
+    @FXML
+    private ListView<String> Lview;
+  
+
+
     /**
      * Initializes the controller class.
      */
@@ -38,30 +45,40 @@ public class UserViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             uvm = UserViewModel.getInstance();
-        } catch (SQLException ex) {
-            Logger.getLogger(UserViewController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (SQLException | IOException ex) {
             Logger.getLogger(UserViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
+       
     }    
 
     @FXML
-    private void chooseFile(ActionEvent event) {
-        try {
+    private void chooseFile(ActionEvent event) throws Exception {
+        {
             FileChooser fileChooser = new FileChooser();
             Window stage = null;
-            File file = fileChooser.showOpenDialog(stage);
-            filePath.setText(file.getPath());
+//            File file = fileChooser.showOpenDialog(stage);
+//            filePath.setText(file.getPath());
             uvm.setFilePath(filePath.getText());
+            fileChooser.setInitialDirectory(new File("C:\\Users"));
+            List<File> selectedFiles = fileChooser.showOpenMultipleDialog(null);
+            if (selectedFiles != null) {
+            for (int i = 0; i < selectedFiles.size(); i++) {
+            Lview.getItems().add(selectedFiles.get(i).getName());
+            File file = fileChooser.showSaveDialog(null);
+            if (file != null){
              
-        } catch (Exception e) {
+            }
+//            Files.copy(file.toPath(), "@../../../Input"
+            }
+            
+            } 
 
         }
+    
     }
-
     @FXML
     private void convertToJson(ActionEvent event) {
         uvm.convertToJson(filePath.getText());
     }
-    
+   
 }
