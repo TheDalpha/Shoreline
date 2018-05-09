@@ -106,6 +106,7 @@ public class AdminViewController implements Initializable {
             userCreatedAlert.setContentText("User " + user.getUsername() + " has been created!");
             userCreatedAlert.showAndWait();
             userCreatedAlert.close();
+            usm.loadUsers();
             tfUsername.clear();
             tfPassword1.clear();
             tfPassword2.clear();
