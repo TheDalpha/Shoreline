@@ -3,50 +3,114 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="430.0" prefWidth="531.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="shoreline.gui.controller.AdminViewController">
+
+<StackPane prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="shoreline.gui.controller.AdminViewController">
    <children>
-      <JFXTextField fx:id="tfUsername" layoutX="17.0" layoutY="148.0" promptText="Username" />
-      <Label layoutX="16.0" layoutY="185.0" text="Put in desired password">
-         <font>
-            <Font name="Arial Bold" size="12.0" />
-         </font>
-      </Label>
-      <JFXButton layoutX="16.0" layoutY="292.0" onAction="#CreateUser" text="Create user" />
-      <Label layoutX="15.0" layoutY="133.0" text="Put in desired username">
-         <font>
-            <Font name="Arial Bold" size="12.0" />
-         </font>
-      </Label>
-      <Label layoutX="15.0" layoutY="242.0" text="Repeat password">
-         <font>
-            <Font name="Arial Bold" size="12.0" />
-         </font>
-      </Label>
-      <JFXPasswordField fx:id="tfPassword1" layoutX="17.0" layoutY="200.0" promptText="Password" />
-      <JFXPasswordField fx:id="tfPassword2" layoutX="18.0" layoutY="257.0" promptText="Password" />
-      <Label layoutX="28.0" layoutY="96.0" text="Create User">
-         <font>
-            <Font name="Arial Bold" size="20.0" />
-         </font>
-      </Label>
-      <TableView fx:id="tableView" layoutX="165.0" layoutY="96.0" prefHeight="371.0" prefWidth="437.0">
-        <columns>
-          <TableColumn fx:id="nameClm" prefWidth="436.0" text="Users" />
-        </columns>
-      </TableView>
-      <JFXButton fx:id="logOut" layoutX="534.0" layoutY="14.0" onAction="#Logout" text="Logout" />
-      <ImageView fitHeight="76.0" fitWidth="249.0" layoutX="165.0">
-         <image>
-            <Image url="@../../../LOGO.png" />
-         </image>
-      </ImageView>
+      <BorderPane prefWidth="0.0">
+         <left>
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="TOP_CENTER">
+               <children>
+                  <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Create User">
+                     <font>
+                        <Font name="Arial Bold" size="20.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label text="Put in desired username">
+                     <font>
+                        <Font name="Arial Bold" size="12.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
+                  </Label>
+                  <JFXTextField fx:id="tfUsername" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" promptText="Username">
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
+                  </JFXTextField>
+                  <Label text="Put in desired password">
+                     <font>
+                        <Font name="Arial Bold" size="12.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="10.0" top="20.0" />
+                     </padding>
+                  </Label>
+                  <JFXPasswordField fx:id="tfPassword1" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" promptText="Password">
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
+                  </JFXPasswordField>
+                  <Label text="Repeat password">
+                     <font>
+                        <Font name="Arial Bold" size="12.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="10.0" top="20.0" />
+                     </padding>
+                  </Label>
+                  <JFXPasswordField fx:id="tfPassword2" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" promptText="Password" />
+                  <JFXButton onAction="#CreateUser" text="Create user">
+                     <VBox.margin>
+                        <Insets top="50.0" />
+                     </VBox.margin>
+                  </JFXButton>
+               </children>
+               <BorderPane.margin>
+                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+               </BorderPane.margin>
+            </VBox>
+         </left>
+         <right>
+            <TableView fx:id="tableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="400.0" BorderPane.alignment="TOP_CENTER">
+              <columns>
+                <TableColumn fx:id="nameClm" prefWidth="436.0" text="Users" />
+              </columns>
+               <BorderPane.margin>
+                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+               </BorderPane.margin>
+            </TableView>
+         </right>
+         <top>
+            <GridPane BorderPane.alignment="CENTER">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <ImageView fitHeight="76.0" fitWidth="249.0" GridPane.columnIndex="1">
+                     <image>
+                        <Image url="@../../../LOGO.png" />
+                     </image>
+                  </ImageView>
+                  <JFXButton fx:id="logOut" onAction="#Logout" text="Logout" GridPane.columnIndex="2" />
+               </children>
+            </GridPane>
+         </top>
+      </BorderPane>
    </children>
-</AnchorPane>
+</StackPane>
