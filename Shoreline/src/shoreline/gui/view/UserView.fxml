@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="shoreline.gui.controller.UserViewController">
+<StackPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="shoreline.gui.controller.UserViewController">
    <children>
       <BorderPane>
          <left>
@@ -77,6 +77,38 @@
                </children>
             </GridPane>
          </top>
+         <center>
+            <JFXButton fx:id="confBtn" onAction="#configure" prefHeight="31.0" prefWidth="153.0" text="Configure" BorderPane.alignment="CENTER" />
+         </center>
+         <right>
+            <VBox alignment="TOP_CENTER" prefHeight="386.0" prefWidth="331.0" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets left="25.0" right="25.0" top="25.0" />
+               </BorderPane.margin>
+               <children>
+                  <Label text="Taskmanager">
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="5.0" />
+                     </VBox.margin>
+                  </Label>
+                  <JFXListView fx:id="taskView" prefHeight="350.0" prefWidth="192.0" />
+                  <HBox prefHeight="26.0" prefWidth="331.0">
+                     <children>
+                        <JFXButton fx:id="startBtn" onAction="#startConvert" text="Start / pause">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="30.0" top="5.0" />
+                           </HBox.margin>
+                        </JFXButton>
+                        <JFXButton fx:id="stopBtn" onAction="#stopConvert" text="Stop Convert">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="50.0" top="5.0" />
+                           </HBox.margin>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </right>
       </BorderPane>
    </children>
 </StackPane>

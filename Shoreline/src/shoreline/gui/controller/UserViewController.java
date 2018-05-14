@@ -6,6 +6,7 @@
 package shoreline.gui.controller;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
 import java.io.File;
 import java.io.IOException;
@@ -51,6 +52,14 @@ public class UserViewController implements Initializable {
     private Person person;
     @FXML
     private JFXButton logoutBtn;
+    @FXML
+    private JFXButton confBtn;
+    @FXML
+    private JFXListView<String> taskView;
+    @FXML
+    private JFXButton startBtn;
+    @FXML
+    private JFXButton stopBtn;
 
     /**
      * Initializes the controller class.
@@ -118,6 +127,31 @@ public class UserViewController implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    @FXML
+    private void configure(ActionEvent event) throws IOException
+    {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/shoreline/gui/view/ConfigureView.fxml"));
+                Parent root = (Parent) fxmlLoader.load();
+                root.getStylesheets().add("/shoreline/gui/view/Css/Style.css");
+                Stage stage = (Stage) confBtn.getScene().getWindow();
+                stage.close();
+                Stage configView = new Stage();
+                ConfigureViewController configController=fxmlLoader.getController();
+                configView.setTitle("Shoreline Configure Window");
+                configView.setScene(new Scene(root));
+                configView.show();
+    }
+
+    @FXML
+    private void startConvert(ActionEvent event)
+    {
+    }
+
+    @FXML
+    private void stopConvert(ActionEvent event)
+    {
     }
 
 }
