@@ -84,7 +84,6 @@ public class UserViewController implements Initializable {
             Window stage = null;
 //            File file = fileChooser.showOpenDialog(stage);
 //            filePath.setText(file.getPath());
-//            uvm.setFilePath(filePath.getText());
             fileChooser.setInitialDirectory(new File(System.getProperty("user.home")+"/Desktop"));
             List<File> selectedFiles = fileChooser.showOpenMultipleDialog(null);
             if (selectedFiles != null) {
@@ -94,6 +93,7 @@ public class UserViewController implements Initializable {
                     CopyOption[] options = new CopyOption[] {StandardCopyOption.REPLACE_EXISTING};
                     for (File selectedFile : selectedFiles) {
                         Lview.getItems().add(selectedFile.getName());
+                        uvm.setFilePath(selectedFile.getPath());
                         System.out.println(file.getAbsolutePath()+selectedFile.getName());
                         System.out.println(selectedFile.getAbsolutePath());
                         Files.copy(Paths.get(selectedFile.getAbsolutePath()), Paths.get(file.getAbsolutePath()+ "\\" + selectedFile.getName()), options);
