@@ -60,6 +60,9 @@ public class UserViewController implements Initializable {
     private JFXButton startBtn;
     @FXML
     private JFXButton stopBtn;
+    
+    final FileChooser fileChooser = new FileChooser();
+    boolean filechoose = false;
 
     /**
      * Initializes the controller class.
@@ -77,10 +80,10 @@ public class UserViewController implements Initializable {
     @FXML
     private void chooseFile(ActionEvent event) throws Exception {
         {
-            FileChooser fileChooser = new FileChooser();
-                                FileChooser.ExtensionFilter extFilter =
-                    new FileChooser.ExtensionFilter("Text File", "*.xlsx", "*.xml");
-                        fileChooser.getExtensionFilters().add(extFilter);
+            if (filechoose == false) {
+                filechoose = true;
+                configureFileChooser(fileChooser);
+            }
             Window stage = null;
 //            File file = fileChooser.showOpenDialog(stage);
 //            filePath.setText(file.getPath());
@@ -105,6 +108,15 @@ public class UserViewController implements Initializable {
 
         }
 
+    }
+    
+    public static void configureFileChooser(final FileChooser fileChooser) {
+        fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("All Files", "*.*"),
+                                new FileChooser.ExtensionFilter("XLSX", "*.xlsx"),
+                                new FileChooser.ExtensionFilter("XML", "*.xml"),
+                                new FileChooser.ExtensionFilter("CSV", "*.csv")
+        ); 
     }
 
     public void setUserName(Person person) {
