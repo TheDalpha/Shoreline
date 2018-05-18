@@ -21,9 +21,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import shoreline.be.Attribute;
+import shoreline.gui.model.CfgModel;
 import shoreline.gui.model.UserViewModel;
 
 /**
@@ -35,6 +38,7 @@ public class ConfigureViewController implements Initializable
 {
     
     UserViewModel uvm;
+    CfgModel cfgM;
 
     @FXML
     private Label lblUser;
@@ -51,9 +55,11 @@ public class ConfigureViewController implements Initializable
     @FXML
     private JFXButton cancelBtn;
     @FXML
-    private JFXComboBox<?> attCB;
+    private JFXComboBox<Attribute> attCB;
     @FXML
     private JFXButton attBtn;
+    
+    
 
     /**
      * Initializes the controller class.
@@ -66,6 +72,7 @@ public class ConfigureViewController implements Initializable
         } catch (SQLException | IOException ex) {
             Logger.getLogger(ConfigureViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
+           
     }    
 
 
@@ -102,6 +109,12 @@ public class ConfigureViewController implements Initializable
     @FXML
     private void addAttribute(ActionEvent event)
     {
+    }
+
+    @FXML
+    private void addList(ActionEvent event)
+    {
+        attCB.getItems().addAll(cfgM.getAllAttributes());
     }
         
         
