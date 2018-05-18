@@ -90,6 +90,7 @@ public class ConfigureViewController implements Initializable
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+        
     }
     
     public void setFileHeaders(File file) throws IOException, InvalidFormatException {
