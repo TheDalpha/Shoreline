@@ -108,8 +108,8 @@ public class JFileReader {
         return null;
         }
 
-    public List<Object> getFileHeaders(File file) throws IOException, InvalidFormatException {
-        List<Object> header = new ArrayList<>();
+    public List<Header> getFileHeaders(File file) throws IOException, InvalidFormatException {
+        List<Header> header = new ArrayList<>();
         Workbook workbook = WorkbookFactory.create(file);
         Sheet sheet = workbook.getSheetAt(0);
         Row row = sheet.getRow(0);
@@ -120,7 +120,6 @@ public class JFileReader {
             headers.setHeaderName(sheet.getRow(0).getCell(i).getStringCellValue());
             headers.setHeaderIndex(sheet.getRow(0).getCell(i).getColumnIndex());
             header.add(headers);
-            System.out.println(header);
         }
         return header;
      }

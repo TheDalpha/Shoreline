@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import shoreline.be.Header;
 import shoreline.be.Person;
 import shoreline.be.User;
 import shoreline.bll.JFileReader;
@@ -89,7 +90,7 @@ public class UserViewModel
     public void convertToJson(String path, String json) throws IOException {
         fileWriter.convertToJson(path, json);
     }
-    public List<Object> getFileHeaders(File file) throws IOException, InvalidFormatException {
+    public List<Header> getFileHeaders(File file) throws IOException, InvalidFormatException {
       return fileReader.getFileHeaders(file);
     }  
     public String XLSXR() throws JsonProcessingException {
