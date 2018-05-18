@@ -7,9 +7,14 @@ package shoreline.gui.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +24,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import shoreline.gui.model.UserViewModel;
 
 /**
  * FXML Controller class
@@ -28,6 +35,8 @@ import javafx.stage.Stage;
 public class ConfigureViewController implements Initializable
 {
 
+    UserViewModel uvm;
+    
     @FXML
     private Label lblUser;
     @FXML
@@ -49,7 +58,13 @@ public class ConfigureViewController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        // TODO
+        try {
+            uvm = UserViewModel.getInstance();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConfigureViewController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ConfigureViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }    
 
 
@@ -75,6 +90,10 @@ public class ConfigureViewController implements Initializable
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+    
+    public void setFileHeaders(File file) throws IOException, InvalidFormatException {
+        selectedList.getItems().add(uvm.getFileHeaders(file).toString());
     }
     
 }

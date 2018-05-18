@@ -27,11 +27,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import shoreline.be.Person;
 import shoreline.gui.model.UserViewModel;
 
@@ -46,7 +48,7 @@ public class UserViewController implements Initializable {
 
     UserViewModel uvm;
     @FXML
-    private ListView<String> Lview;
+    private ListView<File> Lview;
     @FXML
     private Label lblUser;
     private Person person;
@@ -71,6 +73,7 @@ public class UserViewController implements Initializable {
         } catch (SQLException | IOException ex) {
             Logger.getLogger(UserViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        fileNames();
 
     }
 
@@ -92,7 +95,7 @@ public class UserViewController implements Initializable {
                     File file = dirch.showDialog(null);
                     CopyOption[] options = new CopyOption[] {StandardCopyOption.REPLACE_EXISTING};
                     for (File selectedFile : selectedFiles) {
-                        Lview.getItems().add(selectedFile.getName());
+                        Lview.getItems().add(selectedFile);
                         uvm.setFilePath(selectedFile.getPath());
                         System.out.println(file.getAbsolutePath()+selectedFile.getName());
                         System.out.println(selectedFile.getAbsolutePath());
@@ -107,6 +110,16 @@ public class UserViewController implements Initializable {
 
     }
 
+    
+    public void fileNames() {
+        Lview.setCellFactory(Lview -> new ListCell<File>() {
+            @Override
+            protected void updateItem(File file, boolean empty) {
+                super.updateItem(file, empty);
+                setText(file == null?null : file.getName());
+            }
+        });
+    }
     public void setUserName(Person person) {
         this.person = person;
         String Username = person.getUsername();
@@ -130,7 +143,7 @@ public class UserViewController implements Initializable {
     }
 
     @FXML
-    private void configure(ActionEvent event) throws IOException
+    private void configure(ActionEvent event) throws IOException, InvalidFormatException
     {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/shoreline/gui/view/ConfigureView.fxml"));
                 Parent root = (Parent) fxmlLoader.load();
@@ -138,9 +151,11 @@ public class UserViewController implements Initializable {
                 Stage stage = (Stage) confBtn.getScene().getWindow();
                 stage.close();
                 Stage configView = new Stage();
+                File file = Lview.getSelectionModel().getSelectedItem();
                 ConfigureViewController configController=fxmlLoader.getController();
                 configView.setTitle("Shoreline Configure Window");
                 configView.setScene(new Scene(root));
+                configController.setFileHeaders(file);
                 configView.show();
     }
 

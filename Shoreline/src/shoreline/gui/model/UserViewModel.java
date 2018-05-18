@@ -5,12 +5,15 @@
  */
 package shoreline.gui.model;
 
+import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import shoreline.be.Person;
 import shoreline.be.User;
 import shoreline.bll.FileReader;
@@ -84,6 +87,10 @@ public class UserViewModel
 
     public void convertToJson(String path) {
         fileWriter.convertToJson(path);
+    }
+    
+    public List<Object> getFileHeaders(File file) throws IOException, InvalidFormatException {
+        return fileReader.getFileHeaders(file);
     }
       
 }
