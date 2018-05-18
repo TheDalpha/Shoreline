@@ -5,16 +5,20 @@
  */
 package shoreline.gui.model;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import java.sql.SQLException;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import shoreline.be.Person;
 import shoreline.be.User;
-import shoreline.bll.FileReader;
-import shoreline.bll.FileWriter;
+import shoreline.bll.JFileReader;
+import shoreline.bll.JFileWriter;
 import shoreline.bll.UserManager;
 
 /**
@@ -26,8 +30,8 @@ public class UserViewModel
     
     private static UserViewModel instance;
         UserManager uManager;
-        FileReader fileReader;
-        FileWriter fileWriter;
+        JFileReader fileReader;
+        JFileWriter fileWriter;
         User user;
         ObservableList<User> userList;
     private Person person;
@@ -35,8 +39,8 @@ public class UserViewModel
     public UserViewModel() {
         uManager = new UserManager();
         user = new User();
-        fileReader = new FileReader();
-        fileWriter = new FileWriter();
+        fileReader = new JFileReader();
+        fileWriter = new JFileWriter();
         userList = FXCollections.observableArrayList();
     }
     
@@ -79,11 +83,16 @@ public class UserViewModel
     }
 
     public void setFilePath(String filePath) throws Exception {
-        fileReader.readXLSX(filePath);
+         fileReader.readXLSXAndConvertToJSON(filePath);
     }
 
-    public void convertToJson(String path) {
-        fileWriter.convertToJson(path);
+    public void convertToJson(String path, String json) throws IOException {
+        fileWriter.convertToJson(path, json);
     }
-      
+    public List<Object> getFileHeaders(File file) throws IOException, InvalidFormatException {
+      return fileReader.getFileHeaders(file);
+    }  
+    public String XLSXR() throws JsonProcessingException {
+      return fileReader.XLSXR();
+    } 
 }
