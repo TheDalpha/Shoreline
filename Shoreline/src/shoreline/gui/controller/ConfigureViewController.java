@@ -18,12 +18,14 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
@@ -39,7 +41,8 @@ import shoreline.gui.model.UserViewModel;
  */
 public class ConfigureViewController implements Initializable
 {
-    
+    ObservableList<String> attList = FXCollections.observableArrayList("SiteName", "Asset Serial Number", "Type", "External Work Order", "System Status", "User Status", "Created On", "Created By", "Name", "Priority", "Status", "Latest Finish Date", "Earliest Start Date", "Latest Start Date", "Estimated Time");
+
     UserViewModel uvm;
     CfgModel cfgM;
 
@@ -54,13 +57,15 @@ public class ConfigureViewController implements Initializable
     @FXML
     private JFXButton addAttributeBtn;
     @FXML
-    private ListView<?> attributeView;
+    private ListView<String> attributeView;
     @FXML
     private JFXButton cancelBtn;
     @FXML
-    private JFXComboBox<Attribute> attCB;
+    private JFXComboBox<String> attCB;
     @FXML
     private JFXButton attBtn;
+    @FXML
+    private ContextMenu contMenu;
     
     
 
@@ -75,7 +80,7 @@ public class ConfigureViewController implements Initializable
         } catch (SQLException | IOException ex) {
             Logger.getLogger(ConfigureViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
-           
+        attCB.setItems(attList);
     }    
 
 
@@ -116,13 +121,18 @@ public class ConfigureViewController implements Initializable
     @FXML
     private void addAttribute(ActionEvent event)
     {
+        String selectedCB = attCB.getSelectionModel().getSelectedItem();
+        String selected = selectedList.getSelectionModel().getSelectedItem();
+        attributeView.getItems().add(selectedCB + " : " + selected);
     }
 
     @FXML
-    private void addList(ActionEvent event)
+    private void removeAttribute(ActionEvent event)
     {
-        attCB.getItems().addAll(cfgM.getAllAttributes());
+        attributeView.getItems().remove(attributeView.getSelectionModel().getSelectedItem());
     }
+
+
         
         
     

@@ -37,7 +37,7 @@
                   <Insets left="50.0" right="50.0" top="25.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXPasswordField fx:id="txtPassword" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" promptText="Password">
+            <JFXPasswordField fx:id="txtPassword" maxWidth="-Infinity" minWidth="-Infinity" onKeyPressed="#login" prefWidth="200.0" promptText="Password">
                <VBox.margin>
                   <Insets left="50.0" right="50.0" top="25.0" />
                </VBox.margin>

@@ -3,8 +3,10 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -59,7 +61,15 @@
                         </JFXButton>
                      </children>
                   </VBox>
-                  <ListView fx:id="attributeView" prefHeight="328.0" prefWidth="305.0" />
+                  <ListView fx:id="attributeView" prefHeight="328.0" prefWidth="305.0">
+                     <contextMenu>
+                        <ContextMenu fx:id="contMenu">
+                          <items>
+                            <MenuItem mnemonicParsing="false" onAction="#removeAttribute" text="Remove" />
+                          </items>
+                        </ContextMenu>
+                     </contextMenu>
+                  </ListView>
                </children>
             </HBox>
          </children>

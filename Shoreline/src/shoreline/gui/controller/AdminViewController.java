@@ -120,8 +120,10 @@ public class AdminViewController implements Initializable {
         
     }
 
-    private void deleteUser(ActionEvent event) {
-       Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION, "Confirm Delete", ButtonType.YES, ButtonType.NO);
+    @FXML
+    private void removeUser(ActionEvent event)
+    {
+        Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION, "Confirm Delete", ButtonType.YES, ButtonType.NO);
        deleteAlert.setTitle("Warning");
        deleteAlert.setContentText("Do you want to delete " + tableView.getSelectionModel().getSelectedItem().getUsername() + " ?");
        deleteAlert.showAndWait();
@@ -132,7 +134,6 @@ public class AdminViewController implements Initializable {
        } else if (deleteAlert.getResult() == ButtonType.NO){
            deleteAlert.close();
        }
-        
     }
     
 }

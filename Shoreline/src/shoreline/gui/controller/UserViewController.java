@@ -97,7 +97,7 @@ public class UserViewController implements Initializable {
                 CopyOption[] options = new CopyOption[]{StandardCopyOption.REPLACE_EXISTING};
                 for (File selectedFile : selectedFiles) {
                     Lview.getItems().add(selectedFile);
-                    uvm.setFilePath(selectedFile.getPath());
+//                    uvm.setFilePath(selectedFile.getPath());
                     outputFilename = Paths.get(outputDirectory.getAbsolutePath(), getFilenameWithoutExtention(selectedFile.getName()) + ".json").toString();
                     System.out.println(selectedFile.getAbsolutePath());
                     Files.copy(Paths.get(selectedFile.getAbsolutePath()), Paths.get(outputDirectory.getAbsolutePath() + "\\" + selectedFile.getName()), options);
@@ -175,6 +175,12 @@ public class UserViewController implements Initializable {
         String[] fnameParts = filename.split("\\.");
         String lastExt = fnameParts[fnameParts.length - 1];
         return filename.substring(0, filename.length() - 1 - lastExt.length());
+    }
+
+    @FXML
+    private void removeFile(ActionEvent event)
+    {
+        Lview.getItems().remove(Lview.getSelectionModel().getSelectedItem());
     }
 
 }

@@ -3,7 +3,9 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -26,7 +28,14 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </JFXButton>
-                  <JFXListView fx:id="Lview" prefHeight="500.0" prefWidth="250.0" />
+                  <JFXListView fx:id="Lview" prefHeight="500.0" prefWidth="250.0">
+                     <contextMenu>
+                        <ContextMenu>
+                          <items>
+                            <MenuItem mnemonicParsing="false" onAction="#removeFile" text="Remove" />
+                          </items>
+                        </ContextMenu>
+                     </contextMenu></JFXListView>
                </children>
                <BorderPane.margin>
                   <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
