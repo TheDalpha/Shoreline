@@ -90,8 +90,9 @@ public class ConfigureViewController implements Initializable
         stage.show();
     }
     
-        public void setFileHeaders(File file) throws IOException, InvalidFormatException {
-        selectedList.getItems().add(uvm.getFileHeaders(file).toString());
+    public void setFileHeaders(File file) throws IOException, InvalidFormatException {
+            
+        selectedList.getItems().addAll(uvm.getFileHeaders(file).toString());
     }
     
 }
