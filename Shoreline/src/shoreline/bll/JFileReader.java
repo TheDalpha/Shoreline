@@ -5,10 +5,9 @@
  */
 package shoreline.bll;
 
+import shoreline.be.Header;
 import com.fasterxml.jackson.core.JsonProcessingException;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -32,7 +31,8 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
  * @author Jesper
  */
 public class JFileReader {
-        List<Object> overAll;
+    
+    List<Object> overAll;
 
     public void readXLSXAndConvertToJSON(String filePath) throws Exception {
 
@@ -57,10 +57,8 @@ public class JFileReader {
     
                 overAll.add(map);
             }
-            String json = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(overAll);
-            System.out.println(json);
-//        String json = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(overAll);
-//        System.out.println(json);
+//            String json = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(overAll);
+//            System.out.println(json);
 }
     
 
@@ -118,7 +116,10 @@ public class JFileReader {
         for (int i = row.getFirstCellNum(); i < row.getLastCellNum(); i++)
         { 
             Cell cell = row.getCell(i);
-            header.add(sheet.getRow(0).getCell(i).getStringCellValue());
+            Header headers = new Header();
+            headers.setHeaderName(sheet.getRow(0).getCell(i).getStringCellValue());
+            headers.setHeaderIndex(sheet.getRow(0).getCell(i).getColumnIndex());
+            header.add(headers);
             System.out.println(header);
         }
         return header;
