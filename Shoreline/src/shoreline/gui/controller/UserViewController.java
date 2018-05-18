@@ -45,8 +45,6 @@ public class UserViewController implements Initializable {
     private JFXTextField filePath;
 
     UserViewModel uvm;
-    String outputFilename;
-    
     @FXML
     private ListView<String> Lview;
     @FXML
@@ -80,30 +78,33 @@ public class UserViewController implements Initializable {
     private void chooseFile(ActionEvent event) throws Exception {
         {
             FileChooser fileChooser = new FileChooser();
-            FileChooser.ExtensionFilter extFilter
-                    = new FileChooser.ExtensionFilter("Text File", "*.xlsx", "*.xml");
-            fileChooser.getExtensionFilters().add(extFilter);
+                                FileChooser.ExtensionFilter extFilter =
+                    new FileChooser.ExtensionFilter("Text File", "*.xlsx", "*.xml");
+                        fileChooser.getExtensionFilters().add(extFilter);
             Window stage = null;
 //            File file = fileChooser.showOpenDialog(stage);
 //            filePath.setText(file.getPath());
-            fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.home")+"/Desktop"));
             List<File> selectedFiles = fileChooser.showOpenMultipleDialog(null);
             if (selectedFiles != null) {
 
-                DirectoryChooser dirch = new DirectoryChooser();
-                File outputDirectory = dirch.showDialog(null);
-                CopyOption[] options = new CopyOption[]{StandardCopyOption.REPLACE_EXISTING};
-                for (File selectedFile : selectedFiles) {
-                    Lview.getItems().add(selectedFile.getName());
-                    uvm.setFilePath(selectedFile.getPath());
-                    
-                    outputFilename = Paths.get(outputDirectory.getAbsolutePath(), getFilenameWithoutExtention(selectedFile.getName()) + ".json").toString();
-                    System.out.println(selectedFile.getAbsolutePath());
-                    Files.copy(Paths.get(selectedFile.getAbsolutePath()), Paths.get(outputDirectory.getAbsolutePath() + "\\" + selectedFile.getName()), options);
-                   // lblUser.setText(selectedFile.getPath());
-                }
+                    DirectoryChooser dirch = new DirectoryChooser();
+                    File file = dirch.showDialog(null);
+                    CopyOption[] options = new CopyOption[] {StandardCopyOption.REPLACE_EXISTING};
+                    for (File selectedFile : selectedFiles) {
+                        Lview.getItems().add(selectedFile.getName());
+                        uvm.setFilePath(selectedFile.getPath());
+                        System.out.println(file.getAbsolutePath()+selectedFile.getName());
+                        System.out.println(selectedFile.getAbsolutePath());
+                        Files.copy(Paths.get(selectedFile.getAbsolutePath()), Paths.get(file.getAbsolutePath()+ "\\" + selectedFile.getName()), options);
+                    }
+              
+                
+
             }
+
         }
+
     }
 
     public void setUserName(Person person) {
@@ -129,45 +130,28 @@ public class UserViewController implements Initializable {
     }
 
     @FXML
-    private void configure(ActionEvent event) throws IOException {
-        try {
-            //        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/shoreline/gui/view/ConfigureView.fxml"));
-//                Parent root = (Parent) fxmlLoader.load();
-//                root.getStylesheets().add("/shoreline/gui/view/Css/Style.css");
-//                Stage stage = (Stage) confBtn.getScene().getWindow();
-//                stage.close();
-//                Stage configView = new Stage();
-//                ConfigureViewController configController=fxmlLoader.getController();
-//                configView.setTitle("Shoreline Configure Window");
-//                configView.setScene(new Scene(root));
-//                configView.show();
-
-
-          
-           
-            String json = uvm.XLSXR();
-            System.out.println(json);
-
-            uvm.convertToJson(outputFilename, json);
-        } catch (Exception ex) {
-            Logger.getLogger(UserViewController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       // System.out.println("Something happened. maybe" + lblUser.getText() + uvm.XLSXR(json));
-    }
-
-    @FXML
-    private void startConvert(ActionEvent event) {
-    }
-
-    @FXML
-    private void stopConvert(ActionEvent event) {
-    }
-
-    
-    public String getFilenameWithoutExtention(String filename)
+    private void configure(ActionEvent event) throws IOException
     {
-        String[] fnameParts = filename.split("\\.");
-        String lastExt = fnameParts[fnameParts.length - 1];
-        return filename.substring(0, filename.length() - 1 - lastExt.length());
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/shoreline/gui/view/ConfigureView.fxml"));
+                Parent root = (Parent) fxmlLoader.load();
+                root.getStylesheets().add("/shoreline/gui/view/Css/Style.css");
+                Stage stage = (Stage) confBtn.getScene().getWindow();
+                stage.close();
+                Stage configView = new Stage();
+                ConfigureViewController configController=fxmlLoader.getController();
+                configView.setTitle("Shoreline Configure Window");
+                configView.setScene(new Scene(root));
+                configView.show();
     }
+
+    @FXML
+    private void startConvert(ActionEvent event)
+    {
+    }
+
+    @FXML
+    private void stopConvert(ActionEvent event)
+    {
+    }
+
 }

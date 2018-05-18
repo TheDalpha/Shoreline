@@ -5,7 +5,6 @@
  */
 package shoreline.gui.model;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -15,7 +14,7 @@ import javafx.collections.ObservableList;
 import shoreline.be.Person;
 import shoreline.be.User;
 import shoreline.bll.FileReader;
-import shoreline.bll.JFileWriter;
+import shoreline.bll.FileWriter;
 import shoreline.bll.UserManager;
 
 /**
@@ -28,7 +27,7 @@ public class UserViewModel
     private static UserViewModel instance;
         UserManager uManager;
         FileReader fileReader;
-        JFileWriter fileWriter;
+        FileWriter fileWriter;
         User user;
         ObservableList<User> userList;
     private Person person;
@@ -37,7 +36,7 @@ public class UserViewModel
         uManager = new UserManager();
         user = new User();
         fileReader = new FileReader();
-        fileWriter = new JFileWriter();
+        fileWriter = new FileWriter();
         userList = FXCollections.observableArrayList();
     }
     
@@ -80,15 +79,11 @@ public class UserViewModel
     }
 
     public void setFilePath(String filePath) throws Exception {
-         fileReader.readXLSXAndConvertToJSON(filePath);
+        fileReader.readXLSX(filePath);
     }
 
- 
-    
-    public void convertToJson(String path, String json) throws IOException {
-        fileWriter.convertToJson(path, json);
+    public void convertToJson(String path) {
+        fileWriter.convertToJson(path);
     }
-    public String XLSXR() throws JsonProcessingException {
-         return fileReader.XLSXR();
-    } 
+      
 }
