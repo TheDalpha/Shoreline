@@ -12,9 +12,12 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +27,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import shoreline.be.Header;
 import shoreline.gui.model.UserViewModel;
 
 /**
@@ -95,8 +99,12 @@ public class ConfigureViewController implements Initializable
     }
     
     public void setFileHeaders(File file) throws IOException, InvalidFormatException {
-            
-        selectedList.getItems().addAll(uvm.getFileHeaders(file).toString());
+        List<Header> header = new ArrayList<>();
+        header = FXCollections.observableArrayList();
+        header.addAll(uvm.getFileHeaders(file));
+        for (Header header1 : header) {
+            selectedList.getItems().add(header1.getHeaderName());
+        }
     }
 
     @FXML

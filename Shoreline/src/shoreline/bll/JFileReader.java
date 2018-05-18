@@ -120,7 +120,6 @@ public class JFileReader {
             headers.setHeaderName(sheet.getRow(0).getCell(i).getStringCellValue());
             headers.setHeaderIndex(sheet.getRow(0).getCell(i).getColumnIndex());
             header.add(headers);
-            System.out.println(header);
         }
         return header;
      }
