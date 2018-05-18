@@ -108,8 +108,8 @@ public class JFileReader {
         return null;
         }
 
-    public List<Object> getFileHeaders(File file) throws IOException, InvalidFormatException {
-        List<Object> header = new ArrayList<>();
+    public List<Header> getFileHeaders(File file) throws IOException, InvalidFormatException {
+        List<Header> header = new ArrayList<>();
         Workbook workbook = WorkbookFactory.create(file);
         Sheet sheet = workbook.getSheetAt(0);
         Row row = sheet.getRow(0);
