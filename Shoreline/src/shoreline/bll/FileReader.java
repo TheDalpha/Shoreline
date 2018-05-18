@@ -5,8 +5,11 @@
  */
 package shoreline.bll;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -17,38 +20,57 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
  * @author Jesper
  */
 public class FileReader {
-    
-    public void readXLSX(String filePath) throws Exception {
+ List<Object> overAll;
+ 
+    public void readXLSXAndConvertToJSON(String filePath) throws Exception {
         File file = new File(filePath);
-        List<Object> overAll = new ArrayList<Object>();
+        overAll = new ArrayList<Object>();
+        
+//        XSSFWorkbook workbook1 = new XSSFWorkbook(filePath);
+
         Workbook workbook = WorkbookFactory.create(file);
         Sheet sheet = workbook.getSheetAt(0);
         Iterator<Row> rowIterator = sheet.rowIterator();
-        
+
         for (Row row : sheet) {
             Map<String, Object> map = new HashMap<String, Object>();
             Iterator<Cell> cellIterator = sheet.getRow(0).cellIterator();
             while (cellIterator.hasNext()) {
-            for (Cell cell : row) {
-                String header = cellIterator.next().getStringCellValue();
-                map.put(header, printCellValue(cell));
-                
+                for (Cell cell : row) {
+                    String header = cellIterator.next().getStringCellValue();
+                    map.put(header, printCellValue(cell));
+
                 }
             }
             overAll.add(map);
         }
-      String json = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(overAll);
-        System.out.println(json);
-        
+//        String json = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(overAll);
+//        System.out.println(json);
     }
     
+
+    public String XLSXR() throws JsonProcessingException {
+       return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(overAll);
+    }
+
+//    public void convertToJson(String path, String json) throws IOException {
+//        File file = new File(path);
+//
+//        FileWriter fw = new FileWriter(file.getAbsoluteFile());
+//        fw.write(json);
+//        fw.flush();
+//        System.out.println("convertToJson done smth");
+//
+//    }
+
     private Object printCellValue(Cell cell) {
         switch (cell.getCellTypeEnum()) {
             case BOOLEAN:
@@ -71,5 +93,5 @@ public class FileReader {
         }
         return null;
     }
-    
+
 }
