@@ -50,6 +50,10 @@ public class ConfigureViewController implements Initializable
     private ListView<?> attributeView;
     @FXML
     private JFXButton cancelBtn;
+    @FXML
+    private JFXComboBox<?> attCB;
+    @FXML
+    private JFXButton attBtn;
 
     /**
      * Initializes the controller class.
@@ -93,5 +97,12 @@ public class ConfigureViewController implements Initializable
         public void setFileHeaders(File file) throws IOException, InvalidFormatException {
         selectedList.getItems().add(uvm.getFileHeaders(file).toString());
     }
+
+    @FXML
+    private void addAttribute(ActionEvent event)
+    {
+    }
+        
+        
     
 }
