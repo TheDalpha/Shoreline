@@ -27,6 +27,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -145,6 +146,15 @@ public class UserViewController implements Initializable {
 
     @FXML
         private void configure(ActionEvent event) throws IOException, InvalidFormatException {
+            if (Lview.getSelectionModel().isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("No File Selected.");
+                alert.setHeaderText("File Selection Failed.");
+                alert.setContentText("Please Select a File.");
+                alert.showAndWait();
+                alert.close();
+            }
+            else {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/shoreline/gui/view/ConfigureView.fxml"));
         Parent root = (Parent) fxmlLoader.load();
         root.getStylesheets().add("/shoreline/gui/view/Css/Style.css");
@@ -157,6 +167,7 @@ public class UserViewController implements Initializable {
         configView.setScene(new Scene(root));
         configController.setFileHeaders(file);
         configView.show();
+            }
     }
 
     @FXML
