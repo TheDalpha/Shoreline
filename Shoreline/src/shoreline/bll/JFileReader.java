@@ -68,15 +68,6 @@ public class JFileReader {
         return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(overAll);
     }
 
-//    public void convertToJson(String path, String json) throws IOException {
-//        
-//    File file = new File(path);
-//        FileWriter fw = new FileWriter(file.getAbsoluteFile());
-//        fw.write(json);
-//        fw.flush();
-//        System.out.println("convertToJson done smth");
-//
-//    }
     private Object printCellValue(Cell cell) {
         switch (cell.getCellTypeEnum())
         {

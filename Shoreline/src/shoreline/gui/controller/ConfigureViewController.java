@@ -5,6 +5,8 @@
  */
 package shoreline.gui.controller;
 
+
+import com.fasterxml.jackson.annotation.JacksonAnnotation;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -29,6 +31,10 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import jodd.json.JsonSerializer;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.simpleflatmapper.csv.Row;
 import shoreline.be.Attribute;
 import shoreline.gui.model.CfgModel;
 import shoreline.be.Header;
@@ -42,9 +48,10 @@ import shoreline.gui.model.UserViewModel;
 public class ConfigureViewController implements Initializable
 {
     ObservableList<String> attList = FXCollections.observableArrayList("SiteName", "Asset Serial Number", "Type", "External Work Order", "System Status", "User Status", "Created On", "Created By", "Name", "Priority", "Status", "Latest Finish Date", "Earliest Start Date", "Latest Start Date", "Estimated Time");
-
+    ObservableList<String> alist = FXCollections.observableArrayList();
     UserViewModel uvm;
     CfgModel cfgM;
+    
 
     @FXML
     private Label lblUser;
@@ -124,6 +131,10 @@ public class ConfigureViewController implements Initializable
         String selectedCB = attCB.getSelectionModel().getSelectedItem();
         String selected = selectedList.getSelectionModel().getSelectedItem();
         attributeView.getItems().add(selectedCB + " : " + selected);
+        alist.add(selected);
+        System.out.println(alist);
+        jArray();
+              
     }
 
     @FXML
@@ -132,8 +143,20 @@ public class ConfigureViewController implements Initializable
         attributeView.getItems().remove(attributeView.getSelectionModel().getSelectedItem());
     }
 
-
+    public JSONArray jArray() {
+        Header h = new Header();
+        String sitenameheader = alist.get(0);
+        JSONArray ja = new JSONArray();
+        // forloop
+        JSONObject jobj = new JSONObject();
         
         
+        //key : tilføj headername somehow row 0, altid. value: samme som key, men starter fra row 1, increment to 2,3,4 etc
+        jobj.put(sitenameheader, h.getHeaderIndex());
+        System.out.println(sitenameheader + h.getHeaderIndex());
+        return ja;
+       
+    }
     
+   
 }

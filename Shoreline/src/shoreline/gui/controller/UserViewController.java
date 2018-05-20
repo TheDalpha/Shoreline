@@ -35,6 +35,8 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import shoreline.be.Person;
 import shoreline.gui.model.UserViewModel;
 
@@ -87,8 +89,6 @@ public class UserViewController implements Initializable {
                     = new FileChooser.ExtensionFilter("Text File", "*.xlsx", "*.xml");
             fileChooser.getExtensionFilters().add(extFilter);
             Window stage = null;
-//            File file = fileChooser.showOpenDialog(stage);
-//            filePath.setText(file.getPath());
             fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
             List<File> selectedFiles = fileChooser.showOpenMultipleDialog(null);
             if (selectedFiles != null) {
@@ -98,7 +98,7 @@ public class UserViewController implements Initializable {
                 CopyOption[] options = new CopyOption[]{StandardCopyOption.REPLACE_EXISTING};
                 for (File selectedFile : selectedFiles) {
                     Lview.getItems().add(selectedFile);
-//                    uvm.setFilePath(selectedFile.getPath());
+                    uvm.setFilePath(selectedFile.getPath());
                     outputFilename = Paths.get(outputDirectory.getAbsolutePath(), getFilenameWithoutExtention(selectedFile.getName()) + ".json").toString();
                     System.out.println(selectedFile.getAbsolutePath());
                     Files.copy(Paths.get(selectedFile.getAbsolutePath()), Paths.get(outputDirectory.getAbsolutePath() + "\\" + selectedFile.getName()), options);
@@ -193,5 +193,5 @@ public class UserViewController implements Initializable {
     {
         Lview.getItems().remove(Lview.getSelectionModel().getSelectedItem());
     }
-
+    
 }
