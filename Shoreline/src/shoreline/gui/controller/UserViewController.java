@@ -86,7 +86,7 @@ public class UserViewController implements Initializable {
         {
             FileChooser fileChooser = new FileChooser();
             FileChooser.ExtensionFilter extFilter
-                    = new FileChooser.ExtensionFilter("Text File", "*.xlsx", "*.xml");
+                    = new FileChooser.ExtensionFilter("Text File", "*.xlsx", "*.xml", "*.csv");
             fileChooser.getExtensionFilters().add(extFilter);
             Window stage = null;
             fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
@@ -98,7 +98,8 @@ public class UserViewController implements Initializable {
                 CopyOption[] options = new CopyOption[]{StandardCopyOption.REPLACE_EXISTING};
                 for (File selectedFile : selectedFiles) {
                     Lview.getItems().add(selectedFile);
-                    uvm.setFilePath(selectedFile.getPath());
+//                    uvm.setFilePath(selectedFile.getPath());
+                    uvm.setFilePoth(selectedFile.getPath());
                     outputFilename = Paths.get(outputDirectory.getAbsolutePath(), getFilenameWithoutExtention(selectedFile.getName()) + ".json").toString();
                     System.out.println(selectedFile.getAbsolutePath());
                     Files.copy(Paths.get(selectedFile.getAbsolutePath()), Paths.get(outputDirectory.getAbsolutePath() + "\\" + selectedFile.getName()), options);

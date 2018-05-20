@@ -96,4 +96,7 @@ public class UserViewModel
     public String XLSXR() throws JsonProcessingException {
       return fileReader.XLSXR();
     } 
+    public void setFilePoth (String filePoth) throws IOException {
+    fileReader.readCSVAndConvertToJSON(filePoth);
+    }
 }
