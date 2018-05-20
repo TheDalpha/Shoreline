@@ -29,12 +29,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
-import jodd.json.JsonSerializer;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.simpleflatmapper.csv.Row;
 import shoreline.be.Attribute;
 import shoreline.gui.model.CfgModel;
 import shoreline.be.Header;
@@ -58,7 +57,7 @@ public class ConfigureViewController implements Initializable
     @FXML
     private JFXComboBox<String> savedCombo;
     @FXML
-    private ListView<String> selectedList;
+    private ListView<Header> selectedList;
     @FXML
     private JFXButton saveConfBtn;
     @FXML
@@ -88,6 +87,7 @@ public class ConfigureViewController implements Initializable
             Logger.getLogger(ConfigureViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
         attCB.setItems(attList);
+        headerNames();
     }    
 
 
@@ -121,15 +121,24 @@ public class ConfigureViewController implements Initializable
         header = FXCollections.observableArrayList();
         header.addAll(uvm.getFileHeaders(file));
         for (Header header1 : header) {
-            selectedList.getItems().add(header1.getHeaderName());
+            selectedList.getItems().add(header1);
         }
     }
-
+    
+    public void headerNames() {
+        selectedList.setCellFactory(lView -> new ListCell<Header>() {
+        @Override
+        protected void updateItem(Header header, boolean empty) {
+        super.updateItem(header, empty);
+        setText(header == null ? null : header.getHeaderName());
+      }
+      });
+    }
     @FXML
     private void addAttribute(ActionEvent event)
     {
         String selectedCB = attCB.getSelectionModel().getSelectedItem();
-        String selected = selectedList.getSelectionModel().getSelectedItem();
+        String selected = selectedList.getSelectionModel().getSelectedItem().getHeaderName();
         attributeView.getItems().add(selectedCB + " : " + selected);
         alist.add(selected);
         System.out.println(alist);
@@ -144,8 +153,8 @@ public class ConfigureViewController implements Initializable
     }
 
     public JSONArray jArray() {
-        Header h = new Header();
-        String sitenameheader = alist.get(0);
+        Header h = selectedList.getSelectionModel().getSelectedItem();
+        String sitenameheader = attCB.getValue();
         JSONArray ja = new JSONArray();
         // forloop
         JSONObject jobj = new JSONObject();
@@ -153,7 +162,7 @@ public class ConfigureViewController implements Initializable
         
         //key : tilføj headername somehow row 0, altid. value: samme som key, men starter fra row 1, increment to 2,3,4 etc
         jobj.put(sitenameheader, h.getHeaderIndex());
-        System.out.println(sitenameheader + h.getHeaderIndex());
+        System.out.println(jobj);
         return ja;
        
     }
