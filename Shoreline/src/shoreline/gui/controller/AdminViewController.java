@@ -64,6 +64,8 @@ public class AdminViewController implements Initializable {
     private TableColumn<?, ?> descriptionClm;
     @FXML
     private TableColumn<?, ?> whenClm;
+    @FXML
+    private TableColumn<?, ?> fileNameClm;
 
     /**
      * Initializes the controller class.
