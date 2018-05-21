@@ -52,13 +52,11 @@ public class JFileReader {
             Row row = sheet.getRow(i);
             Map<String, String> jobj = new HashMap<>();
             ja.forEach((key, value) -> {
-                String mValue = row.getCell(value.getHeaderIndex(), Row.MissingCellPolicy.CREATE_NULL_AS_BLANK).getStringCellValue();
-                jobj.put(key, mValue);
+               Cell mValue = row.getCell(value.getHeaderIndex(), Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                jobj.put(key, printCellValue(mValue).toString());
             });
             overAll.add(jobj);
         }
-        String json = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(overAll);
-        System.out.println(json);
 //        for (Row row : sheet) {
 //            Map<String, Object> map = new HashMap<>();
 //            Iterator<Cell> cellIterator = sheet.getRow(0).cellIterator();
@@ -191,6 +189,11 @@ public class JFileReader {
 //    return header;
 //    
 //    }
+
+    public void setTemplate(Map<String, Header> jobj) {
+        overAll = new ArrayList<>();
+        overAll.add(jobj);
+    }
  
 
 }
