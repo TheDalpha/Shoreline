@@ -56,6 +56,14 @@ public class AdminViewController implements Initializable {
     
     LoginViewModel lvm;
     UserViewModel usm;
+    @FXML
+    private TableView<?> logView;
+    @FXML
+    private TableColumn<?, ?> userClm;
+    @FXML
+    private TableColumn<?, ?> descriptionClm;
+    @FXML
+    private TableColumn<?, ?> whenClm;
 
     /**
      * Initializes the controller class.
