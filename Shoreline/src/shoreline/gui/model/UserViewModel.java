@@ -13,8 +13,11 @@ import java.security.spec.InvalidKeySpecException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import shoreline.be.Header;
 import shoreline.be.Person;
 import shoreline.be.User;
@@ -83,8 +86,8 @@ public class UserViewModel
         uManager.deleteUser(selectedUser);
     }
 
-    public void setFilePath(String filePath) throws Exception {
-         fileReader.readXLSXAndConvertToJSON(filePath);
+    public void setFilePath(String filePath, Map ja) throws Exception {
+         fileReader.readXLSXAndConvertToJSON(filePath, ja);
     }
 
     public void convertToJson(String path, String json) throws IOException {

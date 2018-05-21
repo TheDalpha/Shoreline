@@ -15,7 +15,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -48,6 +50,8 @@ public class ConfigureViewController implements Initializable
 {
     ObservableList<String> attList = FXCollections.observableArrayList("SiteName", "Asset Serial Number", "Type", "External Work Order", "System Status", "User Status", "Created On", "Created By", "Name", "Priority", "Status", "Latest Finish Date", "Earliest Start Date", "Latest Start Date", "Estimated Time");
     ObservableList<String> alist = FXCollections.observableArrayList();
+    Map<String, Object> jobj;
+    String filePath;
     UserViewModel uvm;
     CfgModel cfgM;
     
@@ -93,8 +97,9 @@ public class ConfigureViewController implements Initializable
 
 
     @FXML
-    private void saveConfiguration(ActionEvent event)
+    private void saveConfiguration(ActionEvent event) throws Exception
     {
+        uvm.setFilePath(filePath, jobj);
     }
 
     @FXML
@@ -117,7 +122,8 @@ public class ConfigureViewController implements Initializable
     }
     
     public void setFileHeaders(File file) throws IOException, InvalidFormatException {
-        List<Header> header = new ArrayList<>();
+        filePath = file.getPath();
+        List<Header> header;
         header = FXCollections.observableArrayList();
         header.addAll(uvm.getFileHeaders(file));
         for (Header header1 : header) {
@@ -152,18 +158,17 @@ public class ConfigureViewController implements Initializable
         attributeView.getItems().remove(attributeView.getSelectionModel().getSelectedItem());
     }
 
-    public JSONArray jArray() {
+    public Map<String, Object> jArray() {
         Header h = selectedList.getSelectionModel().getSelectedItem();
         String sitenameheader = attCB.getValue();
-        JSONArray ja = new JSONArray();
         // forloop
-        JSONObject jobj = new JSONObject();
+        Map<String, Object> jobj = new HashMap<>();
         
         
         //key : tilføj headername somehow row 0, altid. value: samme som key, men starter fra row 1, increment to 2,3,4 etc
         jobj.put(sitenameheader, h.getHeaderIndex());
         System.out.println(jobj);
-        return ja;
+        return jobj;
        
     }
     

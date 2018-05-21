@@ -27,6 +27,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -37,17 +39,21 @@ public class JFileReader {
     List<Object> overAll;
     List<Object> Total;
 
-    public void readXLSXAndConvertToJSON(String filePath) throws Exception {
+    public void readXLSXAndConvertToJSON(String filePath, Map ja) throws Exception {
 
         File file = new File(filePath);
 
-        overAll = new ArrayList<Object>();
+        overAll = new ArrayList<>();
 //        XSSFWorkbook workbook1 = new XSSFWorkbook(filePath);
         Workbook workbook = WorkbookFactory.create(file);
         Sheet sheet = workbook.getSheetAt(0);
+        int rowStart = sheet.getFirstRowNum() +1;
+        int rowEnd = sheet.getLastRowNum();
         Iterator<Row> rowIterator = sheet.rowIterator();
+        for (int i = rowStart; i < rowEnd; i++) {
+        }
         for (Row row : sheet) {
-            Map<String, Object> map = new HashMap<String, Object>();
+            Map<String, Object> map = new HashMap<>();
             Iterator<Cell> cellIterator = sheet.getRow(0).cellIterator();
             while (cellIterator.hasNext()) {
                 for (Cell cell : row) {
