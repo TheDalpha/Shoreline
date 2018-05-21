@@ -38,9 +38,9 @@ public class AdminManager {
        return adao.getAllLoggins();
     }
     
-    public void uploadLogger(Loggin log) throws SQLException {
-        tLog();
-        adao.uploadLog(log);
+    public void uploadLogger(Loggin l) throws SQLException {
+     //   tLog();
+        adao.uploadLog(l);
     }
     
     public static void tLog() throws SQLException {
@@ -52,4 +52,6 @@ public class AdminManager {
         logger.getHandlers();
         
     }
+    
+    
 }

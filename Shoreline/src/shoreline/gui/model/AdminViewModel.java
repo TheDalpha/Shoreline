@@ -11,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import shoreline.be.Loggin;
 import shoreline.bll.AdminManager;
+import static shoreline.bll.AdminManager.tLog;
 
 /**
  *
@@ -48,4 +49,9 @@ public class AdminViewModel {
     public void tLog() throws SQLException {
         aManager.tLog();
     }
+    
+        public void uploadLogger(Loggin l) throws SQLException {
+    
+        aManager.uploadLogger(l);
+}
 }

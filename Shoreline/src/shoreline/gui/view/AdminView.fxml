@@ -127,9 +127,10 @@
                   </Label>
                   <TableView fx:id="logView" prefHeight="405.0" prefWidth="400.0">
                     <columns>
-                      <TableColumn fx:id="userClm" prefWidth="163.0" text="User" />
-                      <TableColumn fx:id="descriptionClm" prefWidth="304.0" text="Description" />
-                        <TableColumn fx:id="whenClm" prefWidth="132.0" text="When" />
+                      <TableColumn fx:id="userClm" prefWidth="135.0" text="User" />
+                        <TableColumn fx:id="fileNameClm" prefWidth="152.0" text="File Name" />
+                      <TableColumn fx:id="descriptionClm" prefWidth="209.0" text="Description" />
+                        <TableColumn fx:id="whenClm" minWidth="0.0" prefWidth="103.0" text="When" />
                     </columns>
                      <VBox.margin>
                         <Insets />
