@@ -99,7 +99,7 @@ public class UserViewController implements Initializable {
                 for (File selectedFile : selectedFiles) {
                     Lview.getItems().add(selectedFile);
 //                    uvm.setFilePath(selectedFile.getPath());
-                    uvm.setFilePoth(selectedFile.getPath());
+//                    uvm.setFilePoth(selectedFile.getPath());
                     outputFilename = Paths.get(outputDirectory.getAbsolutePath(), getFilenameWithoutExtention(selectedFile.getName()) + ".json").toString();
                     System.out.println(selectedFile.getAbsolutePath());
                     Files.copy(Paths.get(selectedFile.getAbsolutePath()), Paths.get(outputDirectory.getAbsolutePath() + "\\" + selectedFile.getName()), options);

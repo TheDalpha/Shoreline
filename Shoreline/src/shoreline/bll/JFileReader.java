@@ -5,13 +5,11 @@
  */
 package shoreline.bll;
 
-import com.fasterxml.jackson.core.JsonFactory;
 import shoreline.be.Header;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,6 +18,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
@@ -28,12 +29,13 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
+
 /**
  *
  * @author Jesper
  */
 public class JFileReader {
-
+    List<CSVRecord> rowList;
     List<Object> overAll;
     List<Object> Total;
 
@@ -111,26 +113,73 @@ public class JFileReader {
         }
         return header;
     }
-
-    public void readCSVAndConvertToJSON(String filePoth) throws IOException {
-        Total = new ArrayList<>();
-//        CsvReader r = new CsvParser().reader(filePath);
-        JsonFactory jfac = new JsonFactory();
-        jfac.createParser(filePoth);
-        CsvSchema csvSchema = CsvSchema.builder().setUseHeader(true).build();
-        CsvMapper csvMapper = new CsvMapper();
-        
-        // Read data from CSV file
-        List<Object> readAll = csvMapper.readerFor(Map.class).with(csvSchema).readValues(filePoth).readAll();
-                
-        readAll.add(Total);
-    }
     
+ 
     
-    public String CSV() throws JsonProcessingException {
-
-        return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(Total);
-        
-    }
+//    public void readCSVAndConvertToJSON(String filePoth) throws IOException {
+//        Total = new ArrayList<>();
+//        CsvReader r = new CsvReader();
+//        JsonFactory jfac = new JsonFactory();
+//        jfac.createParser(filePoth);
+//        CsvSchema csvSchema = CsvSchema.builder().setUseHeader(true).build();
+//        CsvMapper csvMapper = new CsvMapper();
+//        ObjectReader oReader = csvMapper.readerFor(Header.class).with(csvSchema);
+//        
+//          try (Reader reader = new FileReader(filePoth)) {
+//    MappingIterator mi = oReader.readValues(reader);
+//
+//       while (mi.hasNext()) 
+//       {
+//         System.out.println(mi.next());
+//       }
+//
+//  }
+//    }
+//        csvSchema.withHeader();
+//        csvSchema.column(0);
+//     Read data from CSV file
+//        List<Object> readAll = csvMapper.readerFor(Map.class).with(csvSchema).readValues(filePoth).readAll();
+//                
+//        readAll.add(Total);
+    
+//    public void readCSVAndConvertToJSON(String filePoth) throws IOException {
+//        File csvfile = new File(filePoth);
+//        
+//        FileReader fReader = null;
+//        CSVParser csvParser = null;
+//
+//        try {
+//            System.out.println("Prepare csv parser object. ");
+//            /* Create file reader. */
+//            fReader = new FileReader(filePoth);
+//            CSVFormat csvFormat = CSVFormat.DEFAULT.withHeader(filePoth);
+//            /* Create csv printer*/
+//            csvParser = new CSVParser(fReader, csvFormat);
+//
+////            rowList = csvParser.getRecords();
+////            rowList.get(0);
+////            System.out.println(rowList);
+//        }
+//        catch (IOException e){
+//            
+//        }
+//    }
+//    public String CSV() throws JsonProcessingException {
+//
+//        return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(Total);
+//
+//    }
+//    
+//       public List<Header> getFileH(File file) throws IOException {
+//    List<Header> header = new ArrayList<>();
+//    FileReader freader = new FileReader(file);
+//    CSVFormat csvFormat = CSVFormat.DEFAULT.withHeader();
+//    CSVParser cparser = new CSVParser(freader, csvFormat);
+//           header = cparser.getRecords();
+//           
+//    return header;
+//    
+//    }
+ 
 
 }

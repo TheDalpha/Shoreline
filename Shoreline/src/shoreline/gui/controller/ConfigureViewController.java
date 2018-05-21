@@ -5,7 +5,6 @@
  */
 package shoreline.gui.controller;
 
-
 import com.fasterxml.jackson.annotation.JacksonAnnotation;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import com.jfoenix.controls.JFXButton;
@@ -27,6 +26,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -44,13 +44,12 @@ import shoreline.gui.model.UserViewModel;
  *
  * @author ollie
  */
-public class ConfigureViewController implements Initializable
-{
+public class ConfigureViewController implements Initializable {
+
     ObservableList<String> attList = FXCollections.observableArrayList("SiteName", "Asset Serial Number", "Type", "External Work Order", "System Status", "User Status", "Created On", "Created By", "Name", "Priority", "Status", "Latest Finish Date", "Earliest Start Date", "Latest Start Date", "Estimated Time");
     ObservableList<String> alist = FXCollections.observableArrayList();
     UserViewModel uvm;
     CfgModel cfgM;
-    
 
     @FXML
     private Label lblUser;
@@ -72,15 +71,12 @@ public class ConfigureViewController implements Initializable
     private JFXButton attBtn;
     @FXML
     private ContextMenu contMenu;
-    
-    
 
     /**
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb)
-    {
+    public void initialize(URL url, ResourceBundle rb) {
         try {
             uvm = UserViewModel.getInstance();
         } catch (SQLException | IOException ex) {
@@ -88,23 +84,18 @@ public class ConfigureViewController implements Initializable
         }
         attCB.setItems(attList);
         headerNames();
-    }    
-
-
-
-    @FXML
-    private void saveConfiguration(ActionEvent event)
-    {
     }
 
     @FXML
-    private void addAtribute(ActionEvent event)
-    {
+    private void saveConfiguration(ActionEvent event) {
     }
 
     @FXML
-    private void cancel(ActionEvent event) throws IOException
-    {
+    private void addAtribute(ActionEvent event) {
+    }
+
+    @FXML
+    private void cancel(ActionEvent event) throws IOException {
         Stage stage1 = (Stage) cancelBtn.getScene().getWindow();
         stage1.close();
 
@@ -115,40 +106,46 @@ public class ConfigureViewController implements Initializable
         stage.setScene(scene);
         stage.show();
     }
-    
+
     public void setFileHeaders(File file) throws IOException, InvalidFormatException {
         List<Header> header = new ArrayList<>();
         header = FXCollections.observableArrayList();
-        header.addAll(uvm.getFileHeaders(file));
-        for (Header header1 : header) {
-            selectedList.getItems().add(header1);
+        if (file.getPath().contains(".xlsx") || file.getPath().contains(".xml")) {
+            header.addAll(uvm.getFileHeaders(file));
+            for (Header header1 : header) {
+                selectedList.getItems().add(header1);
+            }
+//        } else if (file.getPath().contains(".csv")) {
+//            header.addAll(uvm.getFileHeaders(file));
+//            for (Header header2 : header) {
+//                selectedList.getItems().add(header2);
+//            }
         }
     }
-    
+
     public void headerNames() {
         selectedList.setCellFactory(lView -> new ListCell<Header>() {
-        @Override
-        protected void updateItem(Header header, boolean empty) {
-        super.updateItem(header, empty);
-        setText(header == null ? null : header.getHeaderName());
-      }
-      });
+            @Override
+            protected void updateItem(Header header, boolean empty) {
+                super.updateItem(header, empty);
+                setText(header == null ? null : header.getHeaderName());
+            }
+        });
     }
+
     @FXML
-    private void addAttribute(ActionEvent event)
-    {
+    private void addAttribute(ActionEvent event) {
         String selectedCB = attCB.getSelectionModel().getSelectedItem();
         String selected = selectedList.getSelectionModel().getSelectedItem().getHeaderName();
         attributeView.getItems().add(selectedCB + " : " + selected);
         alist.add(selected);
         System.out.println(alist);
         jArray();
-              
+
     }
 
     @FXML
-    private void removeAttribute(ActionEvent event)
-    {
+    private void removeAttribute(ActionEvent event) {
         attributeView.getItems().remove(attributeView.getSelectionModel().getSelectedItem());
     }
 
@@ -158,14 +155,23 @@ public class ConfigureViewController implements Initializable
         JSONArray ja = new JSONArray();
         // forloop
         JSONObject jobj = new JSONObject();
-        
-        
+
         //key : tilføj headername somehow row 0, altid. value: samme som key, men starter fra row 1, increment to 2,3,4 etc
         jobj.put(sitenameheader, h.getHeaderIndex());
         System.out.println(jobj);
         return ja;
-       
+
     }
-    
-   
+
+//    public void setFileH(File file) throws IOException, InvalidFormatException {
+//        List<Header> header = new ArrayList<>();
+//        header = FXCollections.observableArrayList();
+//        if (file.getPath().contains(".csv"))
+//            header.addAll(uvm.getFileH(file));
+//        for (Header header2 : header) {
+//            selectedList.getItems().add(header2);
+//        }
+//
+//    }
+
 }
