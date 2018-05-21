@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
@@ -28,34 +29,47 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-
 /**
  *
  * @author Jesper
  */
 public class JFileReader {
-    List<Object> overAll;
+
+    JSONObject jobj;
     List<Object> Total;
 
-    public void readXLSXAndConvertToJSON(String filePath, Map<String,Header> ja) throws Exception {
+    public void readXLSXAndConvertToJSON(String filePath, Map<String, Header> ja) throws Exception {
 
         File file = new File(filePath);
-
-        overAll = new ArrayList<>();
+        jobj = new JSONObject();
+        JSONObject tissemand = new JSONObject();
 //        XSSFWorkbook workbook1 = new XSSFWorkbook(filePath);
         Workbook workbook = WorkbookFactory.create(file);
         Sheet sheet = workbook.getSheetAt(0);
-        int rowStart = sheet.getFirstRowNum() +1;
+        int rowStart = sheet.getFirstRowNum() + 1;
         int rowEnd = sheet.getLastRowNum();
-        
+
         for (int i = rowStart; i < rowEnd; i++) {
             Row row = sheet.getRow(i);
-            Map<String, String> jobj = new HashMap<>();
+
             ja.forEach((key, value) -> {
-               Cell mValue = row.getCell(value.getHeaderIndex(), Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
-                jobj.put(key, printCellValue(mValue).toString());
+                if (key.equals("Latest Finish Date") || key.equals("Earliest Start Date") || key.equals("Latest Start Date") || key.equals("Estimated Time")) {
+                    if (value.getHeaderIndex() == -1) {
+                        tissemand.put(key, "");
+                    } else {
+                        Cell mValue = row.getCell(value.getHeaderIndex(), Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                        tissemand.put(key, printCellValue(mValue));
+                    }
+                } else if (value.getHeaderIndex() == -1) {
+                    jobj.put(key, "");
+                } else {
+                    Cell mValue = row.getCell(value.getHeaderIndex(), Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                    jobj.put(key, printCellValue(mValue).toString());
+                }
             });
-            overAll.add(jobj);
+            jobj.put("Planning", tissemand);
+//            overAll.add(jobj);
+//            overAll.add(tissemand);
         }
 //        for (Row row : sheet) {
 //            Map<String, Object> map = new HashMap<>();
@@ -76,7 +90,8 @@ public class JFileReader {
 
     public String XLSXR() throws JsonProcessingException {
 
-        return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(overAll);
+        return jobj.toString(4);
+        
     }
 
     private Object printCellValue(Cell cell) {
@@ -122,9 +137,7 @@ public class JFileReader {
         }
         return header;
     }
-    
- 
-    
+
 //    public void readCSVAndConvertToJSON(String filePoth) throws IOException {
 //        Total = new ArrayList<>();
 //        CsvReader r = new CsvReader();
@@ -150,7 +163,6 @@ public class JFileReader {
 //        List<Object> readAll = csvMapper.readerFor(Map.class).with(csvSchema).readValues(filePoth).readAll();
 //                
 //        readAll.add(Total);
-    
 //    public void readCSVAndConvertToJSON(String filePoth) throws IOException {
 //        File csvfile = new File(filePoth);
 //        
@@ -189,11 +201,14 @@ public class JFileReader {
 //    return header;
 //    
 //    }
-
     public void setTemplate(Map<String, Header> jobj) {
-        overAll = new ArrayList<>();
-        overAll.add(jobj);
+        this.jobj = new JSONObject();
+        BiConsumer<? super String, ? super Header> action;
+        jobj.forEach((k,v) -> {
+            this.jobj.put(k, v);
+        });
+//        overAll.add(jobj);
+//        System.out.println(overAll);
     }
- 
 
 }

@@ -146,7 +146,7 @@ public class UserViewController implements Initializable {
     }
 
     @FXML
-        private void configure(ActionEvent event) throws IOException, InvalidFormatException {
+        private void configure(ActionEvent event) throws IOException, InvalidFormatException, Exception {
             if (Lview.getSelectionModel().isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("No File Selected.");

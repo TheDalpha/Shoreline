@@ -52,7 +52,8 @@ public class ConfigureViewController implements Initializable
 {
     ObservableList<String> attList = FXCollections.observableArrayList("SiteName", "Asset Serial Number", "Type", "External Work Order", "System Status", "User Status", "Created On", "Created By", "Name", "Priority", "Status", "Latest Finish Date", "Earliest Start Date", "Latest Start Date", "Estimated Time");
     ObservableList<String> alist = FXCollections.observableArrayList();
-    Map<String, Header> jobj = new HashMap<>();
+    Map<String, Header> headerMap = new HashMap<>();
+    JSONObject jobj = new JSONObject();
     String filePath;
     UserViewModel uvm;
     CfgModel cfgM;
@@ -97,11 +98,8 @@ public class ConfigureViewController implements Initializable
         
         attCB.setItems(attList);
         headerNames();
-        try {
-            templateJson();
-        } catch (Exception ex) {
-            Logger.getLogger(ConfigureViewController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        attributeView.getItems().addAll(attList);
+        previewArea.setEditable(false);
     }    
 
 
@@ -109,7 +107,7 @@ public class ConfigureViewController implements Initializable
     @FXML
     private void saveConfiguration(ActionEvent event) throws Exception
     {
-        System.out.println(jobj);
+        System.out.println(headerMap);
 //        uvm.setFilePath(filePath, jobj);
     }
 
@@ -132,7 +130,7 @@ public class ConfigureViewController implements Initializable
 //        stage.show();
     }
     
-    public void setFileHeaders(File file) throws IOException, InvalidFormatException {
+    public void setFileHeaders(File file) throws IOException, InvalidFormatException, Exception {
         filePath = file.getPath();
         List<Header> header;
         header = FXCollections.observableArrayList();
@@ -140,6 +138,7 @@ public class ConfigureViewController implements Initializable
         for (Header header1 : header) {
             selectedList.getItems().add(header1);
         }
+        templateJson();
     }
     
     public void headerNames() {
@@ -156,10 +155,15 @@ public class ConfigureViewController implements Initializable
     {
         String selectedCB = attCB.getSelectionModel().getSelectedItem();
         String selected = selectedList.getSelectionModel().getSelectedItem().getHeaderName();
-        attributeView.getItems().add(selectedCB + " : " + selected);
+//        attributeView.getItems().add(selectedCB + " : " + selected);
+        for (int i = 0; i < attributeView.getItems().size(); i++) {
+            if(attributeView.getItems().get(i).contains(attCB.getSelectionModel().getSelectedItem())) {
+                attributeView.getItems().set(i, selectedCB + " : " + selected);
+            }
+        }
         alist.add(selected);
         jArray();
-        uvm.setFilePath(filePath, jobj);
+        uvm.setFilePath(filePath, headerMap);
         String json = uvm.XLSXR();
         previewArea.setText(json);
               
@@ -178,24 +182,26 @@ public class ConfigureViewController implements Initializable
         
         
         //key : tilføj headername somehow row 0, altid. value: samme som key, men starter fra row 1, increment to 2,3,4 etc
-        jobj.put(sitenameheader, h);
-        System.out.println(jobj);
-        return jobj;
+        headerMap.put(sitenameheader, h);
+        System.out.println(headerMap);
+        return headerMap;
        
     }
     
     public Map<String, Header> templateJson() throws Exception {
         
-        String emptyPrefix = "";
         for (String string : attList) {
             Header header = new Header();
             header.setHeaderName("");
-            jobj.put(string, header);
+            header.setHeaderIndex(-1);
+            headerMap.put(string, header);
         }
-        uvm.setTemplate(jobj);
+        uvm.setTemplate(headerMap);
+        uvm.setFilePath(filePath, headerMap);
         String json = uvm.XLSXR();
+        
         previewArea.setText(json);
-        return jobj;
+        return headerMap;
     }
    
 }
