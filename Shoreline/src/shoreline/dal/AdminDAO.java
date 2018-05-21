@@ -64,6 +64,7 @@ public class AdminDAO {
                 log.setUsername(rs.getString("username"));
                 log.setAction(rs.getString("action"));
                 log.setDate(rs.getString("date"));
+                log.setFilename(rs.getString("filename"));
                 allLoggins.add(log);
             }
         } catch (SQLException ex) {
@@ -78,23 +79,24 @@ public class AdminDAO {
         {
             String sql
                     = "INSERT INTO Log"
-                    + "(traceId, username, action, date)"
-                    + "VALUES(?,?,?)";
+                    + "(username, action, date, filename)"
+                    + "VALUES(?,?,?,?)";
             
             PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, log.getUsername());
             pstmt.setString(2, log.getAction());
             pstmt.setString(3, log.getDate());
+            pstmt.setString(4, log.getFilename());
             
             int affected = pstmt.executeUpdate();
             if(affected<1)
-                throw new SQLException("Can't create user");
+                throw new SQLException("Can't Update Log");
             
-            //Get Database generated id and set user id
-            ResultSet rs = pstmt.getGeneratedKeys();
-            if (rs.next()) {
-                log.setTraceId(rs.getInt(1));
-        }
+//            //Get Database generated id and set user id
+//            ResultSet rs = pstmt.getGeneratedKeys();
+//            if (rs.next()) {
+//                log.setTraceId(rs.getInt(1));
+//        }
     }
     }
 }
