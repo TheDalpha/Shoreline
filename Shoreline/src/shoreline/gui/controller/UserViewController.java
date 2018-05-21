@@ -160,7 +160,6 @@ public class UserViewController implements Initializable {
         Parent root = (Parent) fxmlLoader.load();
         root.getStylesheets().add("/shoreline/gui/view/Css/Style.css");
         Stage stage = (Stage) confBtn.getScene().getWindow();
-        stage.close();
         Stage configView = new Stage();
         File file = Lview.getSelectionModel().getSelectedItem();
         ConfigureViewController configController = fxmlLoader.getController();

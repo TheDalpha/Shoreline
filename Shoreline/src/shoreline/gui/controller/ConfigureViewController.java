@@ -50,7 +50,7 @@ public class ConfigureViewController implements Initializable
 {
     ObservableList<String> attList = FXCollections.observableArrayList("SiteName", "Asset Serial Number", "Type", "External Work Order", "System Status", "User Status", "Created On", "Created By", "Name", "Priority", "Status", "Latest Finish Date", "Earliest Start Date", "Latest Start Date", "Estimated Time");
     ObservableList<String> alist = FXCollections.observableArrayList();
-    Map<String, Object> jobj;
+    Map<String, Header> jobj = new HashMap<>();
     String filePath;
     UserViewModel uvm;
     CfgModel cfgM;
@@ -99,6 +99,7 @@ public class ConfigureViewController implements Initializable
     @FXML
     private void saveConfiguration(ActionEvent event) throws Exception
     {
+        System.out.println(jobj);
         uvm.setFilePath(filePath, jobj);
     }
 
@@ -113,12 +114,12 @@ public class ConfigureViewController implements Initializable
         Stage stage1 = (Stage) cancelBtn.getScene().getWindow();
         stage1.close();
 
-        Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("/shoreline/gui/view/UserView.fxml"));
-        root.getStylesheets().add("/shoreline/gui/view/Css/Style.css");
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+//        Stage stage = new Stage();
+//        Parent root = FXMLLoader.load(getClass().getResource("/shoreline/gui/view/UserView.fxml"));
+//        root.getStylesheets().add("/shoreline/gui/view/Css/Style.css");
+//        Scene scene = new Scene(root);
+//        stage.setScene(scene);
+//        stage.show();
     }
     
     public void setFileHeaders(File file) throws IOException, InvalidFormatException {
@@ -158,15 +159,14 @@ public class ConfigureViewController implements Initializable
         attributeView.getItems().remove(attributeView.getSelectionModel().getSelectedItem());
     }
 
-    public Map<String, Object> jArray() {
+    public Map<String, Header> jArray() {
         Header h = selectedList.getSelectionModel().getSelectedItem();
         String sitenameheader = attCB.getValue();
         // forloop
-        Map<String, Object> jobj = new HashMap<>();
         
         
         //key : tilføj headername somehow row 0, altid. value: samme som key, men starter fra row 1, increment to 2,3,4 etc
-        jobj.put(sitenameheader, h.getHeaderIndex());
+        jobj.put(sitenameheader, h);
         System.out.println(jobj);
         return jobj;
        

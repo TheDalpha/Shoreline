@@ -18,9 +18,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
@@ -37,11 +34,10 @@ import org.json.JSONObject;
  * @author Jesper
  */
 public class JFileReader {
-    List<CSVRecord> rowList;
     List<Object> overAll;
     List<Object> Total;
 
-    public void readXLSXAndConvertToJSON(String filePath, Map ja) throws Exception {
+    public void readXLSXAndConvertToJSON(String filePath, Map<String,Header> ja) throws Exception {
 
         File file = new File(filePath);
 
@@ -51,22 +47,31 @@ public class JFileReader {
         Sheet sheet = workbook.getSheetAt(0);
         int rowStart = sheet.getFirstRowNum() +1;
         int rowEnd = sheet.getLastRowNum();
-        Iterator<Row> rowIterator = sheet.rowIterator();
+        
         for (int i = rowStart; i < rowEnd; i++) {
+            Row row = sheet.getRow(i);
+            Map<String, String> jobj = new HashMap<>();
+            ja.forEach((key, value) -> {
+                String mValue = row.getCell(value.getHeaderIndex(), Row.MissingCellPolicy.CREATE_NULL_AS_BLANK).getStringCellValue();
+                jobj.put(key, mValue);
+            });
+            overAll.add(jobj);
         }
-        for (Row row : sheet) {
-            Map<String, Object> map = new HashMap<>();
-            Iterator<Cell> cellIterator = sheet.getRow(0).cellIterator();
-            while (cellIterator.hasNext()) {
-                for (Cell cell : row) {
-                    String header = cellIterator.next().getStringCellValue();
-                    map.put(header, printCellValue(cell));
-
-                }
-            }
-
-            overAll.add(map);
-        }
+        String json = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(overAll);
+        System.out.println(json);
+//        for (Row row : sheet) {
+//            Map<String, Object> map = new HashMap<>();
+//            Iterator<Cell> cellIterator = sheet.getRow(0).cellIterator();
+//            while (cellIterator.hasNext()) {
+//                for (Cell cell : row) {
+//                    String header = cellIterator.next().getStringCellValue();
+//                    map.put(header, printCellValue(cell));
+//
+//                }
+//            }
+//
+//            overAll.add(map);
+//        }
 //            String json = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(overAll);
 //            System.out.println(json);
     }

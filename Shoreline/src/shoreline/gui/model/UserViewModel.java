@@ -13,6 +13,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javafx.collections.FXCollections;
@@ -87,7 +88,7 @@ public class UserViewModel
         uManager.deleteUser(selectedUser);
     }
 
-    public void setFilePath(String filePath, Map ja) throws Exception {
+    public void setFilePath(String filePath, Map<String, Header> ja) throws Exception {
          fileReader.readXLSXAndConvertToJSON(filePath, ja);
     }
 
