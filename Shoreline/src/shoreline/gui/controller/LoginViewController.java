@@ -26,10 +26,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
-import static javafx.scene.input.KeyCode.ENTER;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import shoreline.be.Admin;
+import shoreline.be.Loggin;
 import shoreline.be.Person;
 import shoreline.be.User;
 import shoreline.gui.model.LoginViewModel;
@@ -59,6 +59,7 @@ public class LoginViewController implements Initializable {
     boolean admuns = false;
     
     
+    
 //    String user = "user";
 //    String password = "password";
 
@@ -80,6 +81,7 @@ public class LoginViewController implements Initializable {
         {
             Logger.getLogger(LoginViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
+       
     }    
 
     
