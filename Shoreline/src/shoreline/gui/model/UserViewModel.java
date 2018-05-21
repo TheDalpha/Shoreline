@@ -8,6 +8,7 @@ package shoreline.gui.model;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.File;
 import java.io.IOException;
+import static java.nio.file.Files.list;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -99,7 +100,11 @@ public class UserViewModel
     public String XLSXR() throws JsonProcessingException {
       return fileReader.XLSXR();
     } 
-    public void setFilePoth (String filePoth) throws IOException {
-    fileReader.readCSVAndConvertToJSON(filePoth);
-    }
+//    public void setFilePoth (String filePoth) throws IOException {
+//    fileReader.readCSVAndConvertToJSON(filePoth);
+//    }
+//    public List<Header> getFileH (File file) throws IOException {
+//        return fileReader.getFileH(file);
+//        
+//    }
 }
