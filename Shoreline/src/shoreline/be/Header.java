@@ -29,5 +29,10 @@ public class Header {
     public void setHeaderIndex(int headerIndex) {
         this.headerIndex = headerIndex;
     }
+
+    @Override
+    public String toString() {
+        return headerName + headerIndex;
+    }
     
 }

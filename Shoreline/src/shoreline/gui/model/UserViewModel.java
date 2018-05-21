@@ -108,4 +108,8 @@ public class UserViewModel
 //        return fileReader.getFileH(file);
 //        
 //    }
+
+    public void setTemplate(Map<String, Header> jobj) {
+        fileReader.setTemplate(jobj);
+    }
 }

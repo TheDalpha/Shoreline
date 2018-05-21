@@ -7,6 +7,7 @@ package shoreline.gui.controller;
 
 
 import com.fasterxml.jackson.annotation.JacksonAnnotation;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -93,8 +94,14 @@ public class ConfigureViewController implements Initializable
         } catch (SQLException | IOException ex) {
             Logger.getLogger(ConfigureViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         attCB.setItems(attList);
         headerNames();
+        try {
+            templateJson();
+        } catch (Exception ex) {
+            Logger.getLogger(ConfigureViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }    
 
 
@@ -103,7 +110,7 @@ public class ConfigureViewController implements Initializable
     private void saveConfiguration(ActionEvent event) throws Exception
     {
         System.out.println(jobj);
-        uvm.setFilePath(filePath, jobj);
+//        uvm.setFilePath(filePath, jobj);
     }
 
     @FXML
@@ -140,18 +147,21 @@ public class ConfigureViewController implements Initializable
         @Override
         protected void updateItem(Header header, boolean empty) {
         super.updateItem(header, empty);
-        setText(header == null ? null : header.getHeaderName());
+        setText(header == null ? null : header.getHeaderName() + header.getHeaderIndex());
       }
       });
     }
     @FXML
-    private void addAttribute(ActionEvent event)
+    private void addAttribute(ActionEvent event) throws JsonProcessingException, Exception
     {
         String selectedCB = attCB.getSelectionModel().getSelectedItem();
         String selected = selectedList.getSelectionModel().getSelectedItem().getHeaderName();
         attributeView.getItems().add(selectedCB + " : " + selected);
         alist.add(selected);
         jArray();
+        uvm.setFilePath(filePath, jobj);
+        String json = uvm.XLSXR();
+        previewArea.setText(json);
               
     }
 
@@ -174,5 +184,18 @@ public class ConfigureViewController implements Initializable
        
     }
     
+    public Map<String, Header> templateJson() throws Exception {
+        
+        String emptyPrefix = "";
+        for (String string : attList) {
+            Header header = new Header();
+            header.setHeaderName("");
+            jobj.put(string, header);
+        }
+        uvm.setTemplate(jobj);
+        String json = uvm.XLSXR();
+        previewArea.setText(json);
+        return jobj;
+    }
    
 }

@@ -57,8 +57,6 @@ public class JFileReader {
             });
             overAll.add(jobj);
         }
-        String json = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(overAll);
-        System.out.println(json);
 //        for (Row row : sheet) {
 //            Map<String, Object> map = new HashMap<>();
 //            Iterator<Cell> cellIterator = sheet.getRow(0).cellIterator();
@@ -191,6 +189,11 @@ public class JFileReader {
 //    return header;
 //    
 //    }
+
+    public void setTemplate(Map<String, Header> jobj) {
+        overAll = new ArrayList<>();
+        overAll.add(jobj);
+    }
  
 
 }
