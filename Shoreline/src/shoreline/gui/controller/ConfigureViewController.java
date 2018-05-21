@@ -148,7 +148,6 @@ public class ConfigureViewController implements Initializable
         String selected = selectedList.getSelectionModel().getSelectedItem().getHeaderName();
         attributeView.getItems().add(selectedCB + " : " + selected);
         alist.add(selected);
-        System.out.println(alist);
         jArray();
               
     }

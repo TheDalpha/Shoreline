@@ -52,8 +52,8 @@ public class JFileReader {
             Row row = sheet.getRow(i);
             Map<String, String> jobj = new HashMap<>();
             ja.forEach((key, value) -> {
-                String mValue = row.getCell(value.getHeaderIndex(), Row.MissingCellPolicy.CREATE_NULL_AS_BLANK).getStringCellValue();
-                jobj.put(key, mValue);
+               Cell mValue = row.getCell(value.getHeaderIndex(), Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                jobj.put(key, printCellValue(mValue).toString());
             });
             overAll.add(jobj);
         }
