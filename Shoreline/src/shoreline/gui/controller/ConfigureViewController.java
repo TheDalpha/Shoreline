@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JacksonAnnotation;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextArea;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -76,6 +77,8 @@ public class ConfigureViewController implements Initializable
     private JFXButton attBtn;
     @FXML
     private ContextMenu contMenu;
+    @FXML
+    private JFXTextArea previewArea;
     
     
 
