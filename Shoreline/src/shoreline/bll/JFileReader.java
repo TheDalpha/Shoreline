@@ -37,11 +37,13 @@ public class JFileReader {
 
     JSONObject jobj;
     List<Object> Total;
+    List<JSONObject> jObList;
 
-    public void readXLSXAndConvertToJSON(String filePath, Map<String, Header> ja) throws Exception {
+    public void readXLSXAndConvertToJSON(String filePath, Map<String, Header> ja, boolean oneLine) throws Exception {
 
         File file = new File(filePath);
         jobj = new JSONObject();
+        jObList = new ArrayList();
         JSONObject tissemand = new JSONObject();
 //        XSSFWorkbook workbook1 = new XSSFWorkbook(filePath);
         Workbook workbook = WorkbookFactory.create(file);
@@ -68,10 +70,10 @@ public class JFileReader {
                 }
             });
             jobj.put("Planning", tissemand);
-//            overAll.add(jobj);
-//            overAll.add(tissemand);
-        }
-//        for (Row row : sheet) {
+            jObList.add(jobj);
+            if (oneLine) {
+                break;
+            }
 //            Map<String, Object> map = new HashMap<>();
 //            Iterator<Cell> cellIterator = sheet.getRow(0).cellIterator();
 //            while (cellIterator.hasNext()) {
@@ -86,12 +88,16 @@ public class JFileReader {
 //        }
 //            String json = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(overAll);
 //            System.out.println(json);
+        }
+        for (JSONObject job : jObList) {
+//            System.out.println(job.toString(4));
+        }
     }
 
     public String XLSXR() throws JsonProcessingException {
 
         return jobj.toString(4);
-        
+
     }
 
     private Object printCellValue(Cell cell) {
@@ -203,10 +209,11 @@ public class JFileReader {
 //    }
     public void setTemplate(Map<String, Header> jobj) {
         this.jobj = new JSONObject();
-        BiConsumer<? super String, ? super Header> action;
-        jobj.forEach((k,v) -> {
+//        BiConsumer<? super String, ? super Header> action;
+        jobj.forEach((k, v) -> {
             this.jobj.put(k, v);
         });
+        //            overAll
 //        overAll.add(jobj);
 //        System.out.println(overAll);
     }

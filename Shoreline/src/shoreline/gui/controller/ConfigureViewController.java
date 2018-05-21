@@ -18,6 +18,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -52,7 +53,7 @@ public class ConfigureViewController implements Initializable
 {
     ObservableList<String> attList = FXCollections.observableArrayList("SiteName", "Asset Serial Number", "Type", "External Work Order", "System Status", "User Status", "Created On", "Created By", "Name", "Priority", "Status", "Latest Finish Date", "Earliest Start Date", "Latest Start Date", "Estimated Time");
     ObservableList<String> alist = FXCollections.observableArrayList();
-    Map<String, Header> headerMap = new HashMap<>();
+    Map<String, Header> headerMap = new LinkedHashMap<>();
     JSONObject jobj = new JSONObject();
     String filePath;
     UserViewModel uvm;
@@ -108,7 +109,7 @@ public class ConfigureViewController implements Initializable
     private void saveConfiguration(ActionEvent event) throws Exception
     {
         System.out.println(headerMap);
-//        uvm.setFilePath(filePath, jobj);
+        uvm.setFilePath(filePath, headerMap, false);
     }
 
     @FXML
@@ -156,14 +157,15 @@ public class ConfigureViewController implements Initializable
         String selectedCB = attCB.getSelectionModel().getSelectedItem();
         String selected = selectedList.getSelectionModel().getSelectedItem().getHeaderName();
 //        attributeView.getItems().add(selectedCB + " : " + selected);
-        for (int i = 0; i < attributeView.getItems().size(); i++) {
-            if(attributeView.getItems().get(i).contains(attCB.getSelectionModel().getSelectedItem())) {
-                attributeView.getItems().set(i, selectedCB + " : " + selected);
-            }
-        }
+//        for (int i = 0; i < attributeView.getItems().size(); i++) {
+//            if(attributeView.getItems().get(i).equals(attCB.getSelectionModel().getSelectedItem())) {
+//                attributeView.getItems().set(i, selectedCB + " : " + selected);
+//            }
+//        }
+        attributeView.getItems().set(attCB.getSelectionModel().getSelectedIndex(), selectedCB + " : " + selected);
         alist.add(selected);
         jArray();
-        uvm.setFilePath(filePath, headerMap);
+        uvm.setFilePath(filePath, headerMap, true);
         String json = uvm.XLSXR();
         previewArea.setText(json);
               
@@ -197,7 +199,7 @@ public class ConfigureViewController implements Initializable
             headerMap.put(string, header);
         }
         uvm.setTemplate(headerMap);
-        uvm.setFilePath(filePath, headerMap);
+        uvm.setFilePath(filePath, headerMap, true);
         String json = uvm.XLSXR();
         
         previewArea.setText(json);

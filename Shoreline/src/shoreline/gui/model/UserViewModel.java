@@ -88,8 +88,8 @@ public class UserViewModel
         uManager.deleteUser(selectedUser);
     }
 
-    public void setFilePath(String filePath, Map<String, Header> ja) throws Exception {
-         fileReader.readXLSXAndConvertToJSON(filePath, ja);
+    public void setFilePath(String filePath, Map<String, Header> ja, boolean oneLine) throws Exception {
+         fileReader.readXLSXAndConvertToJSON(filePath, ja, oneLine);
     }
 
     public void convertToJson(String path, String json) throws IOException {
