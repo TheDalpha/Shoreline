@@ -79,11 +79,16 @@
                         <Insets left="130.0" />
                      </VBox.margin>
                   </JFXButton>
-                  <JFXButton fx:id="addAttributeBtn" onAction="#addAtribute" text="Add to JSON Attributes" VBox.vgrow="SOMETIMES">
-                     <VBox.margin>
-                        <Insets bottom="5.0" left="130.0" top="5.0" />
-                     </VBox.margin>
-                  </JFXButton>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="SOMETIMES">
+                     <children>
+                        <JFXButton fx:id="chooseDestinationBtn" onAction="#chooseFileDestination" text="Choose File Destination" HBox.hgrow="SOMETIMES">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </JFXButton>
+                        <JFXButton fx:id="addToTaskBtn" onAction="#addToTask" text="Add To Task" />
+                     </children>
+                  </HBox>
                   <HBox prefHeight="362.0" prefWidth="404.0" VBox.vgrow="SOMETIMES">
                      <children>
                         <VBox alignment="CENTER" prefHeight="328.0" prefWidth="179.0" HBox.hgrow="NEVER">

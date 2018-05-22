@@ -31,6 +31,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -69,6 +70,8 @@ public class UserViewController implements Initializable {
     private JFXButton startBtn;
     @FXML
     private JFXButton stopBtn;
+    @FXML
+    private JFXListView<?> convertedList;
 
     /**
      * Initializes the controller class.
@@ -234,4 +237,9 @@ public class UserViewController implements Initializable {
                  avm.addTraceLog(" ", actionP, userName, desc);
         }
         }
+
+    @FXML
+    private void openConvertedTask(MouseEvent event)
+    {
+    }
 }

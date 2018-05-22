@@ -70,8 +70,6 @@ public class ConfigureViewController implements Initializable {
     @FXML
     private JFXButton saveConfBtn;
     @FXML
-    private JFXButton addAttributeBtn;
-    @FXML
     private ListView<String> attributeView;
     @FXML
     private JFXButton cancelBtn;
@@ -83,6 +81,10 @@ public class ConfigureViewController implements Initializable {
     private ContextMenu contMenu;
     @FXML
     private JFXTextArea previewArea;
+    @FXML
+    private JFXButton addToTaskBtn;
+    @FXML
+    private JFXButton chooseDestinationBtn;
 
     /**
      * Initializes the controller class.
@@ -175,9 +177,6 @@ public class ConfigureViewController implements Initializable {
 
     }
 
-    @FXML
-    private void addAtribute(ActionEvent event) {
-    }
 
     @FXML
     private void cancel(ActionEvent event) throws IOException {
@@ -329,6 +328,16 @@ public class ConfigureViewController implements Initializable {
         uvm.setFilePath(filePath, headerMap, true);
         String json = uvm.XLSXR();
         previewArea.setText(json);
+    }
+
+    @FXML
+    private void addToTask(ActionEvent event)
+    {
+    }
+
+    @FXML
+    private void chooseFileDestination(ActionEvent event)
+    {
     }
 
 }
