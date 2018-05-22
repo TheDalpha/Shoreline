@@ -69,6 +69,8 @@ public class AdminViewController implements Initializable {
     private TableColumn<String, Loggin> whenClm;
     @FXML
     private TableColumn<String, Loggin> fileNameClm;
+    @FXML
+    private TableColumn<String, Loggin> errorClm;
 
     /**
      * Initializes the controller class.
@@ -97,6 +99,8 @@ public class AdminViewController implements Initializable {
                 new PropertyValueFactory("action"));
         fileNameClm.setCellValueFactory(
                 new PropertyValueFactory("filename"));
+        errorClm.setCellValueFactory(
+                new PropertyValueFactory("error"));
 //        whenClm.setCellValueFactory(
 //                new PropertyValueFactory("date"));
 

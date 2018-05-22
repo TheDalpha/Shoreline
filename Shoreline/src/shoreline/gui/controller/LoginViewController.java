@@ -88,6 +88,7 @@ public class LoginViewController implements Initializable {
     @FXML
     private void loginBtn(ActionEvent event) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException
     {
+        
 //        txtPassword.setOnKeyPressed(value);
         String username = txtUserName.getText();
         String password = txtPassword.getText();

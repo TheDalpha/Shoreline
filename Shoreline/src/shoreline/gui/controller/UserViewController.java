@@ -110,7 +110,7 @@ public class UserViewController implements Initializable {
                     Files.copy(Paths.get(selectedFile.getAbsolutePath()), Paths.get(outputDirectory.getAbsolutePath() + "\\" + selectedFile.getName()), options);
                     // lblUser.setText(selectedFile.getPath());
                     String actionP = "File Selecting";
-                    avm.addTraceLog(selectedFile.getName(),actionP, userName);
+                    avm.addTraceLog(selectedFile.getName(),actionP, userName, "");
                 }
             }
 
@@ -199,10 +199,14 @@ public class UserViewController implements Initializable {
             
    
         String actionP = "Removed File";
-        avm.addTraceLog(Lview.getSelectionModel().getSelectedItem().getName(), actionP, userName);
+        avm.addTraceLog(Lview.getSelectionModel().getSelectedItem().getName(), actionP, userName, "");
         Lview.getItems().remove(Lview.getSelectionModel().getSelectedItem());
              } catch (Exception e) {
-                 avm.addErrorLog(desc);
+                 desc = e.toString();
+                 String actionP = "Nothing happens";
+                 avm.addTraceLog(" ", actionP, userName, desc);
+//                 avm.addErrorLog(desc);
+                 System.err.println(e.toString());
         }
         }
 

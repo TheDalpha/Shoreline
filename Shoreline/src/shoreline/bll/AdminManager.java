@@ -36,4 +36,8 @@ public class AdminManager {
     public void uploadLogger(Loggin l) throws SQLException {
         adao.uploadLog(l);
     }
+    
+    public void uploadL (Loggin el) throws SQLException {
+        adao.uploadLog(el);
+    }
 }

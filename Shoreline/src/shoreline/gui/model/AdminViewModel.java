@@ -51,14 +51,19 @@ public class AdminViewModel {
 
         aManager.uploadLogger(l);
     }
+    
+    public void uploadL (Loggin el) throws SQLException  {
+        aManager.uploadL(el);
+    }
 
-    public void addTraceLog(String name, String actionP, String userName) {
+    public void addTraceLog(String name, String actionP, String userName, String desc) {
         try { //String actionP
             Loggin l = new Loggin();
             l.setUsername(userName);
             l.setFilename(name);
             l.setAction(actionP);
             l.setDate("todo");
+            l.setError(desc);
 
             uploadLogger(l);
         } catch (SQLException ex) {
@@ -67,11 +72,13 @@ public class AdminViewModel {
 
     }
 
-    public void addErrorLog(String desc) {
-        try {
-            Loggin el = new Loggin();
-            el.setError(desc);
-        } catch (Exception e) {
-        }
-    }
+//    public void addErrorLog(String desc) {
+//        try {
+//            Loggin el = new Loggin();
+//            el.setError(desc);
+//            
+//            uploadL(el);
+//        } catch (Exception e) {
+//        }
+//    }
 }
