@@ -60,7 +60,7 @@
          <children>
             <VBox alignment="TOP_CENTER" prefHeight="375.0" prefWidth="196.0" HBox.hgrow="SOMETIMES">
                <children>
-                  <JFXComboBox fx:id="savedCombo" prefHeight="31.0" prefWidth="168.0" promptText="Saved Configurations" VBox.vgrow="SOMETIMES">
+                  <JFXComboBox fx:id="savedCombo" onAction="#chooseSaveConfig" prefHeight="31.0" prefWidth="168.0" promptText="Saved Configurations" VBox.vgrow="SOMETIMES">
                      <VBox.margin>
                         <Insets bottom="16.0" top="25.0" />
                      </VBox.margin>

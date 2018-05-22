@@ -310,4 +310,9 @@ public class ConfigureViewController implements Initializable {
         savedCombo.setItems(cfgM.getAllAttributes());
     }
 
+    @FXML
+    private void chooseSaveConfig(ActionEvent event)
+    {
+    }
+
 }
