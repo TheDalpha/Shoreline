@@ -90,7 +90,7 @@ public class JFileReader {
 //            System.out.println(json);
         }
         for (JSONObject job : jObList) {
-            System.out.println(job.toString(4));
+//            System.out.println(job.toString(4));
         }
     }
 

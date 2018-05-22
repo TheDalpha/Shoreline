@@ -5,6 +5,8 @@
  */
 package shoreline.gui.model;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import shoreline.be.Attribute;
@@ -14,22 +16,34 @@ import shoreline.bll.CfgManager;
  *
  * @author ollie
  */
-public class CfgModel
-{
+public class CfgModel {
+
     CfgManager cfgManager;
+    private static CfgModel instance;
     ObservableList<Attribute> attributeList;
-    
+
     public CfgModel() {
         cfgManager = new CfgManager();
         attributeList = FXCollections.observableArrayList();
     }
-    
+
+    public static CfgModel getInstance() throws SQLException, IOException {
+        if (instance == null) {
+            instance = new CfgModel();
+        }
+        return instance;
+    }
+
     public void loadAttributes() {
         attributeList.clear();
         attributeList.addAll(cfgManager.getAllAttributes());
     }
-    
+
     public ObservableList<Attribute> getAllAttributes() {
         return attributeList;
+    }
+
+    public void configSave(Attribute config) {
+        cfgManager.configSave(config);
     }
 }
