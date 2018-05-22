@@ -13,7 +13,17 @@ public class Header {
     
     String headerName;
     int headerIndex;
+    int headerId;
 
+    public int getHeaderId() {
+        return headerId;
+    }
+
+    public void setHeaderId(int headerId) {
+        this.headerId = headerId;
+    }
+
+    
     public String getHeaderName() {
         return headerName;
     }

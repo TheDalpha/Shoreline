@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import shoreline.be.Attribute;
+import shoreline.be.Header;
 import shoreline.bll.CfgManager;
 
 /**
@@ -45,5 +46,13 @@ public class CfgModel {
 
     public void configSave(Attribute config) {
         cfgManager.configSave(config);
+    }
+
+    public void headerSave(Header header) {
+        cfgManager.headerSave(header);
+    }
+
+    public void saveAll(Attribute config, Header header) {
+        cfgManager.saveAll(config,header);
     }
 }

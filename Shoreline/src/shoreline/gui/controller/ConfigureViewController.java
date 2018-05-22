@@ -50,15 +50,15 @@ import shoreline.gui.model.UserViewModel;
  * @author ollie
  */
 public class ConfigureViewController implements Initializable {
-    
+
     ObservableList<String> attList = FXCollections.observableArrayList("SiteName", "Asset Serial Number", "Type", "External Work Order", "System Status", "User Status", "Created On", "Created By", "Name", "Priority", "Status", "Latest Finish Date", "Earliest Start Date", "Latest Start Date", "Estimated Time");
-    Map<String, String> alist = new HashMap<>();
+    List<Header> alist = new ArrayList<>();
     Map<String, Header> headerMap = new HashMap<>();
     JSONObject jobj = new JSONObject();
     String filePath;
     UserViewModel uvm;
     CfgModel cfgM;
-    
+
     @FXML
     private Label lblUser;
     @FXML
@@ -93,79 +93,83 @@ public class ConfigureViewController implements Initializable {
         } catch (SQLException | IOException ex) {
             Logger.getLogger(ConfigureViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         attCB.setItems(attList);
         headerNames();
         attributeView.getItems().addAll(attList);
         previewArea.setEditable(false);
     }
-    
+
     @FXML
     private void saveConfiguration(ActionEvent event) throws Exception {
         Attribute config = new Attribute();
-        alist.forEach((key, value) -> {
-            if (key.equals("SiteName")) {
-                config.setSiteName(value);
-            }
-            if (key.equals("Asset Serial Number")) {
-                config.setAssetSerialNumber(value);
-            }
-            if (key.equals("Type")) {
-                config.setType(value);
-            }
-            if (key.equals("External Work Order")) {
-                config.setExternalWorkOrder(value);
-            }
-            if (key.equals("System Status")) {
-                config.setSystemStatus(value);
-            }
-            if (key.equals("User Status")) {
-                config.setUserStatus(value);
-            }
-            if (key.equals("Created On")) {
-                config.setCreatedOn(value);
-            }
-            if (key.equals("Created By")) {
-                config.setCreatedBy(value);
-            }
-            if (key.equals("Name")) {
-                config.setName(value);
-            }
-            if (key.equals("Priority")) {
-                config.setPriority(value);
-            }
-            if (key.equals("Status")) {
-                config.setStatus(value);
-            }
-            if (key.equals("Latest Finish Date")) {
-                config.setLatestFinishDate(value);
-            }
-            if (key.equals("Earliest Start Date")) {
-                config.setEarliestStartDate(value);
-            }
-            if (key.equals("Latest Start Date")) {
-                config.setLatestStartDate(value);
-            }
-            if (key.equals("Estimated Time")) {
-                config.setEstimatedTime(value);
-            }
-        });
-        
+//        alist.forEach((key, value) -> {
+//            if (key.equals("SiteName")) {
+//                config.setSiteName(value);
+//            }
+//            if (key.equals("Asset Serial Number")) {
+//                config.setAssetSerialNumber(value);
+//            }
+//            if (key.equals("Type")) {
+//                config.setType(value);
+//            }
+//            if (key.equals("External Work Order")) {
+//                config.setExternalWorkOrder(value);
+//            }
+//            if (key.equals("System Status")) {
+//                config.setSystemStatus(value);
+//            }
+//            if (key.equals("User Status")) {
+//                config.setUserStatus(value);
+//            }
+//            if (key.equals("Created On")) {
+//                config.setCreatedOn(value);
+//            }
+//            if (key.equals("Created By")) {
+//                config.setCreatedBy(value);
+//            }
+//            if (key.equals("Name")) {
+//                config.setName(value);
+//            }
+//            if (key.equals("Priority")) {
+//                config.setPriority(value);
+//            }
+//            if (key.equals("Status")) {
+//                config.setStatus(value);
+//            }
+//            if (key.equals("Latest Finish Date")) {
+//                config.setLatestFinishDate(value);
+//            }
+//            if (key.equals("Earliest Start Date")) {
+//                config.setEarliestStartDate(value);
+//            }
+//            if (key.equals("Latest Start Date")) {
+//                config.setLatestStartDate(value);
+//            }
+//            if (key.equals("Estimated Time")) {
+//                config.setEstimatedTime(value);
+//            }
+//        });
+
         TextInputDialog nameDialog = new TextInputDialog("");
         nameDialog.setTitle("Set configuration name");
         nameDialog.setHeaderText("Set configuration name");
         nameDialog.setContentText("Please set a configuration name");
-        if(nameDialog.showAndWait().isPresent()) {
+        if (nameDialog.showAndWait().isPresent()) {
             config.setConfigurationName(nameDialog.getResult());
             cfgM.configSave(config);
+            for (Header header : alist) {
+                cfgM.headerSave(header);
+                cfgM.saveAll(config, header);
+            }
         }
-        
+
     }
-    
+
     @FXML
     private void addAtribute(ActionEvent event) {
     }
-    
+
     @FXML
     private void cancel(ActionEvent event) throws IOException {
         Stage stage1 = (Stage) cancelBtn.getScene().getWindow();
@@ -178,7 +182,7 @@ public class ConfigureViewController implements Initializable {
 //        stage.setScene(scene);
 //        stage.show();
     }
-    
+
     public void setFileHeaders(File file) throws IOException, InvalidFormatException, Exception {
         filePath = file.getPath();
         List<Header> header;
@@ -189,7 +193,7 @@ public class ConfigureViewController implements Initializable {
         }
         templateJson();
     }
-    
+
     public void headerNames() {
         selectedList.setCellFactory(lView -> new ListCell<Header>() {
             @Override
@@ -199,12 +203,11 @@ public class ConfigureViewController implements Initializable {
             }
         });
     }
-    
+
     @FXML
     private void addAttribute(ActionEvent event) throws JsonProcessingException, Exception {
         String selectedCB = attCB.getSelectionModel().getSelectedItem();
-        String selected = selectedList.getSelectionModel().getSelectedItem().getHeaderName()
-                + selectedList.getSelectionModel().getSelectedItem().getHeaderIndex();
+        Header selected = selectedList.getSelectionModel().getSelectedItem();
 //        attributeView.getItems().add(selectedCB + " : " + selected);
 //        for (int i = 0; i < attributeView.getItems().size(); i++) {
 //            if(attributeView.getItems().get(i).equals(attCB.getSelectionModel().getSelectedItem())) {
@@ -212,19 +215,19 @@ public class ConfigureViewController implements Initializable {
 //            }
 //        }
         attributeView.getItems().set(attCB.getSelectionModel().getSelectedIndex(), selectedCB + " : " + selected);
-        alist.put(selectedCB, selected);
+        alist.add(selected);
         jArray();
         uvm.setFilePath(filePath, headerMap, true);
         String json = uvm.XLSXR();
         previewArea.setText(json);
-        
+
     }
-    
+
     @FXML
     private void removeAttribute(ActionEvent event) {
         attributeView.getItems().remove(attributeView.getSelectionModel().getSelectedItem());
     }
-    
+
     public Map<String, Header> jArray() {
         Header h = selectedList.getSelectionModel().getSelectedItem();
         String sitenameheader = attCB.getValue();
@@ -234,11 +237,11 @@ public class ConfigureViewController implements Initializable {
         headerMap.put(sitenameheader, h);
         System.out.println(headerMap);
         return headerMap;
-        
+
     }
-    
+
     public Map<String, Header> templateJson() throws Exception {
-        
+
         for (String string : attList) {
             Header header = new Header();
             header.setHeaderName("");
@@ -248,13 +251,13 @@ public class ConfigureViewController implements Initializable {
         uvm.setTemplate(headerMap);
         uvm.setFilePath(filePath, headerMap, true);
         String json = uvm.XLSXR();
-        
+
         previewArea.setText(json);
         return headerMap;
     }
-    
+
     void setUsername(String userName) {
         lblUser.setText(userName);
     }
-    
+
 }

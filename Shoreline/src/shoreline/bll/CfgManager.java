@@ -7,6 +7,7 @@ package shoreline.bll;
 
 import java.util.List;
 import shoreline.be.Attribute;
+import shoreline.be.Header;
 import shoreline.dal.CfgDAO;
 
 /**
@@ -27,5 +28,13 @@ public class CfgManager
 
     public void configSave(Attribute config) {
         udao.configSave(config);
+    }
+
+    public void headerSave(Header header) {
+        udao.headerSave(header);
+    }
+
+    public void saveAll(Attribute config, Header header) {
+        udao.saveAll(config, header);
     }
 }
