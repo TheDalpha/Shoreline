@@ -88,7 +88,7 @@ public class UserViewController implements Initializable {
 
     @FXML
     private void chooseFile(ActionEvent event) throws Exception {
-        {
+        try {
             FileChooser fileChooser = new FileChooser();
             FileChooser.ExtensionFilter extFilter
                     = new FileChooser.ExtensionFilter("Text File", "*.xlsx", "*.xml", "*.csv");
@@ -113,8 +113,12 @@ public class UserViewController implements Initializable {
                     avm.addTraceLog(selectedFile.getName(),actionP, userName, "");
                 }
             }
-
+        } catch (Exception e) {
+                 desc = e.toString();
+                 String actionP = "Nothing happens";
+                 avm.addTraceLog(" ", actionP, userName, desc);
         }
+        
 
     }
 
@@ -139,6 +143,7 @@ public class UserViewController implements Initializable {
 
     @FXML
     private void logout(ActionEvent event) throws IOException {
+        try {
         Stage stage1 = (Stage) logoutBtn.getScene().getWindow();
         stage1.close();
 
@@ -148,10 +153,16 @@ public class UserViewController implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+        } catch (Exception e) {
+                 desc = e.toString();
+                 String actionP = "Nothing happens";
+                 avm.addTraceLog(" ", actionP, userName, desc);
+        }
     }
 
     @FXML
     private void configure(ActionEvent event) throws IOException, InvalidFormatException, Exception {
+       try {
         if (Lview.getSelectionModel().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("No File Selected.");
@@ -173,18 +184,37 @@ public class UserViewController implements Initializable {
             configController.setUsername(userName);
             configView.show();
         }
+       } catch (Exception e) {
+                 desc = e.toString();
+                 String actionP = "Nothing happens";
+                 avm.addTraceLog(" ", actionP, userName, desc);
+        }
     }
 
     @FXML
     private void startConvert(ActionEvent event) throws IOException {
+        try {
         String json = uvm.XLSXR();
         System.out.println(json);
 
         uvm.convertToJson(outputFilename, json);
+        } catch (Exception e) {
+                 desc = e.toString();
+                 String actionP = "Nothing happens";
+                 avm.addTraceLog(" ", actionP, userName, desc);
+        }
     }
 
     @FXML
     private void stopConvert(ActionEvent event) {
+//        try
+//        {
+//            
+//        } catch (Exception e) {
+//                 desc = e.toString();
+//                 String actionP = "Nothing happens";
+//                 avm.addTraceLog(" ", actionP, userName, desc);
+//        }
     }
 
     public String getFilenameWithoutExtention(String filename) {
@@ -205,8 +235,6 @@ public class UserViewController implements Initializable {
                  desc = e.toString();
                  String actionP = "Nothing happens";
                  avm.addTraceLog(" ", actionP, userName, desc);
-//                 avm.addErrorLog(desc);
-                 System.err.println(e.toString());
         }
         }
 
