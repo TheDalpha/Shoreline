@@ -41,7 +41,8 @@ import shoreline.gui.model.UserViewModel;
  *
  * @author ollie
  */
-public class AdminViewController implements Initializable {
+public class AdminViewController implements Initializable
+{
 
     @FXML
     private JFXTextField tfUsername;
@@ -76,21 +77,25 @@ public class AdminViewController implements Initializable {
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        try {
+    public void initialize(URL url, ResourceBundle rb)
+    {
+        try
+        {
             avm = AdminViewModel.getInstance();
             usm = UserViewModel.getInstance();
             lvm = LoginViewModel.getInstance();
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             Logger.getLogger(AdminViewController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (IOException ex)
+        {
             Logger.getLogger(AdminViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
         usm.loadUsers();
         tableView.setItems(usm.getAllUsers());
         avm.loadLoggins();
         logView.setItems(avm.getAllLoggins());
-        
+
         nameClm.setCellValueFactory(
                 new PropertyValueFactory("username"));
         userClm.setCellValueFactory(
@@ -103,11 +108,12 @@ public class AdminViewController implements Initializable {
                 new PropertyValueFactory("error"));
 //        whenClm.setCellValueFactory(
 //                new PropertyValueFactory("date"));
-
+        
     }
 
     @FXML
-    private void Logout(ActionEvent event) throws IOException {
+    private void Logout(ActionEvent event) throws IOException
+    {
         Stage stage1 = (Stage) logOut.getScene().getWindow();
         stage1.close();
 
@@ -120,9 +126,11 @@ public class AdminViewController implements Initializable {
     }
 
     @FXML
-    private void CreateUser(ActionEvent event) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    private void CreateUser(ActionEvent event) throws NoSuchAlgorithmException, InvalidKeySpecException
+    {
 
-        if (tfPassword1.getText().equals(tfPassword2.getText()) && !tfUsername.getText().isEmpty()) {
+        if (tfPassword1.getText().equals(tfPassword2.getText()) && !tfUsername.getText().isEmpty())
+        {
             Alert userCreatedAlert = new Alert(Alert.AlertType.INFORMATION);
             User user = new User();
             user.setUsername(tfUsername.getText());
@@ -137,7 +145,8 @@ public class AdminViewController implements Initializable {
             tfUsername.clear();
             tfPassword1.clear();
             tfPassword2.clear();
-        } else {
+        } else
+        {
             Alert createUserAlert = new Alert(Alert.AlertType.ERROR);
             createUserAlert.setContentText("Passwords don't match");
             createUserAlert.showAndWait();
@@ -148,16 +157,19 @@ public class AdminViewController implements Initializable {
     }
 
     @FXML
-    private void removeUser(ActionEvent event) {
+    private void removeUser(ActionEvent event)
+    {
         Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION, "Confirm Delete", ButtonType.YES, ButtonType.NO);
         deleteAlert.setTitle("Warning");
         deleteAlert.setContentText("Do you want to delete " + tableView.getSelectionModel().getSelectedItem().getUsername() + " ?");
         deleteAlert.showAndWait();
-        if (deleteAlert.getResult() == ButtonType.YES) {
+        if (deleteAlert.getResult() == ButtonType.YES)
+        {
             usm.deleteUser(tableView.getSelectionModel().getSelectedItem());
             tableView.getItems().remove(tableView.getSelectionModel().getSelectedItem());
             usm.loadUsers();
-        } else if (deleteAlert.getResult() == ButtonType.NO) {
+        } else if (deleteAlert.getResult() == ButtonType.NO)
+        {
             deleteAlert.close();
         }
     }
