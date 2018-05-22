@@ -52,6 +52,7 @@ public class UserViewController implements Initializable {
     UserViewModel uvm;
     AdminViewModel avm;
     String outputFilename;
+    String userName;
     @FXML
     private ListView<File> Lview;
     @FXML
@@ -127,8 +128,8 @@ public class UserViewController implements Initializable {
 
     public void setUserName(Person person) {
         this.person = person;
-        String Username = person.getUsername();
-        lblUser.setText(Username);
+        userName = person.getUsername();
+        lblUser.setText(userName);
     }
 //    private void convertToJson(ActionEvent event) {
 //        uvm.convertToJson(filePath.getText());
@@ -167,6 +168,7 @@ public class UserViewController implements Initializable {
             configView.setTitle("Shoreline Configure Window");
             configView.setScene(new Scene(root));
             configController.setFileHeaders(file);
+            configController.setUsername(userName);
             configView.show();
         }
     }

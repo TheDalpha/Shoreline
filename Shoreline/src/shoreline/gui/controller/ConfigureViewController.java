@@ -205,5 +205,9 @@ public class ConfigureViewController implements Initializable
         previewArea.setText(json);
         return headerMap;
     }
+
+    void setUsername(String userName) {
+        lblUser.setText(userName);
+    }
    
 }

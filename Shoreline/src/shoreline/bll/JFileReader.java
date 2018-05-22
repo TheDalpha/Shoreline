@@ -44,7 +44,7 @@ public class JFileReader {
         File file = new File(filePath);
         jobj = new JSONObject();
         jObList = new ArrayList();
-        JSONObject tissemand = new JSONObject();
+        JSONObject planObjects = new JSONObject();
 //        XSSFWorkbook workbook1 = new XSSFWorkbook(filePath);
         Workbook workbook = WorkbookFactory.create(file);
         Sheet sheet = workbook.getSheetAt(0);
@@ -57,10 +57,10 @@ public class JFileReader {
             ja.forEach((key, value) -> {
                 if (key.equals("Latest Finish Date") || key.equals("Earliest Start Date") || key.equals("Latest Start Date") || key.equals("Estimated Time")) {
                     if (value.getHeaderIndex() == -1) {
-                        tissemand.put(key, "");
+                        planObjects.put(key, "");
                     } else {
                         Cell mValue = row.getCell(value.getHeaderIndex(), Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
-                        tissemand.put(key, printCellValue(mValue));
+                        planObjects.put(key, printCellValue(mValue));
                     }
                 } else if (value.getHeaderIndex() == -1) {
                     jobj.put(key, "");
@@ -69,7 +69,7 @@ public class JFileReader {
                     jobj.put(key, printCellValue(mValue).toString());
                 }
             });
-            jobj.put("Planning", tissemand);
+            jobj.put("Planning", planObjects);
             jObList.add(jobj);
             if (oneLine) {
                 break;
@@ -90,7 +90,7 @@ public class JFileReader {
 //            System.out.println(json);
         }
         for (JSONObject job : jObList) {
-//            System.out.println(job.toString(4));
+            System.out.println(job.toString(4));
         }
     }
 
