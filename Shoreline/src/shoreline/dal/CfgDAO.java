@@ -25,43 +25,80 @@ import shoreline.be.User;
 public class CfgDAO {
 
     private DataBaseConnector dbConnector;
+    List<Attribute> allConfig = new ArrayList();
 
     public CfgDAO() {
         dbConnector = new DataBaseConnector();
     }
 
-    public List<Attribute> getAllAttributes() {
-        List<Attribute> allAttributes = new ArrayList();
+    public List<Attribute> getAllConfigs() {
 
+        getAttributes();
         try (Connection con = dbConnector.getConnection()) {
             PreparedStatement pstmt
-                    = con.prepareStatement("SELECT * FROM Configuration");
+                    = con.prepareStatement("SELECT * FROM Config,configRelation,Header WHERE configRelation.headerId = Header.headerId AND configRelation.configId = Config.configId");
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 Attribute attribute = new Attribute();
-                attribute.setOutId(rs.getInt("outId"));
-                attribute.setAssetSerialNumber(rs.getString("assetSerialNumber"));
-                attribute.setType(rs.getString("type"));
-                attribute.setExternalWorkOrder(rs.getString("externalWorkOrder"));
-                attribute.setSystemStatus(rs.getString("systemStatus"));
-                attribute.setUserStatus(rs.getString("userStatus"));
-                attribute.setCreatedOn(rs.getString("createdOn"));
-                attribute.setCreatedBy(rs.getString("createdBy"));
-                attribute.setName(rs.getString("name"));
-                attribute.setPriority(rs.getString("priority"));
-                attribute.setStatus(rs.getString("status"));
-                attribute.setLatestFinishDate(rs.getString("latestFinishDate"));
-                attribute.setEarliestStartDate(rs.getString("earliestStartDate"));
-                attribute.setLatestStartDate(rs.getString("latestStartDate"));
-                attribute.setEstimatedTime(rs.getString("estimatedTime"));
-                attribute.setConfigurationName(rs.getString("configurationName"));
-                allAttributes.add(attribute);
+                attribute.setOutId(rs.getInt("configId"));
+                Header header = new Header();
+                header.setHeaderName(rs.getString("headerName"));
+                header.setHeaderIndex(rs.getInt("headerIndex"));
+                header.setAttName(rs.getString("attName"));
+                header.setListIndex(rs.getInt("listIndex"));
+                for (Attribute attribute1 : allConfig) {
+                    if (attribute1.getOutId() == attribute.getOutId()) {
+                        attribute1.getSavedHeader().add(header);
+                    }
+                }
+//                Attribute attribute = new Attribute();
+//                attribute.setOutId(rs.getInt("outId"));
+//                attribute.setAssetSerialNumber(rs.getString("assetSerialNumber"));
+//                attribute.setType(rs.getString("type"));
+//                attribute.setExternalWorkOrder(rs.getString("externalWorkOrder"));
+//                attribute.setSystemStatus(rs.getString("systemStatus"));
+//                attribute.setUserStatus(rs.getString("userStatus"));
+//                attribute.setCreatedOn(rs.getString("createdOn"));
+//                attribute.setCreatedBy(rs.getString("createdBy"));
+//                attribute.setName(rs.getString("name"));
+//                attribute.setPriority(rs.getString("priority"));
+//                attribute.setStatus(rs.getString("status"));
+//                attribute.setLatestFinishDate(rs.getString("latestFinishDate"));
+//                attribute.setEarliestStartDate(rs.getString("earliestStartDate"));
+//                attribute.setLatestStartDate(rs.getString("latestStartDate"));
+//                attribute.setEstimatedTime(rs.getString("estimatedTime"));
+//                attribute.setConfigurationName(rs.getString("configurationName"));
+//                allAttributes.add(attribute);
             }
         } catch (SQLException ex) {
             System.err.print(ex);
             return null;
         }
-        return allAttributes;
+        return allConfig;
+    }
+
+    public List<Attribute> getAttributes() {
+        allConfig.clear();
+
+        try (Connection con = dbConnector.getConnection()) {
+
+            PreparedStatement pstmt
+                    = con.prepareStatement("Select * FROM Config");
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Attribute config = new Attribute();
+                config.setOutId(rs.getInt("configId"));
+                config.setConfigurationName(rs.getString("configName"));
+
+                allConfig.add(config);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CfgDAO.class.getName()).log(
+                    Level.SEVERE, null, ex);
+        }
+        return allConfig;
+
     }
 
     public void configSave(Attribute config) {

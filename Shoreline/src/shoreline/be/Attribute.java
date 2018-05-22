@@ -7,7 +7,9 @@ package shoreline.be;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -32,7 +34,17 @@ public class Attribute
     public String earliestStartDate;
     public String latestStartDate;
     public String estimatedTime;
+    public final List<Header> savedHeader;
 
+    public Attribute() {
+        this.savedHeader = new ArrayList<>();
+    }
+
+    public List<Header> getSavedHeader() {
+        return savedHeader;
+    }
+
+    
     public String getConfigurationName() {
         return ConfigurationName;
     }

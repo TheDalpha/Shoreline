@@ -23,7 +23,7 @@ public class CfgManager
     }
     
     public List<Attribute> getAllAttributes() {
-        return udao.getAllAttributes();
+        return udao.getAllConfigs();
     }
 
     public void configSave(Attribute config) {

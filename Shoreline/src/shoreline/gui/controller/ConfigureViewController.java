@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.jar.Attributes;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -37,6 +38,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import shoreline.be.Attribute;
@@ -62,7 +64,7 @@ public class ConfigureViewController implements Initializable {
     @FXML
     private Label lblUser;
     @FXML
-    private JFXComboBox<String> savedCombo;
+    private JFXComboBox<Attribute> savedCombo;
     @FXML
     private ListView<Header> selectedList;
     @FXML
@@ -94,6 +96,8 @@ public class ConfigureViewController implements Initializable {
             Logger.getLogger(ConfigureViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        cbUpdate();
+        configNames();
         attCB.setItems(attList);
         headerNames();
         attributeView.getItems().addAll(attList);
@@ -167,6 +171,7 @@ public class ConfigureViewController implements Initializable {
                 }
             }
         }
+        cbUpdate();
 
     }
 
@@ -204,6 +209,39 @@ public class ConfigureViewController implements Initializable {
             protected void updateItem(Header header, boolean empty) {
                 super.updateItem(header, empty);
                 setText(header == null ? null : header.getHeaderName() + header.getHeaderIndex());
+            }
+        });
+    }
+
+    private void configNames() {
+        final ListCell<Attribute> buttonCell = new ListCell<Attribute>() {
+            @Override
+            protected void updateItem(Attribute attribute, boolean empty) {
+                super.updateItem(attribute, empty);
+                if (attribute != null) {
+                    setText(attribute.getConfigurationName());
+                } else {
+                    setText(null);
+                }
+            }
+        };
+        savedCombo.setButtonCell(buttonCell);
+
+        savedCombo.setCellFactory(new Callback<ListView<Attribute>, ListCell<Attribute>>() {
+            @Override
+            public ListCell<Attribute> call(ListView<Attribute> p) {
+                final ListCell<Attribute> cell = new ListCell<Attribute>() {
+                    @Override
+                    protected void updateItem(Attribute attribute, boolean empty) {
+                        super.updateItem(attribute, empty);
+                        if (attribute != null) {
+                            setText(attribute.getConfigurationName());;
+                        } else {
+                            setText(null);
+                        }
+                    }
+                };
+                return cell;
             }
         });
     }
@@ -265,6 +303,11 @@ public class ConfigureViewController implements Initializable {
 
     void setUsername(String userName) {
         lblUser.setText(userName);
+    }
+
+    private void cbUpdate() {
+        cfgM.loadAttributes();
+        savedCombo.setItems(cfgM.getAllAttributes());
     }
 
 }
