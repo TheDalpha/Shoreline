@@ -311,8 +311,24 @@ public class ConfigureViewController implements Initializable {
     }
 
     @FXML
-    private void chooseSaveConfig(ActionEvent event)
-    {
+    private void chooseSaveConfig(ActionEvent event) throws Exception {
+        headerMap.clear();
+        attributeView.getItems().clear();
+        attributeView.getItems().addAll(attList);
+        templateJson();
+        List<Attribute> config = cfgM.getAllAttributes();
+        for (Attribute attribute : config) {
+            if (attribute.getOutId() == savedCombo.getValue().getOutId()) {
+                List<Header> header = attribute.getSavedHeader();
+                for (Header header1 : header) {
+                    attributeView.getItems().set(header1.getListIndex(), header1.getAttName() + " : " + header1.getHeaderName());
+                    headerMap.put(header1.getAttName(), header1);
+                }
+            }
+        }
+        uvm.setFilePath(filePath, headerMap, true);
+        String json = uvm.XLSXR();
+        previewArea.setText(json);
     }
 
 }
