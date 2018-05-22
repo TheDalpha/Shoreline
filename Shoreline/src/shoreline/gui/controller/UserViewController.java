@@ -53,6 +53,7 @@ public class UserViewController implements Initializable {
     AdminViewModel avm;
     String outputFilename;
     String userName;
+    String desc;
     @FXML
     private ListView<File> Lview;
     @FXML
@@ -75,6 +76,7 @@ public class UserViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
+            avm = AdminViewModel.getInstance();
             uvm = UserViewModel.getInstance();
             avm = AdminViewModel.getInstance();
         } catch (SQLException | IOException ex) {
@@ -108,7 +110,7 @@ public class UserViewController implements Initializable {
                     Files.copy(Paths.get(selectedFile.getAbsolutePath()), Paths.get(outputDirectory.getAbsolutePath() + "\\" + selectedFile.getName()), options);
                     // lblUser.setText(selectedFile.getPath());
                     String actionP = "File Selecting";
-                    addTraceLog(selectedFile.getName(),actionP);
+                    avm.addTraceLog(selectedFile.getName(),actionP, userName);
                 }
             }
 
@@ -193,26 +195,31 @@ public class UserViewController implements Initializable {
 
     @FXML
     private void removeFile(ActionEvent event) {
-        String actionP = "Removed File";
-        addTraceLog(Lview.getSelectionModel().getSelectedItem().getName(), actionP);
-        Lview.getItems().remove(Lview.getSelectionModel().getSelectedItem());
-        
-        }
-
-    private void addTraceLog(String name, String actionP) {
-        try { //String actionP
+        try {
             
-            Loggin l = new Loggin();
-            l.setUsername(lblUser.getText());
-//            l.setFilename(Lview.getSelectionModel().getSelectedItem().getName());
-            l.setFilename(name);
-            l.setAction(actionP);
-            l.setDate("todo");
-
-            avm.uploadLogger(l);
-        } catch (SQLException ex) {
-            Logger.getLogger(UserViewController.class.getName()).log(Level.SEVERE, "w.e", ex);
+   
+        String actionP = "Removed File";
+        avm.addTraceLog(Lview.getSelectionModel().getSelectedItem().getName(), actionP, userName);
+        Lview.getItems().remove(Lview.getSelectionModel().getSelectedItem());
+             } catch (Exception e) {
+                 avm.addErrorLog(desc);
+        }
         }
 
-    }
+//    private void addTraceLog(String name, String actionP) {
+//        try { //String actionP
+//            
+//            Loggin l = new Loggin();
+//            l.setUsername(lblUser.getText());
+////            l.setFilename(Lview.getSelectionModel().getSelectedItem().getName());
+//            l.setFilename(name);
+//            l.setAction(actionP);
+//            l.setDate("todo");
+//
+//            avm.uploadLogger(l);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(UserViewController.class.getName()).log(Level.SEVERE, "w.e", ex);
+//        }
+//
+//    }
 }
