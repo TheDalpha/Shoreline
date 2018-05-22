@@ -109,7 +109,7 @@ public class UserViewController implements Initializable {
                     System.out.println(selectedFile.getAbsolutePath());
                     Files.copy(Paths.get(selectedFile.getAbsolutePath()), Paths.get(outputDirectory.getAbsolutePath() + "\\" + selectedFile.getName()), options);
                     // lblUser.setText(selectedFile.getPath());
-                    String actionP = "File Selecting";
+                    String actionP = "Uploads file(s)";
                     avm.addTraceLog(selectedFile.getName(),actionP, userName, "");
                 }
             }
@@ -137,9 +137,6 @@ public class UserViewController implements Initializable {
         userName = person.getUsername();
         lblUser.setText(userName);
     }
-//    private void convertToJson(ActionEvent event) {
-//        uvm.convertToJson(filePath.getText());
-//    }
 
     @FXML
     private void logout(ActionEvent event) throws IOException {
@@ -228,7 +225,7 @@ public class UserViewController implements Initializable {
         try {
             
    
-        String actionP = "Removed File";
+        String actionP = "Removed File" + ": " + Lview.getSelectionModel().getSelectedItem().getName();
         avm.addTraceLog(Lview.getSelectionModel().getSelectedItem().getName(), actionP, userName, "");
         Lview.getItems().remove(Lview.getSelectionModel().getSelectedItem());
              } catch (Exception e) {
@@ -237,21 +234,4 @@ public class UserViewController implements Initializable {
                  avm.addTraceLog(" ", actionP, userName, desc);
         }
         }
-
-//    private void addTraceLog(String name, String actionP) {
-//        try { //String actionP
-//            
-//            Loggin l = new Loggin();
-//            l.setUsername(lblUser.getText());
-////            l.setFilename(Lview.getSelectionModel().getSelectedItem().getName());
-//            l.setFilename(name);
-//            l.setAction(actionP);
-//            l.setDate("todo");
-//
-//            avm.uploadLogger(l);
-//        } catch (SQLException ex) {
-//            Logger.getLogger(UserViewController.class.getName()).log(Level.SEVERE, "w.e", ex);
-//        }
-//
-//    }
 }
