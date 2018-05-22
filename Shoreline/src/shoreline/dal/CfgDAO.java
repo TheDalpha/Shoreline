@@ -107,11 +107,13 @@ public class CfgDAO {
         try (Connection con = dbConnector.getConnection()) {
             String sql
                     = "INSERT INTO Header"
-                    + " VALUES(?,?)";
+                    + " VALUES(?,?,?,?)";
 
             PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, header.getHeaderName());
             pstmt.setInt(2, header.getHeaderIndex());
+            pstmt.setInt(3, header.getListIndex());
+            pstmt.setString(4, header.getAttName());
             int affected = pstmt.executeUpdate();
             if (affected < 1) {
                 throw new SQLException("Can't save configuration");

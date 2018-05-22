@@ -150,7 +150,6 @@ public class ConfigureViewController implements Initializable {
 //                config.setEstimatedTime(value);
 //            }
 //        });
-
         TextInputDialog nameDialog = new TextInputDialog("");
         nameDialog.setTitle("Set configuration name");
         nameDialog.setHeaderText("Set configuration name");
@@ -159,8 +158,13 @@ public class ConfigureViewController implements Initializable {
             config.setConfigurationName(nameDialog.getResult());
             cfgM.configSave(config);
             for (Header header : alist) {
-                cfgM.headerSave(header);
-                cfgM.saveAll(config, header);
+                for (int i = 0; i < attributeView.getItems().size(); i++) {
+                    if (attributeView.getItems().get(i).contains(header.getHeaderName())) {
+                        cfgM.headerSave(header);
+                        cfgM.saveAll(config, header);
+
+                    }
+                }
             }
         }
 
@@ -215,7 +219,10 @@ public class ConfigureViewController implements Initializable {
 //            }
 //        }
         attributeView.getItems().set(attCB.getSelectionModel().getSelectedIndex(), selectedCB + " : " + selected);
+        selected.setListIndex(attCB.getSelectionModel().getSelectedIndex());
+        selected.setAttName(selectedCB);
         alist.add(selected);
+        System.out.println(alist);
         jArray();
         uvm.setFilePath(filePath, headerMap, true);
         String json = uvm.XLSXR();

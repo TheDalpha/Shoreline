@@ -14,6 +14,8 @@ public class Header {
     String headerName;
     int headerIndex;
     int headerId;
+    int listIndex;
+    String attName;
 
     public int getHeaderId() {
         return headerId;
@@ -21,6 +23,22 @@ public class Header {
 
     public void setHeaderId(int headerId) {
         this.headerId = headerId;
+    }
+
+    public int getListIndex() {
+        return listIndex;
+    }
+
+    public void setListIndex(int listIndex) {
+        this.listIndex = listIndex;
+    }
+
+    public String getAttName() {
+        return attName;
+    }
+
+    public void setAttName(String attName) {
+        this.attName = attName;
     }
 
     
