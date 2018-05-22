@@ -17,83 +17,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="shoreline.gui.controller.ConfigureViewController">
-   <left>
-      <VBox alignment="TOP_CENTER" prefHeight="375.0" prefWidth="196.0" BorderPane.alignment="CENTER">
-         <children>
-            <JFXComboBox fx:id="savedCombo" prefHeight="31.0" prefWidth="168.0" promptText="Saved Configurations">
-               <VBox.margin>
-                  <Insets bottom="16.0" top="25.0" />
-               </VBox.margin>
-            </JFXComboBox>
-            <ListView fx:id="selectedList" prefHeight="326.0" prefWidth="196.0" />
-         </children>
-         <BorderPane.margin>
-            <Insets bottom="25.0" />
-         </BorderPane.margin>
-      </VBox>
-   </left>
-   <center>
-      <VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="222.0" BorderPane.alignment="CENTER">
-         <children>
-            <JFXButton fx:id="saveConfBtn" onAction="#saveConfiguration" text="Save New Configuration">
-               <VBox.margin>
-                  <Insets left="130.0" />
-               </VBox.margin>
-            </JFXButton>
-            <JFXButton fx:id="addAttributeBtn" onAction="#addAtribute" text="Add to JSON Attributes">
-               <VBox.margin>
-                  <Insets bottom="5.0" left="130.0" top="5.0" />
-               </VBox.margin>
-            </JFXButton>
-            <HBox prefHeight="362.0" prefWidth="404.0">
-               <children>
-                  <VBox prefHeight="328.0" prefWidth="179.0">
-                     <children>
-                        <JFXComboBox fx:id="attCB" prefHeight="31.0" prefWidth="126.0" promptText="Select Attribute">
-                           <VBox.margin>
-                              <Insets left="8.0" top="100.0" />
-                           </VBox.margin>
-                        </JFXComboBox>
-                        <JFXButton fx:id="attBtn" onAction="#addAttribute" text="Add">
-                           <VBox.margin>
-                              <Insets left="40.0" top="50.0" />
-                           </VBox.margin>
-                        </JFXButton>
-                     </children>
-                  </VBox>
-                  <ListView fx:id="attributeView" prefHeight="328.0" prefWidth="305.0">
-                     <contextMenu>
-                        <ContextMenu fx:id="contMenu">
-                          <items>
-                            <MenuItem mnemonicParsing="false" onAction="#removeAttribute" text="Remove" />
-                          </items>
-                        </ContextMenu>
-                     </contextMenu>
-                  </ListView>
-               </children>
-            </HBox>
-         </children>
-         <BorderPane.margin>
-            <Insets bottom="25.0" />
-         </BorderPane.margin>
-      </VBox>
-   </center>
-   <right>
-      <VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="216.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label text="JSON Preview">
-               <VBox.margin>
-                  <Insets bottom="26.0" top="25.0" />
-               </VBox.margin>
-            </Label>
-            <JFXTextArea fx:id="previewArea" prefHeight="321.0" prefWidth="216.0" />
-         </children>
-         <BorderPane.margin>
-            <Insets bottom="25.0" />
-         </BorderPane.margin>
-      </VBox>
-   </right>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="489.0" prefWidth="816.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="shoreline.gui.controller.ConfigureViewController">
    <top>
       <GridPane prefHeight="64.0" prefWidth="816.0" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -105,14 +29,14 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ImageView fitHeight="83.0" fitWidth="289.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+            <ImageView fitHeight="83.0" fitWidth="289.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <image>
                   <Image url="@../../../LOGO.png" />
                </image>
             </ImageView>
-            <HBox GridPane.columnIndex="2">
+            <HBox GridPane.columnIndex="2" GridPane.hgrow="SOMETIMES" GridPane.vgrow="SOMETIMES">
                <children>
-                  <VBox alignment="CENTER_LEFT" prefHeight="64.0" prefWidth="174.0">
+                  <VBox alignment="CENTER_LEFT" prefHeight="64.0" prefWidth="174.0" HBox.hgrow="SOMETIMES">
                      <HBox.margin>
                         <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
                      </HBox.margin>
@@ -123,7 +47,7 @@
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="64.0" prefWidth="145.0">
                      <children>
-                        <JFXButton fx:id="cancelBtn" onAction="#cancel" text="Cancel" />
+                        <JFXButton fx:id="cancelBtn" onAction="#cancel" text="Cancel" VBox.vgrow="SOMETIMES" />
                      </children>
                   </VBox>
                </children>
@@ -131,4 +55,85 @@
          </children>
       </GridPane>
    </top>
+   <center>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="TOP_CENTER" prefHeight="375.0" prefWidth="196.0" HBox.hgrow="SOMETIMES">
+               <children>
+                  <JFXComboBox fx:id="savedCombo" prefHeight="31.0" prefWidth="168.0" promptText="Saved Configurations" VBox.vgrow="SOMETIMES">
+                     <VBox.margin>
+                        <Insets bottom="16.0" top="25.0" />
+                     </VBox.margin>
+                  </JFXComboBox>
+                  <ListView fx:id="selectedList" prefHeight="326.0" prefWidth="196.0" VBox.vgrow="SOMETIMES">
+                     <VBox.margin>
+                        <Insets bottom="30.0" left="10.0" />
+                     </VBox.margin>
+                  </ListView>
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefHeight="425.0" prefWidth="406.0" HBox.hgrow="SOMETIMES">
+               <children>
+                  <JFXButton fx:id="saveConfBtn" onAction="#saveConfiguration" text="Save New Configuration" VBox.vgrow="SOMETIMES">
+                     <VBox.margin>
+                        <Insets left="130.0" />
+                     </VBox.margin>
+                  </JFXButton>
+                  <JFXButton fx:id="addAttributeBtn" onAction="#addAtribute" text="Add to JSON Attributes" VBox.vgrow="SOMETIMES">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="130.0" top="5.0" />
+                     </VBox.margin>
+                  </JFXButton>
+                  <HBox prefHeight="362.0" prefWidth="404.0" VBox.vgrow="SOMETIMES">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="328.0" prefWidth="179.0" HBox.hgrow="NEVER">
+                           <children>
+                              <JFXComboBox fx:id="attCB" prefHeight="31.0" prefWidth="126.0" promptText="Select Attribute" VBox.vgrow="SOMETIMES">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </JFXComboBox>
+                              <JFXButton fx:id="attBtn" onAction="#addAttribute" text="Add" VBox.vgrow="SOMETIMES">
+                                 <VBox.margin>
+                                    <Insets top="50.0" />
+                                 </VBox.margin>
+                              </JFXButton>
+                           </children>
+                        </VBox>
+                        <ListView fx:id="attributeView" prefHeight="328.0" prefWidth="305.0" HBox.hgrow="SOMETIMES">
+                           <contextMenu>
+                              <ContextMenu fx:id="contMenu">
+                                <items>
+                                  <MenuItem mnemonicParsing="false" onAction="#removeAttribute" text="Remove" />
+                                </items>
+                              </ContextMenu>
+                           </contextMenu>
+                        </ListView>
+                     </children>
+                  </HBox>
+               </children>
+               <HBox.margin>
+                  <Insets bottom="30.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="216.0" HBox.hgrow="SOMETIMES">
+               <children>
+                  <Label text="JSON Preview" VBox.vgrow="SOMETIMES">
+                     <VBox.margin>
+                        <Insets bottom="26.0" top="25.0" />
+                     </VBox.margin>
+                  </Label>
+                  <JFXTextArea fx:id="previewArea" prefHeight="321.0" prefWidth="216.0" VBox.vgrow="SOMETIMES">
+                     <VBox.margin>
+                        <Insets bottom="36.0" />
+                     </VBox.margin>
+                  </JFXTextArea>
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+   </center>
 </BorderPane>
