@@ -58,4 +58,8 @@ public class CfgDAO
         }
         return allAttributes;
     }
+
+    public void configSave(Attribute config) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

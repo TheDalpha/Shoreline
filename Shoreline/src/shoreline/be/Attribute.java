@@ -16,6 +16,7 @@ import java.util.Date;
 public class Attribute
 {
     public int outId;
+    public String ConfigurationName;
     public String siteName;
     public String assetSerialNumber;
     public String type;
@@ -32,6 +33,15 @@ public class Attribute
     public Date latestStartDate;
     public Time estimatedTime;
 
+    public String getConfigurationName() {
+        return ConfigurationName;
+    }
+
+    public void setConfigurationName(String ConfigurationName) {
+        this.ConfigurationName = ConfigurationName;
+    }
+
+    
     public int getOutId()
     {
         return outId;

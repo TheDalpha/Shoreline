@@ -24,4 +24,8 @@ public class CfgManager
     public List<Attribute> getAllAttributes() {
         return udao.getAllAttributes();
     }
+
+    public void configSave(Attribute config) {
+        udao.configSave(config);
+    }
 }
