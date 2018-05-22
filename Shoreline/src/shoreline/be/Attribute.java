@@ -23,15 +23,15 @@ public class Attribute
     public String externalWorkOrder;
     public String systemStatus;
     public String userStatus;
-    public Date createdOn;
+    public String createdOn;
     public String createdBy;
     public String name;
     public String priority;
     public String status;
-    public Date latestFinishDate;
-    public Date earliestStartDate;
-    public Date latestStartDate;
-    public Time estimatedTime;
+    public String latestFinishDate;
+    public String earliestStartDate;
+    public String latestStartDate;
+    public String estimatedTime;
 
     public String getConfigurationName() {
         return ConfigurationName;
@@ -112,12 +112,12 @@ public class Attribute
         this.userStatus = userStatus;
     }
 
-    public Date getCreatedOn()
+    public String getCreatedOn()
     {
         return createdOn;
     }
 
-    public void setCreatedOn(Date createdOn)
+    public void setCreatedOn(String createdOn)
     {
         this.createdOn = createdOn;
     }
@@ -162,42 +162,42 @@ public class Attribute
         this.status = status;
     }
 
-    public Date getLatestFinishDate()
+    public String getLatestFinishDate()
     {
         return latestFinishDate;
     }
 
-    public void setLatestFinishDate(Date latestFinishDate)
+    public void setLatestFinishDate(String latestFinishDate)
     {
         this.latestFinishDate = latestFinishDate;
     }
 
-    public Date getEarliestStartDate()
+    public String getEarliestStartDate()
     {
         return earliestStartDate;
     }
 
-    public void setEarliestStartDate(Date earliestStartDate)
+    public void setEarliestStartDate(String earliestStartDate)
     {
         this.earliestStartDate = earliestStartDate;
     }
 
-    public Date getLatestStartDate()
+    public String getLatestStartDate()
     {
         return latestStartDate;
     }
 
-    public void setLatestStartDate(Date latestStartDate)
+    public void setLatestStartDate(String latestStartDate)
     {
         this.latestStartDate = latestStartDate;
     }
 
-    public Time getEstimatedTime()
+    public String getEstimatedTime()
     {
         return estimatedTime;
     }
 
-    public void setEstimatedTime(Time estimatedTime)
+    public void setEstimatedTime(String estimatedTime)
     {
         this.estimatedTime = estimatedTime;
     }

@@ -111,43 +111,43 @@ public class ConfigureViewController implements Initializable {
                 config.setAssetSerialNumber(value);
             }
             if (key.equals("Type")) {
-                config.setAssetSerialNumber(value);
+                config.setType(value);
             }
             if (key.equals("External Work Order")) {
-                config.setAssetSerialNumber(value);
+                config.setExternalWorkOrder(value);
             }
             if (key.equals("System Status")) {
-                config.setAssetSerialNumber(value);
+                config.setSystemStatus(value);
             }
             if (key.equals("User Status")) {
-                config.setAssetSerialNumber(value);
+                config.setUserStatus(value);
             }
             if (key.equals("Created On")) {
-                config.setAssetSerialNumber(value);
+                config.setCreatedOn(value);
             }
             if (key.equals("Created By")) {
-                config.setAssetSerialNumber(value);
+                config.setCreatedBy(value);
             }
             if (key.equals("Name")) {
-                config.setAssetSerialNumber(value);
+                config.setName(value);
             }
             if (key.equals("Priority")) {
-                config.setAssetSerialNumber(value);
+                config.setPriority(value);
             }
             if (key.equals("Status")) {
-                config.setAssetSerialNumber(value);
+                config.setStatus(value);
             }
             if (key.equals("Latest Finish Date")) {
-                config.setAssetSerialNumber(value);
+                config.setLatestFinishDate(value);
             }
             if (key.equals("Earliest Start Date")) {
-                config.setAssetSerialNumber(value);
+                config.setEarliestStartDate(value);
             }
             if (key.equals("Latest Start Date")) {
-                config.setAssetSerialNumber(value);
+                config.setLatestStartDate(value);
             }
             if (key.equals("Estimated Time")) {
-                config.setAssetSerialNumber(value);
+                config.setEstimatedTime(value);
             }
         });
         
@@ -155,7 +155,6 @@ public class ConfigureViewController implements Initializable {
         nameDialog.setTitle("Set configuration name");
         nameDialog.setHeaderText("Set configuration name");
         nameDialog.setContentText("Please set a configuration name");
-        nameDialog.showAndWait();
         if(nameDialog.showAndWait().isPresent()) {
             config.setConfigurationName(nameDialog.getResult());
             cfgM.configSave(config);
