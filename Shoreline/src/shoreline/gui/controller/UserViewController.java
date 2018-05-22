@@ -51,7 +51,9 @@ public class UserViewController implements Initializable {
 
     UserViewModel uvm;
     AdminViewModel avm;
+    String userName;
     String outputFilename;
+    String desc;
     @FXML
     private ListView<File> Lview;
     @FXML
@@ -106,8 +108,8 @@ public class UserViewController implements Initializable {
                     System.out.println(selectedFile.getAbsolutePath());
                     Files.copy(Paths.get(selectedFile.getAbsolutePath()), Paths.get(outputDirectory.getAbsolutePath() + "\\" + selectedFile.getName()), options);
                     // lblUser.setText(selectedFile.getPath());
-                    String actionP = "File Selecting";
-                    addTraceLog(selectedFile.getName(),actionP);
+                    String actionP = "Uploaded file/s";
+                    avm.addTraceLog(selectedFile.getName(),actionP, userName);
                 }
             }
 
@@ -127,8 +129,8 @@ public class UserViewController implements Initializable {
 
     public void setUserName(Person person) {
         this.person = person;
-        String Username = person.getUsername();
-        lblUser.setText(Username);
+        userName = person.getUsername();
+        lblUser.setText(userName);
     }
 //    private void convertToJson(ActionEvent event) {
 //        uvm.convertToJson(filePath.getText());
@@ -167,6 +169,7 @@ public class UserViewController implements Initializable {
             configView.setTitle("Shoreline Configure Window");
             configView.setScene(new Scene(root));
             configController.setFileHeaders(file);
+            configController.setUserName(userName);
             configView.show();
         }
     }
@@ -191,26 +194,30 @@ public class UserViewController implements Initializable {
 
     @FXML
     private void removeFile(ActionEvent event) {
+        try {
         String actionP = "Removed File";
-        addTraceLog(Lview.getSelectionModel().getSelectedItem().getName(), actionP);
+        avm.addTraceLog(Lview.getSelectionModel().getSelectedItem().getName(), actionP, userName);
         Lview.getItems().remove(Lview.getSelectionModel().getSelectedItem());
+        
+        } 
+        catch (Exception e) {
+        }
+        
         
         }
 
-    private void addTraceLog(String name, String actionP) {
-        try { //String actionP
-            
-            Loggin l = new Loggin();
-            l.setUsername(lblUser.getText());
-//            l.setFilename(Lview.getSelectionModel().getSelectedItem().getName());
-            l.setFilename(name);
-            l.setAction(actionP);
-            l.setDate("todo");
-
-            avm.uploadLogger(l);
-        } catch (SQLException ex) {
-            Logger.getLogger(UserViewController.class.getName()).log(Level.SEVERE, "w.e", ex);
-        }
-
-    }
+//    public void addTraceLog(String name, String actionP) {
+//        try { //String actionP
+//            Loggin l = new Loggin();
+//            l.setUsername(lblUser.getText());
+//            l.setFilename(name);
+//            l.setAction(actionP);
+//            l.setDate("todo");
+//
+//            avm.uploadLogger(l);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(UserViewController.class.getName()).log(Level.SEVERE, "w.e", ex);
+//        }
+//
+//    }
 }

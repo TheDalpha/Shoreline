@@ -30,7 +30,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import shoreline.be.Loggin;
 import shoreline.be.User;
+import shoreline.gui.model.AdminViewModel;
 import shoreline.gui.model.LoginViewModel;
 import shoreline.gui.model.UserViewModel;
 
@@ -53,19 +55,20 @@ public class AdminViewController implements Initializable {
     private TableView<User> tableView;
     @FXML
     private TableColumn<User, String> nameClm;
-    
+
     LoginViewModel lvm;
     UserViewModel usm;
+    AdminViewModel avm;
     @FXML
-    private TableView<?> logView;
+    private TableView<Loggin> logView;
     @FXML
-    private TableColumn<?, ?> userClm;
+    private TableColumn<String, User> userClm;
     @FXML
-    private TableColumn<?, ?> descriptionClm;
+    private TableColumn<String, Loggin> descriptionClm;
     @FXML
-    private TableColumn<?, ?> whenClm;
+    private TableColumn<String, Loggin> whenClm;
     @FXML
-    private TableColumn<?, ?> fileNameClm;
+    private TableColumn<String, Loggin> fileNameClm;
 
     /**
      * Initializes the controller class.
@@ -73,6 +76,7 @@ public class AdminViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
+            avm = AdminViewModel.getInstance();
             usm = UserViewModel.getInstance();
             lvm = LoginViewModel.getInstance();
         } catch (SQLException ex) {
@@ -82,18 +86,27 @@ public class AdminViewController implements Initializable {
         }
         usm.loadUsers();
         tableView.setItems(usm.getAllUsers());
+        avm.loadLoggins();
+        logView.setItems(avm.getAllLoggins());
         
         nameClm.setCellValueFactory(
                 new PropertyValueFactory("username"));
-        
-        
-    }    
+        userClm.setCellValueFactory(
+                new PropertyValueFactory("username"));
+        descriptionClm.setCellValueFactory(
+                new PropertyValueFactory("action"));
+        fileNameClm.setCellValueFactory(
+                new PropertyValueFactory("filename"));
+//        whenClm.setCellValueFactory(
+//                new PropertyValueFactory("date"));
+
+    }
 
     @FXML
     private void Logout(ActionEvent event) throws IOException {
         Stage stage1 = (Stage) logOut.getScene().getWindow();
         stage1.close();
-        
+
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("/shoreline/gui/view/LoginView.fxml"));
         root.getStylesheets().add("/shoreline/gui/view/Css/Style.css");
@@ -104,8 +117,8 @@ public class AdminViewController implements Initializable {
 
     @FXML
     private void CreateUser(ActionEvent event) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        
-        if(tfPassword1.getText().equals(tfPassword2.getText()) && !tfUsername.getText().isEmpty()) {
+
+        if (tfPassword1.getText().equals(tfPassword2.getText()) && !tfUsername.getText().isEmpty()) {
             Alert userCreatedAlert = new Alert(Alert.AlertType.INFORMATION);
             User user = new User();
             user.setUsername(tfUsername.getText());
@@ -125,25 +138,24 @@ public class AdminViewController implements Initializable {
             createUserAlert.setContentText("Passwords don't match");
             createUserAlert.showAndWait();
             createUserAlert.close();
-            
+
         }
-        
+
     }
 
     @FXML
-    private void removeUser(ActionEvent event)
-    {
+    private void removeUser(ActionEvent event) {
         Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION, "Confirm Delete", ButtonType.YES, ButtonType.NO);
-       deleteAlert.setTitle("Warning");
-       deleteAlert.setContentText("Do you want to delete " + tableView.getSelectionModel().getSelectedItem().getUsername() + " ?");
-       deleteAlert.showAndWait();
-       if(deleteAlert.getResult() == ButtonType.YES) {
-       usm.deleteUser(tableView.getSelectionModel().getSelectedItem());
-       tableView.getItems().remove(tableView.getSelectionModel().getSelectedItem());
-       usm.loadUsers();
-       } else if (deleteAlert.getResult() == ButtonType.NO){
-           deleteAlert.close();
-       }
+        deleteAlert.setTitle("Warning");
+        deleteAlert.setContentText("Do you want to delete " + tableView.getSelectionModel().getSelectedItem().getUsername() + " ?");
+        deleteAlert.showAndWait();
+        if (deleteAlert.getResult() == ButtonType.YES) {
+            usm.deleteUser(tableView.getSelectionModel().getSelectedItem());
+            tableView.getItems().remove(tableView.getSelectionModel().getSelectedItem());
+            usm.loadUsers();
+        } else if (deleteAlert.getResult() == ButtonType.NO) {
+            deleteAlert.close();
+        }
     }
-    
+
 }

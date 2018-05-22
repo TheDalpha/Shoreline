@@ -18,16 +18,11 @@ import shoreline.dal.AdminDAO;
  * @author ollie
  */
 public class AdminManager {
-    
-    
-    static final Logger logger = Logger.getLogger(Loggin.class.getName());
-    
-    
+
     AdminDAO adao;
     
     public AdminManager() {
         this.adao = new AdminDAO();
-        
     }
     
     public List<Admin> getAllAdmins() {
@@ -39,19 +34,6 @@ public class AdminManager {
     }
     
     public void uploadLogger(Loggin l) throws SQLException {
-     //   tLog();
         adao.uploadLog(l);
     }
-    
-    public static void tLog() throws SQLException {
-        logger.log(Level.ALL, "What is this");
-        logger.warning("This is a Warning!");
-        logger.fine("It's okay");
-        logger.setLevel(Level.FINEST);
-        logger.addHandler(new ConsoleHandler());
-        logger.getHandlers();
-        
-    }
-    
-    
 }

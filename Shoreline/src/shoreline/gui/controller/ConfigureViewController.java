@@ -6,7 +6,6 @@
 package shoreline.gui.controller;
 
 
-import com.fasterxml.jackson.annotation.JacksonAnnotation;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import com.jfoenix.controls.JFXButton;
@@ -16,8 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,22 +25,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
-import org.json.JSONArray;
 import org.json.JSONObject;
-import shoreline.be.Attribute;
 import shoreline.gui.model.CfgModel;
 import shoreline.be.Header;
 import shoreline.gui.model.UserViewModel;
-
+import shoreline.gui.controller.UserViewController;
+import shoreline.gui.model.AdminViewModel;
 /**
  * FXML Controller class
  *
@@ -56,8 +49,12 @@ public class ConfigureViewController implements Initializable
     Map<String, Header> headerMap = new LinkedHashMap<>();
     JSONObject jobj = new JSONObject();
     String filePath;
+    String userName;
     UserViewModel uvm;
+    AdminViewModel avm;
     CfgModel cfgM;
+    UserViewController uvc;
+    
     
 
     @FXML
@@ -92,6 +89,7 @@ public class ConfigureViewController implements Initializable
     public void initialize(URL url, ResourceBundle rb)
     {
         try {
+            avm = AdminViewModel.getInstance();
             uvm = UserViewModel.getInstance();
         } catch (SQLException | IOException ex) {
             Logger.getLogger(ConfigureViewController.class.getName()).log(Level.SEVERE, null, ex);
@@ -174,6 +172,8 @@ public class ConfigureViewController implements Initializable
     @FXML
     private void removeAttribute(ActionEvent event)
     {
+//        String actionP = attributeView.getSelectionModel().getSelectedItem() + "Removed Attribute";
+//        avm.addTraceLog(attributeView.getSelectionModel().getSelectedItem(), actionP, userName);
         attributeView.getItems().remove(attributeView.getSelectionModel().getSelectedItem());
     }
 
@@ -205,5 +205,12 @@ public class ConfigureViewController implements Initializable
         previewArea.setText(json);
         return headerMap;
     }
+
+    void setUserName(String userName) {
+        this.userName = userName;
+        lblUser.setText(userName);
+    }
+
+
    
 }
