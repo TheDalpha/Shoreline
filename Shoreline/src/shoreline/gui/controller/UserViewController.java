@@ -106,10 +106,11 @@ public class UserViewController implements Initializable {
                     System.out.println(selectedFile.getAbsolutePath());
                     Files.copy(Paths.get(selectedFile.getAbsolutePath()), Paths.get(outputDirectory.getAbsolutePath() + "\\" + selectedFile.getName()), options);
                     // lblUser.setText(selectedFile.getPath());
+                    String actionP = "File Selecting";
+                    addTraceLog(selectedFile.getName(),actionP);
                 }
-
             }
-        addTraceLog();
+
         }
 
     }
@@ -190,19 +191,22 @@ public class UserViewController implements Initializable {
 
     @FXML
     private void removeFile(ActionEvent event) {
-        Lview.getItems().remove(Lview.getSelectionModel().getSelectedItem());
         String actionP = "Removed File";
-      
-    }
+        addTraceLog(Lview.getSelectionModel().getSelectedItem().getName(), actionP);
+        Lview.getItems().remove(Lview.getSelectionModel().getSelectedItem());
+        
+        }
 
-    private void addTraceLog() {
-        try {//String actionP
+    private void addTraceLog(String name, String actionP) {
+        try { //String actionP
+            
             Loggin l = new Loggin();
             l.setUsername(lblUser.getText());
-            l.setFilename("todo");
-            l.setAction("actionP");
+//            l.setFilename(Lview.getSelectionModel().getSelectedItem().getName());
+            l.setFilename(name);
+            l.setAction(actionP);
             l.setDate("todo");
-            
+
             avm.uploadLogger(l);
         } catch (SQLException ex) {
             Logger.getLogger(UserViewController.class.getName()).log(Level.SEVERE, "w.e", ex);
