@@ -92,13 +92,13 @@ public class JFileReader {
 //            System.out.println(json);
         }
         for (JSONObject job : jObList) {
-//            System.out.println(job.toString(4));
+            System.out.println(job.toString(4));
         }
     }
 
     public String XLSXR() throws JsonProcessingException {
 
-        return jobj.toString(4);
+        return testobj.toString(4);
 
     }
 

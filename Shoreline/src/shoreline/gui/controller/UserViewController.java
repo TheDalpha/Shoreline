@@ -132,8 +132,8 @@ public class UserViewController implements Initializable
 //            }
         } catch (Exception e)
         {
-            desc = e.toString();
-            String actionP = "Nothing happens";
+            String desc = "Attempted to upload something wrong";
+            String actionP = "Invalid file";
             avm.addTraceLog(" ", actionP, userName, desc);
         }
 
@@ -205,10 +205,10 @@ public class UserViewController implements Initializable
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
-        } catch (Exception e)
+        } catch (IOException e)
         {
-            desc = e.toString();
-            String actionP = "Nothing happens";
+            String desc = "failed to logout";
+            String actionP = "Attempted to logout";
             avm.addTraceLog(" ", actionP, userName, desc);
         }
     }
@@ -216,7 +216,7 @@ public class UserViewController implements Initializable
     @FXML
     private void configure(ActionEvent event) throws IOException, InvalidFormatException, Exception
     {
-//        try {
+        try {
         if (Lview.getSelectionModel().isEmpty())
         {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -241,11 +241,11 @@ public class UserViewController implements Initializable
             configController.setController(this);
             configView.show();
         }
-//        } catch (Exception e) {
-//            desc = e.toString();
-//            String actionP = "Nothing happens";
-//            avm.addTraceLog(" ", actionP, userName, desc);
-//        }
+        } catch (Exception e) {
+            String desc = "No file chosen";
+            String actionP = "Attempted to configure without a valid file";
+            avm.addTraceLog(" ", actionP, userName, desc);
+        }
     }
 
     @FXML
@@ -262,11 +262,11 @@ public class UserViewController implements Initializable
 //            for (Tasks task : uvm.getTasks()) {
 //                uvm.convert(task);
 //                System.out.println(task.getHeaderMap());
-//            }
-        } catch (Exception e)
+//            }   io null         
+        } catch (IOException | InvalidFormatException e)
         {
-            desc = e.toString();
-            String actionP = "Nothing happens";
+            String desc = "Not a valid file";
+            String actionP = "Attempted to startConvert without a valid file";
             avm.addTraceLog(" ", actionP, userName, desc);
         }
     }
@@ -302,8 +302,8 @@ public class UserViewController implements Initializable
             Lview.getItems().remove(Lview.getSelectionModel().getSelectedItem());
         } catch (Exception e)
         {
-            desc = e.toString();
-            String actionP = "Nothing happens";
+            String desc = "Attempted to remove nothing";
+            String actionP = "Attempted to remove nothing";
             avm.addTraceLog(" ", actionP, userName, desc);
         }
     }
@@ -311,6 +311,9 @@ public class UserViewController implements Initializable
     @FXML
     private void openConvertedTask(MouseEvent event) throws IOException
     {
+        try {
+            
+        
         for (int i = 0; i < outputfiles.size(); i++)
         {
             System.out.println(convertedList.getSelectionModel().getSelectedItem().getName());
@@ -320,13 +323,26 @@ public class UserViewController implements Initializable
                 System.out.println(fileName);
                 File file = new File(fileName);
                 Desktop.getDesktop().open(file);
-            }
+                
+            
+        }
+        }
+         } catch (IOException e)
+        {
+            String desc = "Attempted to open an invalid filepath";
+            String actionP = "Attempted to open invalid file";
+            avm.addTraceLog(" ", actionP, userName, desc);
+        }
+    }
+        
+        
 //        String fileName = convertedList.getSelectionModel().getSelectedItem().getAbsolutePath();
 //        System.out.println(fileName);
 //        File file = new File(fileName);
 //        Desktop.getDesktop().open(file);
-        }
-    }
+        
+    
+        
 
     @FXML
     private void openAdminPanel(ActionEvent event) throws IOException
