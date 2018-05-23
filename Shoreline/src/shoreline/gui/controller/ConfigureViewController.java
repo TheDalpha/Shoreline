@@ -14,6 +14,8 @@ import com.jfoenix.controls.JFXTextArea;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.CopyOption;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +39,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.json.JSONArray;
@@ -44,6 +47,7 @@ import org.json.JSONObject;
 import shoreline.be.Attribute;
 import shoreline.gui.model.CfgModel;
 import shoreline.be.Header;
+import shoreline.be.Tasks;
 import shoreline.gui.model.UserViewModel;
 
 /**
@@ -57,9 +61,11 @@ public class ConfigureViewController implements Initializable {
     List<Header> alist = new ArrayList<>();
     Map<String, Header> headerMap = new HashMap<>();
     JSONObject jobj = new JSONObject();
-    String filePath;
+    File file;
+    String outputFile;
     UserViewModel uvm;
     CfgModel cfgM;
+    UserViewController uvc;
 
     @FXML
     private Label lblUser;
@@ -177,7 +183,6 @@ public class ConfigureViewController implements Initializable {
 
     }
 
-
     @FXML
     private void cancel(ActionEvent event) throws IOException {
         Stage stage1 = (Stage) cancelBtn.getScene().getWindow();
@@ -192,7 +197,7 @@ public class ConfigureViewController implements Initializable {
     }
 
     public void setFileHeaders(File file) throws IOException, InvalidFormatException, Exception {
-        filePath = file.getPath();
+        this.file = file;
         List<Header> header;
         header = FXCollections.observableArrayList();
         header.addAll(uvm.getFileHeaders(file));
@@ -261,7 +266,7 @@ public class ConfigureViewController implements Initializable {
         alist.add(selected);
         System.out.println(alist);
         jArray();
-        uvm.setFilePath(filePath, headerMap, true);
+        uvm.setFilePath(file.getPath(), headerMap, true);
         String json = uvm.XLSXR();
         previewArea.setText(json);
 
@@ -293,7 +298,7 @@ public class ConfigureViewController implements Initializable {
             headerMap.put(string, header);
         }
         uvm.setTemplate(headerMap);
-        uvm.setFilePath(filePath, headerMap, true);
+        uvm.setFilePath(file.getPath(), headerMap, true);
         String json = uvm.XLSXR();
 
         previewArea.setText(json);
@@ -325,19 +330,35 @@ public class ConfigureViewController implements Initializable {
                 }
             }
         }
-        uvm.setFilePath(filePath, headerMap, true);
+        uvm.setFilePath(file.getPath(), headerMap, true);
         String json = uvm.XLSXR();
         previewArea.setText(json);
     }
 
     @FXML
-    private void addToTask(ActionEvent event)
-    {
+    private void addToTask(ActionEvent event) {
+        String taskName = null;
+        TextInputDialog taskDialog = new TextInputDialog();
+        taskDialog.setTitle("Set task name");
+        taskDialog.setHeaderText("Set task name");
+        taskDialog.setContentText("Please set a task name");
+        if (taskDialog.showAndWait().isPresent()) {
+            taskName = taskDialog.getResult();
+            Tasks task = new Tasks(file, outputFile, taskName, headerMap);
+            uvm.setTask(task);
+            uvc.setTaskList();
+        }
     }
 
     @FXML
-    private void chooseFileDestination(ActionEvent event)
-    {
-    }
+    private void chooseFileDestination(ActionEvent event) {
+        DirectoryChooser dirch = new DirectoryChooser();
+        File outputDirectory = dirch.showDialog(null);
+        outputFile = Paths.get(outputDirectory.getAbsolutePath()).toString();
 
+    }
+    
+    public void setController(UserViewController userVC) {
+        this.uvc = userVC;
+    }
 }

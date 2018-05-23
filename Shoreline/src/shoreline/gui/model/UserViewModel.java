@@ -22,6 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import shoreline.be.Header;
 import shoreline.be.Person;
+import shoreline.be.Tasks;
 import shoreline.be.User;
 import shoreline.bll.JFileReader;
 import shoreline.bll.JFileWriter;
@@ -31,15 +32,15 @@ import shoreline.bll.UserManager;
  *
  * @author ollie
  */
-public class UserViewModel
-{
-    
+public class UserViewModel {
+
     private static UserViewModel instance;
-        UserManager uManager;
-        JFileReader fileReader;
-        JFileWriter fileWriter;
-        User user;
-        ObservableList<User> userList;
+    UserManager uManager;
+    JFileReader fileReader;
+    JFileWriter fileWriter;
+    User user;
+    ObservableList<User> userList;
+    ObservableList<Tasks> tasksList = FXCollections.observableArrayList();
     private Person person;
 
     public UserViewModel() {
@@ -49,33 +50,31 @@ public class UserViewModel
         fileWriter = new JFileWriter();
         userList = FXCollections.observableArrayList();
     }
-    
+
     public void loadUsers() {
         userList.clear();
         userList.addAll(uManager.getAllUsers());
     }
-    
+
     public ObservableList<User> getAllUsers() {
         return userList;
     }
-    
+
     public void updateUser(User user) {
         uManager.updateUser(user);
     }
-    
-    public static UserViewModel getInstance() throws SQLException, IOException
-    {
-        if (instance == null)
-        {
+
+    public static UserViewModel getInstance() throws SQLException, IOException {
+        if (instance == null) {
             instance = new UserViewModel();
         }
         return instance;
     }
-    
+
     public User getUser() {
         return user;
     }
-    
+
     public void setUser(User user) {
         this.user = user;
     }
@@ -89,18 +88,20 @@ public class UserViewModel
     }
 
     public void setFilePath(String filePath, Map<String, Header> ja, boolean oneLine) throws Exception {
-         fileReader.readXLSXAndConvertToJSON(filePath, ja, oneLine);
+        fileReader.readXLSXAndConvertToJSON(filePath, ja, oneLine);
     }
 
     public void convertToJson(String path, String json) throws IOException {
         fileWriter.convertToJson(path, json);
     }
+
     public List<Header> getFileHeaders(File file) throws IOException, InvalidFormatException {
-      return fileReader.getFileHeaders(file);
-    }  
+        return fileReader.getFileHeaders(file);
+    }
+
     public String XLSXR() throws JsonProcessingException {
-      return fileReader.XLSXR();
-    } 
+        return fileReader.XLSXR();
+    }
 //    public void setFilePoth (String filePoth) throws IOException {
 //    fileReader.readCSVAndConvertToJSON(filePoth);
 //    }
@@ -111,5 +112,17 @@ public class UserViewModel
 
     public void setTemplate(Map<String, Header> jobj) {
         fileReader.setTemplate(jobj);
+    }
+
+    public void setTask(Tasks task) {
+        tasksList.add(task);
+    }
+
+    public ObservableList<Tasks> getTasks() {
+        return tasksList;
+    }
+
+    public void convert(Tasks task) throws IOException, InvalidFormatException {
+        fileReader.convert(task);
     }
 }

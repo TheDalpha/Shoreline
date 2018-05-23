@@ -9,6 +9,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -17,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -38,6 +40,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import shoreline.be.Loggin;
 import shoreline.be.Person;
+import shoreline.be.Tasks;
 import shoreline.gui.model.AdminViewModel;
 import shoreline.gui.model.UserViewModel;
 
@@ -55,6 +58,7 @@ public class UserViewController implements Initializable {
     String outputFilename;
     String userName;
     String desc;
+    List<String> outputfiles = new ArrayList<>();
     @FXML
     private ListView<File> Lview;
     @FXML
@@ -65,13 +69,13 @@ public class UserViewController implements Initializable {
     @FXML
     private JFXButton confBtn;
     @FXML
-    private JFXListView<String> taskView;
+    private JFXListView<Tasks> taskView;
     @FXML
     private JFXButton startBtn;
     @FXML
     private JFXButton stopBtn;
     @FXML
-    private JFXListView<?> convertedList;
+    private JFXListView<File> convertedList;
 
     /**
      * Initializes the controller class.
@@ -97,36 +101,55 @@ public class UserViewController implements Initializable {
                     = new FileChooser.ExtensionFilter("Text File", "*.xlsx", "*.xml", "*.csv");
             fileChooser.getExtensionFilters().add(extFilter);
             Window stage = null;
-            fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
-            List<File> selectedFiles = fileChooser.showOpenMultipleDialog(null);
-            if (selectedFiles != null) {
-
-                DirectoryChooser dirch = new DirectoryChooser();
-                File outputDirectory = dirch.showDialog(null);
-                CopyOption[] options = new CopyOption[]{StandardCopyOption.REPLACE_EXISTING};
-                for (File selectedFile : selectedFiles) {
-                    Lview.getItems().add(selectedFile);
-//                    uvm.setFilePath(selectedFile.getPath());
-//                    uvm.setFilePoth(selectedFile.getPath());
-                    outputFilename = Paths.get(outputDirectory.getAbsolutePath(), getFilenameWithoutExtention(selectedFile.getName()) + ".json").toString();
-                    System.out.println(selectedFile.getAbsolutePath());
-                    Files.copy(Paths.get(selectedFile.getAbsolutePath()), Paths.get(outputDirectory.getAbsolutePath() + "\\" + selectedFile.getName()), options);
-                    // lblUser.setText(selectedFile.getPath());
-                    String actionP = "Uploads file(s)";
-                    avm.addTraceLog(selectedFile.getName(),actionP, userName, "");
-                }
-            }
+//            fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
+            File selectedFiles = fileChooser.showOpenDialog(stage);
+            Lview.getItems().add(selectedFiles);
+//            if (selectedFiles != null) {
+//
+//                DirectoryChooser dirch = new DirectoryChooser();
+//                File outputDirectory = dirch.showDialog(null);
+//                CopyOption[] options = new CopyOption[]{StandardCopyOption.REPLACE_EXISTING};
+//                for (File selectedFile : selectedFiles) {
+//                    Lview.getItems().add(selectedFile);
+////                    uvm.setFilePath(selectedFile.getPath());
+////                    uvm.setFilePoth(selectedFile.getPath());
+//                    outputFilename = Paths.get(outputDirectory.getAbsolutePath(), getFilenameWithoutExtention(selectedFile.getName()) + ".json").toString();
+//                    System.out.println(selectedFile.getAbsolutePath());
+//                    Files.copy(Paths.get(selectedFile.getAbsolutePath()), Paths.get(outputDirectory.getAbsolutePath() + "\\" + selectedFile.getName()), options);
+//                    // lblUser.setText(selectedFile.getPath());
+//                    String actionP = "Uploads file(s)";
+//                    avm.addTraceLog(selectedFile.getName(),actionP, userName, "");
+//                }
+//            }
         } catch (Exception e) {
-                 desc = e.toString();
-                 String actionP = "Nothing happens";
-                 avm.addTraceLog(" ", actionP, userName, desc);
+            desc = e.toString();
+            String actionP = "Nothing happens";
+            avm.addTraceLog(" ", actionP, userName, desc);
         }
-        
 
+    }
+
+    public void setTaskList() {
+        System.out.println(uvm.getTasks());
+        taskView.setItems(uvm.getTasks());
     }
 
     public void fileNames() {
         Lview.setCellFactory(lView -> new ListCell<File>() {
+            @Override
+            protected void updateItem(File file, boolean empty) {
+                super.updateItem(file, empty);
+                setText(file == null ? null : file.getName());
+            }
+        });
+        taskView.setCellFactory(tView -> new ListCell<Tasks>() {
+            @Override
+            protected void updateItem(Tasks task, boolean empty) {
+                super.updateItem(task, empty);
+                setText(task == null ? null : task.getTaskName());
+            }
+        });
+        convertedList.setCellFactory(cView -> new ListCell<File>() {
             @Override
             protected void updateItem(File file, boolean empty) {
                 super.updateItem(file, empty);
@@ -144,64 +167,71 @@ public class UserViewController implements Initializable {
     @FXML
     private void logout(ActionEvent event) throws IOException {
         try {
-        Stage stage1 = (Stage) logoutBtn.getScene().getWindow();
-        stage1.close();
+            Stage stage1 = (Stage) logoutBtn.getScene().getWindow();
+            stage1.close();
 
-        Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("/shoreline/gui/view/LoginView.fxml"));
-        root.getStylesheets().add("/shoreline/gui/view/Css/Style.css");
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+            Stage stage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("/shoreline/gui/view/LoginView.fxml"));
+            root.getStylesheets().add("/shoreline/gui/view/Css/Style.css");
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
         } catch (Exception e) {
-                 desc = e.toString();
-                 String actionP = "Nothing happens";
-                 avm.addTraceLog(" ", actionP, userName, desc);
+            desc = e.toString();
+            String actionP = "Nothing happens";
+            avm.addTraceLog(" ", actionP, userName, desc);
         }
     }
 
     @FXML
     private void configure(ActionEvent event) throws IOException, InvalidFormatException, Exception {
-       try {
-        if (Lview.getSelectionModel().isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("No File Selected.");
-            alert.setHeaderText("File Selection Failed.");
-            alert.setContentText("Please Select a File.");
-            alert.showAndWait();
-            alert.close();
-        } else {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/shoreline/gui/view/ConfigureView.fxml"));
-            Parent root = (Parent) fxmlLoader.load();
-            root.getStylesheets().add("/shoreline/gui/view/Css/Style.css");
-            Stage stage = (Stage) confBtn.getScene().getWindow();
-            Stage configView = new Stage();
-            File file = Lview.getSelectionModel().getSelectedItem();
-            ConfigureViewController configController = fxmlLoader.getController();
-            configView.setTitle("Shoreline Configure Window");
-            configView.setScene(new Scene(root));
-            configController.setFileHeaders(file);
-            configController.setUsername(userName);
-            configView.show();
-        }
-       } catch (Exception e) {
-                 desc = e.toString();
-                 String actionP = "Nothing happens";
-                 avm.addTraceLog(" ", actionP, userName, desc);
-        }
+//        try {
+            if (Lview.getSelectionModel().isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("No File Selected.");
+                alert.setHeaderText("File Selection Failed.");
+                alert.setContentText("Please Select a File.");
+                alert.showAndWait();
+                alert.close();
+            } else {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/shoreline/gui/view/ConfigureView.fxml"));
+                Parent root = (Parent) fxmlLoader.load();
+                root.getStylesheets().add("/shoreline/gui/view/Css/Style.css");
+                Stage stage = (Stage) confBtn.getScene().getWindow();
+                Stage configView = new Stage();
+                File file = Lview.getSelectionModel().getSelectedItem();
+                ConfigureViewController configController = fxmlLoader.getController();
+                configView.setTitle("Shoreline Configure Window");
+                configView.setScene(new Scene(root));
+                configController.setFileHeaders(file);
+                configController.setUsername(userName);
+                configController.setController(this);
+                configView.show();
+            }
+//        } catch (Exception e) {
+//            desc = e.toString();
+//            String actionP = "Nothing happens";
+//            avm.addTraceLog(" ", actionP, userName, desc);
+//        }
     }
 
     @FXML
     private void startConvert(ActionEvent event) throws IOException {
         try {
-        String json = uvm.XLSXR();
-        System.out.println(json);
-
-        uvm.convertToJson(outputFilename, json);
+            Tasks task = taskView.getSelectionModel().getSelectedItem();
+            uvm.convert(task);
+            taskView.getItems().remove(task);
+            File file = new File(task.getTaskName() + ".json");
+            convertedList.getItems().add(file);
+            outputfiles.add(task.getOutputFile() + "\\" + task.getTaskName() + ".json");
+//            for (Tasks task : uvm.getTasks()) {
+//                uvm.convert(task);
+//                System.out.println(task.getHeaderMap());
+//            }
         } catch (Exception e) {
-                 desc = e.toString();
-                 String actionP = "Nothing happens";
-                 avm.addTraceLog(" ", actionP, userName, desc);
+            desc = e.toString();
+            String actionP = "Nothing happens";
+            avm.addTraceLog(" ", actionP, userName, desc);
         }
     }
 
@@ -226,20 +256,31 @@ public class UserViewController implements Initializable {
     @FXML
     private void removeFile(ActionEvent event) {
         try {
-            
-   
-        String actionP = "Removed File" + ": " + Lview.getSelectionModel().getSelectedItem().getName();
-        avm.addTraceLog(Lview.getSelectionModel().getSelectedItem().getName(), actionP, userName, "");
-        Lview.getItems().remove(Lview.getSelectionModel().getSelectedItem());
-             } catch (Exception e) {
-                 desc = e.toString();
-                 String actionP = "Nothing happens";
-                 avm.addTraceLog(" ", actionP, userName, desc);
+
+            String actionP = "Removed File" + ": " + Lview.getSelectionModel().getSelectedItem().getName();
+            avm.addTraceLog(Lview.getSelectionModel().getSelectedItem().getName(), actionP, userName, "");
+            Lview.getItems().remove(Lview.getSelectionModel().getSelectedItem());
+        } catch (Exception e) {
+            desc = e.toString();
+            String actionP = "Nothing happens";
+            avm.addTraceLog(" ", actionP, userName, desc);
         }
-        }
+    }
 
     @FXML
-    private void openConvertedTask(MouseEvent event)
-    {
+    private void openConvertedTask(MouseEvent event) throws IOException {
+        for (int i = 0; i < outputfiles.size(); i++) {
+            System.out.println(convertedList.getSelectionModel().getSelectedItem().getName());
+            if(outputfiles.get(i).contains(convertedList.getSelectionModel().getSelectedItem().getName())){
+        String fileName = outputfiles.get(i);
+        System.out.println(fileName);
+        File file = new File(fileName);
+        Desktop.getDesktop().open(file);
+        }
+//        String fileName = convertedList.getSelectionModel().getSelectedItem().getAbsolutePath();
+//        System.out.println(fileName);
+//        File file = new File(fileName);
+//        Desktop.getDesktop().open(file);
+        }
     }
 }
