@@ -13,11 +13,9 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.CopyOption;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import static java.time.temporal.TemporalQueries.localDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -30,15 +28,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import shoreline.be.Loggin;
 import shoreline.be.Person;
 import shoreline.be.Tasks;
 import shoreline.be.User;
@@ -61,6 +58,8 @@ public class UserViewController implements Initializable
     String userName;
     String desc;
     List<String> outputfiles = new ArrayList<>();
+    DatePicker datePicker = new DatePicker(LocalDate.now());
+    
     @FXML
     private ListView<File> Lview;
     @FXML
@@ -134,7 +133,8 @@ public class UserViewController implements Initializable
         {
             String desc = "Attempted to upload something wrong";
             String actionP = "Invalid file";
-            avm.addTraceLog(" ", actionP, userName, desc);
+            LocalDate localDate = datePicker.getValue();
+            avm.addTraceLog(" ", actionP, userName,localDate.toString(), desc);
         }
 
     }
@@ -209,7 +209,8 @@ public class UserViewController implements Initializable
         {
             String desc = "failed to logout";
             String actionP = "Attempted to logout";
-            avm.addTraceLog(" ", actionP, userName, desc);
+            LocalDate localDate = datePicker.getValue();
+            avm.addTraceLog(" ", actionP, userName, localDate.toString(), desc);
         }
     }
 
@@ -244,7 +245,8 @@ public class UserViewController implements Initializable
         } catch (Exception e) {
             String desc = "No file chosen";
             String actionP = "Attempted to configure without a valid file";
-            avm.addTraceLog(" ", actionP, userName, desc);
+            LocalDate localDate = datePicker.getValue();
+            avm.addTraceLog(" ", actionP, userName,localDate.toString(), desc);
         }
     }
 
@@ -267,7 +269,8 @@ public class UserViewController implements Initializable
         {
             String desc = "Not a valid file";
             String actionP = "Attempted to startConvert without a valid file";
-            avm.addTraceLog(" ", actionP, userName, desc);
+            LocalDate localDate = datePicker.getValue();
+            avm.addTraceLog(" ", actionP, userName,localDate.toString(), desc);
         }
     }
 
@@ -296,15 +299,20 @@ public class UserViewController implements Initializable
     {
         try
         {
-
-            String actionP = "Removed File" + ": " + Lview.getSelectionModel().getSelectedItem().getName();
-            avm.addTraceLog(Lview.getSelectionModel().getSelectedItem().getName(), actionP, userName, "");
+//            String desc = "Attempted to remove nothing";
+//            String actionP = "Removed File" + ": " + Lview.getSelectionModel().getSelectedItem().getName();
+//            LocalDate localDate = datePicker.getValue();
+//            avm.addTraceLog(Lview.getSelectionModel().getSelectedItem().getName(), actionP, userName, localDate.toString(), desc);
             Lview.getItems().remove(Lview.getSelectionModel().getSelectedItem());
         } catch (Exception e)
         {
             String desc = "Attempted to remove nothing";
-            String actionP = "Attempted to remove nothing";
-            avm.addTraceLog(" ", actionP, userName, desc);
+            String actionP = "Removed File" + ": " + Lview.getSelectionModel().getSelectedItem().getName();
+            LocalDate localDate = datePicker.getValue();
+            avm.addTraceLog(Lview.getSelectionModel().getSelectedItem().getName(), actionP, userName, localDate.toString(), desc);
+//            String desc = "Attempted to remove nothing";
+//            LocalDate localDate = datePicker.getValue();
+//            avm.addTraceLog(, actionP, userName,localDate.toString(), desc);
         }
     }
 
@@ -331,7 +339,8 @@ public class UserViewController implements Initializable
         {
             String desc = "Attempted to open an invalid filepath";
             String actionP = "Attempted to open invalid file";
-            avm.addTraceLog(" ", actionP, userName, desc);
+            LocalDate localDate = datePicker.getValue();
+            avm.addTraceLog(outputFilename, actionP, userName,localDate.toString(), desc);
         }
     }
         
