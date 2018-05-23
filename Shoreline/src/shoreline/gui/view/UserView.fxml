@@ -21,7 +21,7 @@
    <children>
       <BorderPane>
          <top>
-            <GridPane prefHeight="64.0" prefWidth="816.0" BorderPane.alignment="CENTER">
+            <GridPane alignment="CENTER" prefHeight="64.0" prefWidth="816.0" BorderPane.alignment="CENTER">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -59,6 +59,11 @@
                                  </VBox.margin></JFXButton>
                            </children>
                         </VBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <JFXButton fx:id="adminPanelBtn" onAction="#openAdminPanel" text="Admin Panel" />
                      </children>
                   </HBox>
                </children>

@@ -42,6 +42,7 @@ public class UserDAO
                 user.setCleanPassword(rs.getString("password"));
                 user.setEncryptedPassword(rs.getBytes("encryptedPassword"));
                 user.setSalt(rs.getBytes("salt"));
+                user.setAdmin(rs.getBoolean("admin"));
                 allUsers.add(user);
             }
         } catch (SQLException ex) {
@@ -76,14 +77,15 @@ public class UserDAO
         {
             String sql
                     = "INSERT INTO Login"
-                    + "(username, password, encryptedPassword, salt) "
-                    + "VALUES(?,?,?,?)";
+                    + "(username, password, encryptedPassword, salt, admin) "
+                    + "VALUES(?,?,?,?,?)";
 
             PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, user.getUsername());
             pstmt.setString(2, user.getCleanPassword());
             pstmt.setBytes(3, user.getEncryptedPassword());
             pstmt.setBytes(4, user.getSalt());
+            pstmt.setBoolean(5, user.isAdmin());
             
             int affected = pstmt.executeUpdate();
             if(affected<1)

@@ -57,7 +57,6 @@ public class AdminViewController implements Initializable
     private JFXPasswordField tfPassword1;
     @FXML
     private JFXPasswordField tfPassword2;
-    @FXML
     private JFXButton logOut;
     @FXML
     private TableView<User> tableView;
@@ -81,12 +80,12 @@ public class AdminViewController implements Initializable
     private TableColumn<String, Loggin> fileNameClm;
     @FXML
     private TableColumn<String, Loggin> errorClm;
-    @FXML
     private JFXButton fileConvertingBtn;
     @FXML
     private JFXCheckBox adminCheckB;
-    @FXML
     private Label lblUser;
+    @FXML
+    private JFXButton closeBtn;
 
     /**
      * Initializes the controller class.
@@ -127,43 +126,13 @@ public class AdminViewController implements Initializable
     }
 
     @FXML
-    private void Logout(ActionEvent event) throws IOException
-    {
-        Stage stage1 = (Stage) logOut.getScene().getWindow();
-        stage1.close();
-
-        Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("/shoreline/gui/view/LoginView.fxml"));
-        root.getStylesheets().add("/shoreline/gui/view/Css/Style.css");
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    @FXML
     private void CreateUser(ActionEvent event) throws NoSuchAlgorithmException, InvalidKeySpecException
     {
-        if (adminCheckB.isSelected() && tfPassword1.getText().equals(tfPassword2.getText()) && !tfUsername.getText().isEmpty())
-        {
-            Alert adminCreatedAlert = new Alert(Alert.AlertType.INFORMATION);
-            Admin admin = new Admin();
-            admin.setUsername(tfUsername.getText());
-            admin.setCleanPassword(tfPassword1.getText());
-            avm.createAdmin(admin);
-            adminCreatedAlert.setTitle("Succes!");
-            adminCreatedAlert.setHeaderText("Succes!");
-            adminCreatedAlert.setContentText("Admin " + admin.getUsername() + " has been created!");
-            adminCreatedAlert.showAndWait();
-            adminCreatedAlert.close();
-            avm.loadAdmins();
-            tfUsername.clear();
-            tfPassword1.clear();
-            tfPassword2.clear();
-
-        } else if (tfPassword1.getText().equals(tfPassword2.getText()) && !tfUsername.getText().isEmpty())
+        if (tfPassword1.getText().equals(tfPassword2.getText()) && !tfUsername.getText().isEmpty())
         {
             Alert userCreatedAlert = new Alert(Alert.AlertType.INFORMATION);
             User user = new User();
+            user.setAdmin(adminCheckB.isSelected());
             user.setUsername(tfUsername.getText());
             user.setCleanPassword(tfPassword1.getText());
             usm.createUser(user);
@@ -210,21 +179,27 @@ public class AdminViewController implements Initializable
         userName = person.getUsername();
         lblUser.setText(userName);
     }
+//
+//    private void goToUserWin(ActionEvent event) throws IOException
+//    {
+//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/shoreline/gui/view/UserView.fxml"));
+//        Parent root = (Parent) fxmlLoader.load();
+//        root.getStylesheets().add("/shoreline/gui/view/Css/Style.css");
+//        Stage stage = (Stage) fileConvertingBtn.getScene().getWindow();
+//        stage.close();
+//        Stage userView = new Stage();
+//        UserViewController uvController = fxmlLoader.getController();
+//        userView.setTitle("Shoreline");
+//        userView.setScene(new Scene(root));
+//        uvController.setUserName(person);
+//        userView.show();
+//    }
 
     @FXML
-    private void goToUserWin(ActionEvent event) throws IOException
+    private void close(ActionEvent event)
     {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/shoreline/gui/view/UserView.fxml"));
-        Parent root = (Parent) fxmlLoader.load();
-        root.getStylesheets().add("/shoreline/gui/view/Css/Style.css");
-        Stage stage = (Stage) fileConvertingBtn.getScene().getWindow();
-        stage.close();
-        Stage userView = new Stage();
-        UserViewController uvController = fxmlLoader.getController();
-        userView.setTitle("Shoreline");
-        userView.setScene(new Scene(root));
-        uvController.setUserName(person);
-        userView.show();
+        Stage stage1 = (Stage) closeBtn.getScene().getWindow();
+        stage1.close();
     }
 
 }

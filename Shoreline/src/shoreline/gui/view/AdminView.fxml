@@ -87,7 +87,7 @@
                         <Insets bottom="20.0" top="50.0" />
                      </VBox.margin>
                   </JFXButton>
-                  <JFXCheckBox fx:id="adminCheckB" />
+                  <JFXCheckBox fx:id="adminCheckB" text="As Admin" />
                </children>
                <BorderPane.margin>
                   <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
@@ -112,19 +112,13 @@
                   </ImageView>
                   <HBox alignment="CENTER" GridPane.columnIndex="2">
                      <children>
-                        <JFXButton fx:id="logOut" onAction="#Logout" text="Logout">
+                        <JFXButton fx:id="closeBtn" onAction="#close" text="Close">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
                         </JFXButton>
-                        <JFXButton fx:id="fileConvertingBtn" onAction="#goToUserWin" text="File Converting">
-                           <HBox.margin>
-                              <Insets left="5.0" />
-                           </HBox.margin>
-                        </JFXButton>
                      </children>
                   </HBox>
-                  <Label fx:id="lblUser" text="Label" />
                </children>
             </GridPane>
          </top>
