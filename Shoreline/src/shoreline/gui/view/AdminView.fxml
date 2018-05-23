@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
@@ -14,6 +15,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -82,9 +84,10 @@
                   <JFXPasswordField fx:id="tfPassword2" labelFloat="true" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" promptText="Password" />
                   <JFXButton onAction="#CreateUser" text="Create user">
                      <VBox.margin>
-                        <Insets top="50.0" />
+                        <Insets bottom="20.0" top="50.0" />
                      </VBox.margin>
                   </JFXButton>
+                  <JFXCheckBox fx:id="adminCheckB" />
                </children>
                <BorderPane.margin>
                   <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
@@ -107,7 +110,21 @@
                         <Image url="@../../../LOGO.png" />
                      </image>
                   </ImageView>
-                  <JFXButton fx:id="logOut" onAction="#Logout" text="Logout" GridPane.columnIndex="2" />
+                  <HBox alignment="CENTER" GridPane.columnIndex="2">
+                     <children>
+                        <JFXButton fx:id="logOut" onAction="#Logout" text="Logout">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </JFXButton>
+                        <JFXButton fx:id="fileConvertingBtn" onAction="#goToUserWin" text="File Converting">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+                  <Label fx:id="lblUser" text="Label" />
                </children>
             </GridPane>
          </top>

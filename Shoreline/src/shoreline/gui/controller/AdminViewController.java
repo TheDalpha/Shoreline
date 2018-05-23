@@ -6,6 +6,7 @@
 package shoreline.gui.controller;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
@@ -13,6 +14,7 @@ import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,12 +27,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import shoreline.be.Admin;
 import shoreline.be.Loggin;
+import shoreline.be.Person;
 import shoreline.be.User;
 import shoreline.gui.model.AdminViewModel;
 import shoreline.gui.model.LoginViewModel;
@@ -44,6 +50,7 @@ import shoreline.gui.model.UserViewModel;
 public class AdminViewController implements Initializable
 {
 
+    DatePicker datePicker = new DatePicker(LocalDate.now());
     @FXML
     private JFXTextField tfUsername;
     @FXML
@@ -60,6 +67,8 @@ public class AdminViewController implements Initializable
     LoginViewModel lvm;
     UserViewModel usm;
     AdminViewModel avm;
+    private Person person;
+    String userName;
     @FXML
     private TableView<Loggin> logView;
     @FXML
@@ -72,6 +81,12 @@ public class AdminViewController implements Initializable
     private TableColumn<String, Loggin> fileNameClm;
     @FXML
     private TableColumn<String, Loggin> errorClm;
+    @FXML
+    private JFXButton fileConvertingBtn;
+    @FXML
+    private JFXCheckBox adminCheckB;
+    @FXML
+    private Label lblUser;
 
     /**
      * Initializes the controller class.
@@ -106,9 +121,9 @@ public class AdminViewController implements Initializable
                 new PropertyValueFactory("filename"));
         errorClm.setCellValueFactory(
                 new PropertyValueFactory("error"));
-//        whenClm.setCellValueFactory(
-//                new PropertyValueFactory("date"));
-        
+        whenClm.setCellValueFactory(
+                new PropertyValueFactory("date"));
+//        setUserName(person);
     }
 
     @FXML
@@ -128,8 +143,24 @@ public class AdminViewController implements Initializable
     @FXML
     private void CreateUser(ActionEvent event) throws NoSuchAlgorithmException, InvalidKeySpecException
     {
+        if (adminCheckB.isSelected() && tfPassword1.getText().equals(tfPassword2.getText()) && !tfUsername.getText().isEmpty())
+        {
+            Alert adminCreatedAlert = new Alert(Alert.AlertType.INFORMATION);
+            Admin admin = new Admin();
+            admin.setUsername(tfUsername.getText());
+            admin.setCleanPassword(tfPassword1.getText());
+            avm.createAdmin(admin);
+            adminCreatedAlert.setTitle("Succes!");
+            adminCreatedAlert.setHeaderText("Succes!");
+            adminCreatedAlert.setContentText("Admin " + admin.getUsername() + " has been created!");
+            adminCreatedAlert.showAndWait();
+            adminCreatedAlert.close();
+            avm.loadAdmins();
+            tfUsername.clear();
+            tfPassword1.clear();
+            tfPassword2.clear();
 
-        if (tfPassword1.getText().equals(tfPassword2.getText()) && !tfUsername.getText().isEmpty())
+        } else if (tfPassword1.getText().equals(tfPassword2.getText()) && !tfUsername.getText().isEmpty())
         {
             Alert userCreatedAlert = new Alert(Alert.AlertType.INFORMATION);
             User user = new User();
@@ -172,6 +203,28 @@ public class AdminViewController implements Initializable
         {
             deleteAlert.close();
         }
+    }
+
+    public void setUserName(Person person)
+    {
+        userName = person.getUsername();
+        lblUser.setText(userName);
+    }
+
+    @FXML
+    private void goToUserWin(ActionEvent event) throws IOException
+    {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/shoreline/gui/view/UserView.fxml"));
+        Parent root = (Parent) fxmlLoader.load();
+        root.getStylesheets().add("/shoreline/gui/view/Css/Style.css");
+        Stage stage = (Stage) fileConvertingBtn.getScene().getWindow();
+        stage.close();
+        Stage userView = new Stage();
+        UserViewController uvController = fxmlLoader.getController();
+        userView.setTitle("Shoreline");
+        userView.setScene(new Scene(root));
+        uvController.setUserName(person);
+        userView.show();
     }
 
 }
