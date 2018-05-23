@@ -141,10 +141,13 @@ public class AdminViewController implements Initializable
             userCreatedAlert.setContentText("User " + user.getUsername() + " has been created!");
             userCreatedAlert.showAndWait();
             userCreatedAlert.close();
+            String actionP = "User " + tfUsername.getText() + " was created";
             usm.loadUsers();
             tfUsername.clear();
             tfPassword1.clear();
             tfPassword2.clear();
+            LocalDate localDate = datePicker.getValue();
+            avm.addTraceLog(" ", actionP, userName, localDate.toString(), " ");
         } else
         {
             Alert createUserAlert = new Alert(Alert.AlertType.ERROR);
@@ -165,9 +168,12 @@ public class AdminViewController implements Initializable
         deleteAlert.showAndWait();
         if (deleteAlert.getResult() == ButtonType.YES)
         {
+            String actionP = "User " + tableView.getSelectionModel().getSelectedItem().toString() + " was Removed";
             usm.deleteUser(tableView.getSelectionModel().getSelectedItem());
             tableView.getItems().remove(tableView.getSelectionModel().getSelectedItem());
             usm.loadUsers();
+            LocalDate localDate = datePicker.getValue();
+            avm.addTraceLog(" ", actionP, userName, localDate.toString(), " ");
         } else if (deleteAlert.getResult() == ButtonType.NO)
         {
             deleteAlert.close();
