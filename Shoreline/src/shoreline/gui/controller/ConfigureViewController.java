@@ -17,6 +17,7 @@ import java.net.URL;
 import java.nio.file.CopyOption;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -35,6 +36,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -48,6 +50,7 @@ import shoreline.be.Attribute;
 import shoreline.gui.model.CfgModel;
 import shoreline.be.Header;
 import shoreline.be.Tasks;
+import shoreline.gui.model.AdminViewModel;
 import shoreline.gui.model.UserViewModel;
 
 /**
@@ -63,9 +66,13 @@ public class ConfigureViewController implements Initializable {
     JSONObject jobj = new JSONObject();
     File file;
     String outputFile;
+    String userName;
+    String desc;
     UserViewModel uvm;
     CfgModel cfgM;
     UserViewController uvc;
+    AdminViewModel avm;
+    DatePicker datePicker = new DatePicker(LocalDate.now());
 
     @FXML
     private Label lblUser;
@@ -100,6 +107,7 @@ public class ConfigureViewController implements Initializable {
         try {
             uvm = UserViewModel.getInstance();
             cfgM = CfgModel.getInstance();
+            avm = AdminViewModel.getInstance();
         } catch (SQLException | IOException ex) {
             Logger.getLogger(ConfigureViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -114,6 +122,7 @@ public class ConfigureViewController implements Initializable {
 
     @FXML
     private void saveConfiguration(ActionEvent event) throws Exception {
+        try {
         Attribute config = new Attribute();
 //        alist.forEach((key, value) -> {
 //            if (key.equals("SiteName")) {
@@ -180,7 +189,13 @@ public class ConfigureViewController implements Initializable {
             }
         }
         cbUpdate();
-
+        } catch (Exception e)
+        {
+            desc = e.toString();
+            LocalDate localDate = datePicker.getValue();
+            String actionP = "Nothing happens";
+            avm.addTraceLog(file.getName(), actionP, userName,localDate.toString(), desc);
+        }
     }
 
     @FXML
@@ -306,6 +321,7 @@ public class ConfigureViewController implements Initializable {
     }
 
     void setUsername(String userName) {
+        this.userName = userName;
         lblUser.setText(userName);
     }
 
@@ -316,6 +332,7 @@ public class ConfigureViewController implements Initializable {
 
     @FXML
     private void chooseSaveConfig(ActionEvent event) throws Exception {
+        try {
         headerMap.clear();
         attributeView.getItems().clear();
         attributeView.getItems().addAll(attList);
@@ -333,10 +350,18 @@ public class ConfigureViewController implements Initializable {
         uvm.setFilePath(file.getPath(), headerMap, true);
         String json = uvm.XLSXR();
         previewArea.setText(json);
+        } catch (Exception e)
+        {
+            desc = e.toString();
+            LocalDate localDate = datePicker.getValue();
+            String actionP = "Nothing happens";
+            avm.addTraceLog(file.getName(), actionP, userName,localDate.toString(), desc);
+        }
     }
 
     @FXML
     private void addToTask(ActionEvent event) {
+        try {
         String taskName = null;
         TextInputDialog taskDialog = new TextInputDialog();
         taskDialog.setTitle("Set task name");
@@ -347,6 +372,13 @@ public class ConfigureViewController implements Initializable {
             Tasks task = new Tasks(file, outputFile, taskName, headerMap);
             uvm.setTask(task);
             uvc.setTaskList();
+        }
+        } catch (Exception e)
+        {
+            desc = e.toString();
+            LocalDate localDate = datePicker.getValue();
+            String actionP = "Nothing happens";
+            avm.addTraceLog(file.getName(), actionP, userName,localDate.toString(), desc);
         }
     }
 

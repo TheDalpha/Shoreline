@@ -56,13 +56,13 @@ public class AdminViewModel {
         aManager.uploadL(el);
     }
 
-    public void addTraceLog(String name, String actionP, String userName, String desc) {
+    public void addTraceLog(String name, String actionP, String userName,String date, String desc) {
         try { //String actionP
             Loggin l = new Loggin();
             l.setUsername(userName);
             l.setFilename(name);
             l.setAction(actionP);
-            l.setDate("todo");
+            l.setDate(date);
             l.setError(desc);
 
             uploadLogger(l);
