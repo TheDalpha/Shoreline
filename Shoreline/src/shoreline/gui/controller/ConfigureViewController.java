@@ -189,6 +189,9 @@ public class ConfigureViewController implements Initializable {
             }
         }
         cbUpdate();
+        String actionP = "Configuration " + nameDialog.getResult() + " was saved";
+        LocalDate localDate = datePicker.getValue();
+        avm.addTraceLog(" ", actionP, userName, localDate.toString(), " ");
         } catch (Exception e)
         {
             desc = e.toString();
@@ -369,9 +372,12 @@ public class ConfigureViewController implements Initializable {
         taskDialog.setContentText("Please set a task name");
         if (taskDialog.showAndWait().isPresent()) {
             taskName = taskDialog.getResult();
+            String actionP = taskDialog.getResult() + " is added to task";
             Tasks task = new Tasks(file, outputFile, taskName, headerMap);
             uvm.setTask(task);
             uvc.setTaskList();
+            LocalDate localDate = datePicker.getValue();
+            avm.addTraceLog(" ", actionP, userName, localDate.toString(), " ");
         }
         } catch (Exception e)
         {
