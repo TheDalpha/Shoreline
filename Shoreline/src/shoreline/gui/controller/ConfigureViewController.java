@@ -204,7 +204,7 @@ public class ConfigureViewController implements Initializable {
         for (Header header1 : header) {
             selectedList.getItems().add(header1);
         }
-//        templateJson();
+        templateJson();
     }
 
     public void headerNames() {
@@ -319,7 +319,7 @@ public class ConfigureViewController implements Initializable {
         headerMap.clear();
         attributeView.getItems().clear();
         attributeView.getItems().addAll(attList);
-//        templateJson();
+        templateJson();
         List<Attribute> config = cfgM.getAllAttributes();
         for (Attribute attribute : config) {
             if (attribute.getOutId() == savedCombo.getValue().getOutId()) {
@@ -345,10 +345,6 @@ public class ConfigureViewController implements Initializable {
         if (taskDialog.showAndWait().isPresent()) {
             taskName = taskDialog.getResult();
             Tasks task = new Tasks(file, outputFile, taskName, headerMap);
-            task.setHeaderMap(headerMap);
-            task.setInputFile(file);
-            task.setOutputFile(outputFile);
-            task.setTaskName(taskName);
             uvm.setTask(task);
             uvc.setTaskList();
         }

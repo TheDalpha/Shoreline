@@ -9,6 +9,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -17,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -56,6 +58,7 @@ public class UserViewController implements Initializable {
     String outputFilename;
     String userName;
     String desc;
+    List<String> outputfiles = new ArrayList<>();
     @FXML
     private ListView<File> Lview;
     @FXML
@@ -72,7 +75,7 @@ public class UserViewController implements Initializable {
     @FXML
     private JFXButton stopBtn;
     @FXML
-    private JFXListView<?> convertedList;
+    private JFXListView<File> convertedList;
 
     /**
      * Initializes the controller class.
@@ -146,6 +149,13 @@ public class UserViewController implements Initializable {
                 setText(task == null ? null : task.getTaskName());
             }
         });
+        convertedList.setCellFactory(cView -> new ListCell<File>() {
+            @Override
+            protected void updateItem(File file, boolean empty) {
+                super.updateItem(file, empty);
+                setText(file == null ? null : file.getName());
+            }
+        });
     }
 
     public void setUserName(Person person) {
@@ -175,7 +185,7 @@ public class UserViewController implements Initializable {
 
     @FXML
     private void configure(ActionEvent event) throws IOException, InvalidFormatException, Exception {
-        try {
+//        try {
             if (Lview.getSelectionModel().isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("No File Selected.");
@@ -198,20 +208,26 @@ public class UserViewController implements Initializable {
                 configController.setController(this);
                 configView.show();
             }
-        } catch (Exception e) {
-            desc = e.toString();
-            String actionP = "Nothing happens";
-            avm.addTraceLog(" ", actionP, userName, desc);
-        }
+//        } catch (Exception e) {
+//            desc = e.toString();
+//            String actionP = "Nothing happens";
+//            avm.addTraceLog(" ", actionP, userName, desc);
+//        }
     }
 
     @FXML
     private void startConvert(ActionEvent event) throws IOException {
         try {
-            for (Tasks task : uvm.getTasks()) {
-                uvm.convert(task);
-                System.out.println(task.getHeaderMap());
-            }
+            Tasks task = taskView.getSelectionModel().getSelectedItem();
+            uvm.convert(task);
+            taskView.getItems().remove(task);
+            File file = new File(task.getTaskName() + ".json");
+            convertedList.getItems().add(file);
+            outputfiles.add(task.getOutputFile() + "\\" + task.getTaskName() + ".json");
+//            for (Tasks task : uvm.getTasks()) {
+//                uvm.convert(task);
+//                System.out.println(task.getHeaderMap());
+//            }
         } catch (Exception e) {
             desc = e.toString();
             String actionP = "Nothing happens";
@@ -252,6 +268,19 @@ public class UserViewController implements Initializable {
     }
 
     @FXML
-    private void openConvertedTask(MouseEvent event) {
+    private void openConvertedTask(MouseEvent event) throws IOException {
+        for (int i = 0; i < outputfiles.size(); i++) {
+            System.out.println(convertedList.getSelectionModel().getSelectedItem().getName());
+            if(outputfiles.get(i).contains(convertedList.getSelectionModel().getSelectedItem().getName())){
+        String fileName = outputfiles.get(i);
+        System.out.println(fileName);
+        File file = new File(fileName);
+        Desktop.getDesktop().open(file);
+        }
+//        String fileName = convertedList.getSelectionModel().getSelectedItem().getAbsolutePath();
+//        System.out.println(fileName);
+//        File file = new File(fileName);
+//        Desktop.getDesktop().open(file);
+        }
     }
 }

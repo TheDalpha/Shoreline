@@ -140,7 +140,7 @@ public class JFileReader {
         for (int i = row.getFirstCellNum(); i < row.getLastCellNum(); i++) {
             Cell cell = row.getCell(i);
             Header headers = new Header();
-            headers.setHeaderName(sheet.getRow(0).getCell(i).getStringCellValue());
+            headers.setHeaderName(sheet.getRow(0).getCell(i).toString());
             headers.setHeaderIndex(sheet.getRow(0).getCell(i).getColumnIndex());
             header.add(headers);
         }
@@ -223,6 +223,7 @@ public class JFileReader {
 
     public void convert(Tasks task) throws IOException, InvalidFormatException {
         File file = new File(task.getInputFile().getPath());
+        System.out.println(task.getInputFile().getPath());
         File fileOutput = new File(task.getOutputFile() + "/" + task.getTaskName() + ".json");
         FileWriter jsonWriter = new FileWriter(fileOutput);
         jobj = new JSONObject();
@@ -243,7 +244,7 @@ public class JFileReader {
                         planObjects.put(key, "");
                     } else {
                         Cell mValue = row.getCell(value.getHeaderIndex(), Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
-                        planObjects.put(key, printCellValue(mValue));
+                        planObjects.put(key, printCellValue(mValue).toString());
                     }
                 } else if (value.getHeaderIndex() == -1) {
                     jobj.put(key, "");
@@ -255,6 +256,7 @@ public class JFileReader {
             jobj.put("Planning", planObjects);
             jObList.add(jobj);
             jsonWriter.write(jobj.toString(4) + System.lineSeparator());
+           
 //            Map<String, Object> map = new HashMap<>();
 //            Iterator<Cell> cellIterator = sheet.getRow(0).cellIterator();
 //            while (cellIterator.hasNext()) {
@@ -270,6 +272,7 @@ public class JFileReader {
 //            String json = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(overAll);
 //            System.out.println(json);
         }
+        jsonWriter.close();
     }
 
 }
