@@ -24,6 +24,7 @@ import shoreline.be.Header;
 import shoreline.be.Person;
 import shoreline.be.Tasks;
 import shoreline.be.User;
+import shoreline.bll.ConvertThread;
 import shoreline.bll.JFileReader;
 import shoreline.bll.JFileWriter;
 import shoreline.bll.UserManager;
@@ -38,6 +39,7 @@ public class UserViewModel {
     UserManager uManager;
     JFileReader fileReader;
     JFileWriter fileWriter;
+    ConvertThread cThread = new ConvertThread();
     User user;
     ObservableList<User> userList;
     ObservableList<Tasks> tasksList = FXCollections.observableArrayList();
@@ -123,6 +125,6 @@ public class UserViewModel {
     }
 
     public void convert(Tasks task) throws IOException, InvalidFormatException {
-        fileReader.convert(task);
+        cThread.convert(task);
     }
 }

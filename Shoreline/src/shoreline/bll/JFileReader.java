@@ -19,6 +19,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
@@ -36,6 +39,7 @@ import shoreline.be.Tasks;
  */
 public class JFileReader {
 
+    private Tasks ct;
     JSONObject jobj;
     JSONObject testobj;
     List<Object> Total;
@@ -220,59 +224,6 @@ public class JFileReader {
 //        System.out.println(overAll);
     }
 
-    public void convert(Tasks task) throws IOException, InvalidFormatException {
-        File file = new File(task.getInputFile().getPath());
-        System.out.println(task.getInputFile().getPath());
-        File fileOutput = new File(task.getOutputFile() + "/" + task.getTaskName() + ".json");
-        FileWriter jsonWriter = new FileWriter(fileOutput);
-        JSONObject job = new JSONObject();
-        JSONArray jObL = new JSONArray();
-        JSONObject planObjects = new JSONObject();
-//        XSSFWorkbook workbook1 = new XSSFWorkbook(filePath);
-        Workbook workbook = WorkbookFactory.create(file);
-        Sheet sheet = workbook.getSheetAt(0);
-        int rowStart = sheet.getFirstRowNum() + 1;
-        int rowEnd = sheet.getLastRowNum();
-
-        for (int i = rowStart; i < rowEnd; i++) {
-            Row row = sheet.getRow(i);
-
-            task.getHeaderMap().forEach((key, value) -> {
-                if (key.equals("Latest Finish Date") || key.equals("Earliest Start Date") || key.equals("Latest Start Date") || key.equals("Estimated Time")) {
-                    if (value.getHeaderIndex() == -1) {
-                        planObjects.put(key, "");
-                    } else {
-                        Cell mValue = row.getCell(value.getHeaderIndex(), Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
-                        planObjects.put(key, printCellValue(mValue).toString());
-                    }
-                } else if (value.getHeaderIndex() == -1) {
-                    job.put(key, "");
-                } else {
-                    Cell mValue = row.getCell(value.getHeaderIndex(), Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
-                    job.put(key, printCellValue(mValue).toString());
-                }
-            });
-            job.put("Planning", planObjects);
-            jObL.put(job);
-            
-           
-//            Map<String, Object> map = new HashMap<>();
-//            Iterator<Cell> cellIterator = sheet.getRow(0).cellIterator();
-//            while (cellIterator.hasNext()) {
-//                for (Cell cell : row) {
-//                    String header = cellIterator.next().getStringCellValue();
-//                    map.put(header, printCellValue(cell));
-//
-//                }
-//            }
-//
-//            overAll.add(map);
-//        }
-//            String json = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(overAll);
-//            System.out.println(json);
-        }
-        jsonWriter.write(jObL.toString(4));
-        jsonWriter.close();
-    }
+    
 
 }
