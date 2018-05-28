@@ -39,13 +39,13 @@ public class JFileReader {
     JSONObject jobj;
     JSONObject testobj;
     List<Object> Total;
-    List<JSONObject> jObList;
+    JSONArray jObList;
 
     public void readXLSXAndConvertToJSON(String filePath, Map<String, Header> ja, boolean oneLine) throws Exception {
 
         File file = new File(filePath);
         testobj = new JSONObject();
-        jObList = new ArrayList();
+        jObList = new JSONArray();
         JSONObject planObjects = new JSONObject();
 //        XSSFWorkbook workbook1 = new XSSFWorkbook(filePath);
         Workbook workbook = WorkbookFactory.create(file);
@@ -72,7 +72,7 @@ public class JFileReader {
                 }
             });
             testobj.put("Planning", planObjects);
-            jObList.add(jobj);
+            jObList.put(jobj);
             if (oneLine) {
                 break;
             }
@@ -91,9 +91,9 @@ public class JFileReader {
 //            String json = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(overAll);
 //            System.out.println(json);
         }
-        for (JSONObject job : jObList) {
-            System.out.println(job.toString(4));
-        }
+//        for (JSONObject job : jObList) {
+//            System.out.println(job.toString(4));
+//        }
     }
 
     public String XLSXR() throws JsonProcessingException {
@@ -225,8 +225,8 @@ public class JFileReader {
         System.out.println(task.getInputFile().getPath());
         File fileOutput = new File(task.getOutputFile() + "/" + task.getTaskName() + ".json");
         FileWriter jsonWriter = new FileWriter(fileOutput);
-        jobj = new JSONObject();
-        jObList = new ArrayList();
+        JSONObject job = new JSONObject();
+        JSONArray jObL = new JSONArray();
         JSONObject planObjects = new JSONObject();
 //        XSSFWorkbook workbook1 = new XSSFWorkbook(filePath);
         Workbook workbook = WorkbookFactory.create(file);
@@ -246,15 +246,15 @@ public class JFileReader {
                         planObjects.put(key, printCellValue(mValue).toString());
                     }
                 } else if (value.getHeaderIndex() == -1) {
-                    jobj.put(key, "");
+                    job.put(key, "");
                 } else {
                     Cell mValue = row.getCell(value.getHeaderIndex(), Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
-                    jobj.put(key, printCellValue(mValue).toString());
+                    job.put(key, printCellValue(mValue).toString());
                 }
             });
-            jobj.put("Planning", planObjects);
-            jObList.add(jobj);
-            jsonWriter.write(jobj.toString(4) + System.lineSeparator());
+            job.put("Planning", planObjects);
+            jObL.put(job);
+            
            
 //            Map<String, Object> map = new HashMap<>();
 //            Iterator<Cell> cellIterator = sheet.getRow(0).cellIterator();
@@ -271,6 +271,7 @@ public class JFileReader {
 //            String json = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(overAll);
 //            System.out.println(json);
         }
+        jsonWriter.write(jObL.toString(4));
         jsonWriter.close();
     }
 
