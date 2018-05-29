@@ -109,26 +109,8 @@ public class UserViewController implements Initializable
                     = new FileChooser.ExtensionFilter("Text File", "*.xlsx", "*.xml", "*.csv");
             fileChooser.getExtensionFilters().add(extFilter);
             Window stage = null;
-//            fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
             File selectedFiles = fileChooser.showOpenDialog(stage);
             Lview.getItems().add(selectedFiles);
-//            if (selectedFiles != null) {
-//
-//                DirectoryChooser dirch = new DirectoryChooser();
-//                File outputDirectory = dirch.showDialog(null);
-//                CopyOption[] options = new CopyOption[]{StandardCopyOption.REPLACE_EXISTING};
-//                for (File selectedFile : selectedFiles) {
-//                    Lview.getItems().add(selectedFile);
-////                    uvm.setFilePath(selectedFile.getPath());
-////                    uvm.setFilePoth(selectedFile.getPath());
-//                    outputFilename = Paths.get(outputDirectory.getAbsolutePath(), getFilenameWithoutExtention(selectedFile.getName()) + ".json").toString();
-//                    System.out.println(selectedFile.getAbsolutePath());
-//                    Files.copy(Paths.get(selectedFile.getAbsolutePath()), Paths.get(outputDirectory.getAbsolutePath() + "\\" + selectedFile.getName()), options);
-//                    // lblUser.setText(selectedFile.getPath());
-//                    String actionP = "Uploads file(s)";
-//                    avm.addTraceLog(selectedFile.getName(),actionP, userName, "");
-//                }
-//            }
         } catch (Exception e)
         {
             String desc = "Attempted to upload something wrong";
@@ -299,10 +281,6 @@ public class UserViewController implements Initializable
     {
         try
         {
-//            String desc = "Attempted to remove nothing";
-//            String actionP = "Removed File" + ": " + Lview.getSelectionModel().getSelectedItem().getName();
-//            LocalDate localDate = datePicker.getValue();
-//            avm.addTraceLog(Lview.getSelectionModel().getSelectedItem().getName(), actionP, userName, localDate.toString(), desc);
             Lview.getItems().remove(Lview.getSelectionModel().getSelectedItem());
         } catch (Exception e)
         {
@@ -310,9 +288,6 @@ public class UserViewController implements Initializable
             String actionP = "Removed File" + ": " + Lview.getSelectionModel().getSelectedItem().getName();
             LocalDate localDate = datePicker.getValue();
             avm.addTraceLog(Lview.getSelectionModel().getSelectedItem().getName(), actionP, userName, localDate.toString(), desc);
-//            String desc = "Attempted to remove nothing";
-//            LocalDate localDate = datePicker.getValue();
-//            avm.addTraceLog(, actionP, userName,localDate.toString(), desc);
         }
     }
 
@@ -320,8 +295,6 @@ public class UserViewController implements Initializable
     private void openConvertedTask(MouseEvent event) throws IOException
     {
         try {
-            
-        
         for (int i = 0; i < outputfiles.size(); i++)
         {
             System.out.println(convertedList.getSelectionModel().getSelectedItem().getName());
@@ -342,15 +315,7 @@ public class UserViewController implements Initializable
             LocalDate localDate = datePicker.getValue();
             avm.addTraceLog(outputFilename, actionP, userName,localDate.toString(), desc);
         }
-    }
-        
-        
-//        String fileName = convertedList.getSelectionModel().getSelectedItem().getAbsolutePath();
-//        System.out.println(fileName);
-//        File file = new File(fileName);
-//        Desktop.getDesktop().open(file);
-        
-    
+    }   
         
 
     @FXML
