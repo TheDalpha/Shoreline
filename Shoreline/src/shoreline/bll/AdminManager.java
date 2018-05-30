@@ -6,9 +6,6 @@
 package shoreline.bll;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import shoreline.be.Admin;
 import shoreline.be.Loggin;
 import shoreline.dal.AdminDAO;

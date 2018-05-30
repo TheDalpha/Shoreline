@@ -71,21 +71,6 @@ public class ConvertFile implements Runnable{
                 });
                 job.put("Planning", planObjects);
                 jObL.put(job);
-
-//            Map<String, Object> map = new HashMap<>();
-//            Iterator<Cell> cellIterator = sheet.getRow(0).cellIterator();
-//            while (cellIterator.hasNext()) {
-//                for (Cell cell : row) {
-//                    String header = cellIterator.next().getStringCellValue();
-//                    map.put(header, printCellValue(cell));
-//
-//                }
-//            }
-//
-//            overAll.add(map);
-//        }
-//            String json = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(overAll);
-//            System.out.println(json);
             }
             jsonWriter.write(jObL.toString(4));
             jsonWriter.close();

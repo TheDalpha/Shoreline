@@ -29,7 +29,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import shoreline.be.Admin;
-import shoreline.be.Loggin;
 import shoreline.be.Person;
 import shoreline.be.User;
 import shoreline.gui.model.LoginViewModel;
@@ -48,8 +47,6 @@ public class LoginViewController implements Initializable {
     private JFXButton loginBtn;
     @FXML
     private JFXPasswordField txtPassword;
-    
-//    private String checkUser, checkPw;
     @FXML
     private Label lblMessage;
     
@@ -59,9 +56,6 @@ public class LoginViewController implements Initializable {
     boolean admuns = false;
     
     
-    
-//    String user = "user";
-//    String password = "password";
 
     /**
      * Initializes the controller class.
@@ -89,7 +83,6 @@ public class LoginViewController implements Initializable {
     private void loginBtn(ActionEvent event) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException
     {
         
-//        txtPassword.setOnKeyPressed(value);
         String username = txtUserName.getText();
         String password = txtPassword.getText();
         
@@ -153,9 +146,6 @@ public class LoginViewController implements Initializable {
         }
     }
     
-//    public void setModel(LoginViewModel lvm) {
-//        this.lvm = lvm;
-//    }
 
     @FXML
     private void login(KeyEvent event) throws NoSuchAlgorithmException, NoSuchAlgorithmException, InvalidKeySpecException, IOException, InvalidKeySpecException, InvalidKeySpecException

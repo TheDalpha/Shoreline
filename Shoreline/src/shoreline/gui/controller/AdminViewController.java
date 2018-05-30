@@ -20,21 +20,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import shoreline.be.Admin;
 import shoreline.be.Loggin;
 import shoreline.be.Person;
 import shoreline.be.User;
@@ -185,21 +179,6 @@ public class AdminViewController implements Initializable
         userName = person.getUsername();
         lblUser.setText(userName);
     }
-//
-//    private void goToUserWin(ActionEvent event) throws IOException
-//    {
-//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/shoreline/gui/view/UserView.fxml"));
-//        Parent root = (Parent) fxmlLoader.load();
-//        root.getStylesheets().add("/shoreline/gui/view/Css/Style.css");
-//        Stage stage = (Stage) fileConvertingBtn.getScene().getWindow();
-//        stage.close();
-//        Stage userView = new Stage();
-//        UserViewController uvController = fxmlLoader.getController();
-//        userView.setTitle("Shoreline");
-//        userView.setScene(new Scene(root));
-//        uvController.setUserName(person);
-//        userView.show();
-//    }
 
     @FXML
     private void close(ActionEvent event)

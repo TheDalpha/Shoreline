@@ -7,7 +7,6 @@ package shoreline.gui.model;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -57,7 +56,7 @@ public class AdminViewModel {
     }
 
     public void addTraceLog(String name, String actionP, String userName,String date, String desc) {
-        try { //String actionP
+        try { 
             Loggin l = new Loggin();
             l.setUsername(userName);
             l.setFilename(name);
@@ -71,14 +70,4 @@ public class AdminViewModel {
         }
 
     }
-
-//    public void addErrorLog(String desc) {
-//        try {
-//            Loggin el = new Loggin();
-//            el.setError(desc);
-//            
-//            uploadL(el);
-//        } catch (Exception e) {
-//        }
-//    }
 }

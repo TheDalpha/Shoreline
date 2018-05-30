@@ -5,7 +5,6 @@
  */
 package shoreline.gui.controller;
 
-import com.fasterxml.jackson.annotation.JacksonAnnotation;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import com.jfoenix.controls.JFXButton;
@@ -14,27 +13,21 @@ import com.jfoenix.controls.JFXTextArea;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.CopyOption;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.jar.Attributes;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -44,7 +37,6 @@ import javafx.scene.control.TextInputDialog;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import shoreline.be.Attribute;
 import shoreline.gui.model.CfgModel;
@@ -124,53 +116,7 @@ public class ConfigureViewController implements Initializable {
     private void saveConfiguration(ActionEvent event) throws Exception {
         try {
         Attribute config = new Attribute();
-//        alist.forEach((key, value) -> {
-//            if (key.equals("SiteName")) {
-//                config.setSiteName(value);
-//            }
-//            if (key.equals("Asset Serial Number")) {
-//                config.setAssetSerialNumber(value);
-//            }
-//            if (key.equals("Type")) {
-//                config.setType(value);
-//            }
-//            if (key.equals("External Work Order")) {
-//                config.setExternalWorkOrder(value);
-//            }
-//            if (key.equals("System Status")) {
-//                config.setSystemStatus(value);
-//            }
-//            if (key.equals("User Status")) {
-//                config.setUserStatus(value);
-//            }
-//            if (key.equals("Created On")) {
-//                config.setCreatedOn(value);
-//            }
-//            if (key.equals("Created By")) {
-//                config.setCreatedBy(value);
-//            }
-//            if (key.equals("Name")) {
-//                config.setName(value);
-//            }
-//            if (key.equals("Priority")) {
-//                config.setPriority(value);
-//            }
-//            if (key.equals("Status")) {
-//                config.setStatus(value);
-//            }
-//            if (key.equals("Latest Finish Date")) {
-//                config.setLatestFinishDate(value);
-//            }
-//            if (key.equals("Earliest Start Date")) {
-//                config.setEarliestStartDate(value);
-//            }
-//            if (key.equals("Latest Start Date")) {
-//                config.setLatestStartDate(value);
-//            }
-//            if (key.equals("Estimated Time")) {
-//                config.setEstimatedTime(value);
-//            }
-//        });
+
         TextInputDialog nameDialog = new TextInputDialog("");
         nameDialog.setTitle("Set configuration name");
         nameDialog.setHeaderText("Set configuration name");
@@ -205,13 +151,6 @@ public class ConfigureViewController implements Initializable {
     private void cancel(ActionEvent event) throws IOException {
         Stage stage1 = (Stage) cancelBtn.getScene().getWindow();
         stage1.close();
-
-//        Stage stage = new Stage();
-//        Parent root = FXMLLoader.load(getClass().getResource("/shoreline/gui/view/UserView.fxml"));
-//        root.getStylesheets().add("/shoreline/gui/view/Css/Style.css");
-//        Scene scene = new Scene(root);
-//        stage.setScene(scene);
-//        stage.show();
     }
 
     public void setFileHeaders(File file) throws IOException, InvalidFormatException, Exception {
@@ -272,12 +211,6 @@ public class ConfigureViewController implements Initializable {
     private void addAttribute(ActionEvent event) throws JsonProcessingException, Exception {
         String selectedCB = attCB.getSelectionModel().getSelectedItem();
         Header selected = selectedList.getSelectionModel().getSelectedItem();
-//        attributeView.getItems().add(selectedCB + " : " + selected);
-//        for (int i = 0; i < attributeView.getItems().size(); i++) {
-//            if(attributeView.getItems().get(i).equals(attCB.getSelectionModel().getSelectedItem())) {
-//                attributeView.getItems().set(i, selectedCB + " : " + selected);
-//            }
-//        }
         attributeView.getItems().set(attCB.getSelectionModel().getSelectedIndex(), selectedCB + " : " + selected);
         selected.setListIndex(attCB.getSelectionModel().getSelectedIndex());
         selected.setAttName(selectedCB);
@@ -298,9 +231,6 @@ public class ConfigureViewController implements Initializable {
     public Map<String, Header> jArray() {
         Header h = selectedList.getSelectionModel().getSelectedItem();
         String sitenameheader = attCB.getValue();
-        // forloop
-
-        //key : tilføj headername somehow row 0, altid. value: samme som key, men starter fra row 1, increment to 2,3,4 etc
         headerMap.put(sitenameheader, h);
         System.out.println(headerMap);
         return headerMap;

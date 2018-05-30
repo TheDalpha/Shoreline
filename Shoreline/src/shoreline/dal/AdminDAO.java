@@ -45,7 +45,6 @@ public class AdminDAO {
             }
         } catch (SQLException ex) {
             System.err.print(ex);
-//            return null;
         }
         return allAdmins;
     }
@@ -70,7 +69,6 @@ public class AdminDAO {
             }
         } catch (SQLException ex) {
             System.err.print(ex);
-//            return null;
         }
         return allLoggins;
     }
@@ -93,12 +91,6 @@ public class AdminDAO {
             int affected = pstmt.executeUpdate();
             if(affected<1)
                 throw new SQLException("Can't Update Log");
-            
-//            //Get Database generated id and set user id
-//            ResultSet rs = pstmt.getGeneratedKeys();
-//            if (rs.next()) {
-//                log.setTraceId(rs.getInt(1));
-//        }
     }
     }
 }

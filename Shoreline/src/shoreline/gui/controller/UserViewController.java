@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import static java.time.temporal.TemporalQueries.localDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -47,8 +46,7 @@ import shoreline.gui.model.UserViewModel;
  *
  * @author Jesper
  */
-public class UserViewController implements Initializable
-{
+public class UserViewController implements Initializable {
 
     private JFXTextField filePath;
 
@@ -59,7 +57,7 @@ public class UserViewController implements Initializable
     String desc;
     List<String> outputfiles = new ArrayList<>();
     DatePicker datePicker = new DatePicker(LocalDate.now());
-    
+
     @FXML
     private ListView<File> Lview;
     @FXML
@@ -84,26 +82,21 @@ public class UserViewController implements Initializable
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb)
-    {
-        try
-        {
+    public void initialize(URL url, ResourceBundle rb) {
+        try {
             avm = AdminViewModel.getInstance();
             uvm = UserViewModel.getInstance();
             avm = AdminViewModel.getInstance();
-        } catch (SQLException | IOException ex)
-        {
+        } catch (SQLException | IOException ex) {
             Logger.getLogger(UserViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
         fileNames();
-        
+
     }
 
     @FXML
-    private void chooseFile(ActionEvent event) throws Exception
-    {
-        try
-        {
+    private void chooseFile(ActionEvent event) throws Exception {
+        try {
             FileChooser fileChooser = new FileChooser();
             FileChooser.ExtensionFilter extFilter
                     = new FileChooser.ExtensionFilter("Text File", "*.xlsx", "*.xml", "*.csv");
@@ -111,73 +104,59 @@ public class UserViewController implements Initializable
             Window stage = null;
             File selectedFiles = fileChooser.showOpenDialog(stage);
             Lview.getItems().add(selectedFiles);
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             String desc = "Attempted to upload something wrong";
             String actionP = "Invalid file";
             LocalDate localDate = datePicker.getValue();
-            avm.addTraceLog(" ", actionP, userName,localDate.toString(), desc);
+            avm.addTraceLog(" ", actionP, userName, localDate.toString(), desc);
         }
 
     }
 
-    public void setTaskList()
-    {
+    public void setTaskList() {
         System.out.println(uvm.getTasks());
         taskView.setItems(uvm.getTasks());
     }
 
-    public void fileNames()
-    {
-        Lview.setCellFactory(lView -> new ListCell<File>()
-        {
+    public void fileNames() {
+        Lview.setCellFactory(lView -> new ListCell<File>() {
             @Override
-            protected void updateItem(File file, boolean empty)
-            {
+            protected void updateItem(File file, boolean empty) {
                 super.updateItem(file, empty);
                 setText(file == null ? null : file.getName());
             }
         });
-        taskView.setCellFactory(tView -> new ListCell<Tasks>()
-        {
+        taskView.setCellFactory(tView -> new ListCell<Tasks>() {
             @Override
-            protected void updateItem(Tasks task, boolean empty)
-            {
+            protected void updateItem(Tasks task, boolean empty) {
                 super.updateItem(task, empty);
                 setText(task == null ? null : task.getTaskName());
             }
         });
-        convertedList.setCellFactory(cView -> new ListCell<File>()
-        {
+        convertedList.setCellFactory(cView -> new ListCell<File>() {
             @Override
-            protected void updateItem(File file, boolean empty)
-            {
+            protected void updateItem(File file, boolean empty) {
                 super.updateItem(file, empty);
                 setText(file == null ? null : file.getName());
             }
         });
     }
 
-    public void setUserName(User person)
-    {
+    public void setUserName(User person) {
         this.person = person;
         userName = person.getUsername();
-        if (person.isAdmin() == true)
-        {
+        if (person.isAdmin() == true) {
             adminPanelBtn.setVisible(true);
             lblUser.setText(userName + "(Admin)");
-        } else
-        {
+        } else {
             adminPanelBtn.setVisible(false);
             lblUser.setText(userName);
         }
     }
 
     @FXML
-    private void logout(ActionEvent event) throws IOException
-    {
-        try
-        {
+    private void logout(ActionEvent event) throws IOException {
+        try {
             Stage stage1 = (Stage) logoutBtn.getScene().getWindow();
             stage1.close();
 
@@ -187,8 +166,7 @@ public class UserViewController implements Initializable
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             String desc = "failed to logout";
             String actionP = "Attempted to logout";
             LocalDate localDate = datePicker.getValue();
@@ -197,46 +175,41 @@ public class UserViewController implements Initializable
     }
 
     @FXML
-    private void configure(ActionEvent event) throws IOException, InvalidFormatException, Exception
-    {
+    private void configure(ActionEvent event) throws IOException, InvalidFormatException, Exception {
         try {
-        if (Lview.getSelectionModel().isEmpty())
-        {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("No File Selected.");
-            alert.setHeaderText("File Selection Failed.");
-            alert.setContentText("Please Select a File.");
-            alert.showAndWait();
-            alert.close();
-        } else
-        {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/shoreline/gui/view/ConfigureView.fxml"));
-            Parent root = (Parent) fxmlLoader.load();
-            root.getStylesheets().add("/shoreline/gui/view/Css/Style.css");
-            Stage stage = (Stage) confBtn.getScene().getWindow();
-            Stage configView = new Stage();
-            File file = Lview.getSelectionModel().getSelectedItem();
-            ConfigureViewController configController = fxmlLoader.getController();
-            configView.setTitle("Shoreline Configure Window");
-            configView.setScene(new Scene(root));
-            configController.setFileHeaders(file);
-            configController.setUsername(userName);
-            configController.setController(this);
-            configView.show();
-        }
+            if (Lview.getSelectionModel().isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("No File Selected.");
+                alert.setHeaderText("File Selection Failed.");
+                alert.setContentText("Please Select a File.");
+                alert.showAndWait();
+                alert.close();
+            } else {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/shoreline/gui/view/ConfigureView.fxml"));
+                Parent root = (Parent) fxmlLoader.load();
+                root.getStylesheets().add("/shoreline/gui/view/Css/Style.css");
+                Stage stage = (Stage) confBtn.getScene().getWindow();
+                Stage configView = new Stage();
+                File file = Lview.getSelectionModel().getSelectedItem();
+                ConfigureViewController configController = fxmlLoader.getController();
+                configView.setTitle("Shoreline Configure Window");
+                configView.setScene(new Scene(root));
+                configController.setFileHeaders(file);
+                configController.setUsername(userName);
+                configController.setController(this);
+                configView.show();
+            }
         } catch (Exception e) {
             String desc = "No file chosen";
             String actionP = "Attempted to configure without a valid file";
             LocalDate localDate = datePicker.getValue();
-            avm.addTraceLog(" ", actionP, userName,localDate.toString(), desc);
+            avm.addTraceLog(" ", actionP, userName, localDate.toString(), desc);
         }
     }
 
     @FXML
-    private void startConvert(ActionEvent event) throws IOException
-    {
-        try
-        {
+    private void startConvert(ActionEvent event) throws IOException {
+        try {
             Tasks task = taskView.getSelectionModel().getSelectedItem();
             uvm.convert(task);
             taskView.getItems().remove(task);
@@ -247,18 +220,16 @@ public class UserViewController implements Initializable
 //                uvm.convert(task);
 //                System.out.println(task.getHeaderMap());
 //            }   io null         
-        } catch (IOException | InvalidFormatException e)
-        {
+        } catch (IOException | InvalidFormatException e) {
             String desc = "Not a valid file";
             String actionP = "Attempted to startConvert without a valid file";
             LocalDate localDate = datePicker.getValue();
-            avm.addTraceLog(" ", actionP, userName,localDate.toString(), desc);
+            avm.addTraceLog(" ", actionP, userName, localDate.toString(), desc);
         }
     }
 
     @FXML
-    private void stopConvert(ActionEvent event)
-    {
+    private void stopConvert(ActionEvent event) {
 //        try
 //        {
 //            
@@ -269,21 +240,17 @@ public class UserViewController implements Initializable
 //        }
     }
 
-    public String getFilenameWithoutExtention(String filename)
-    {
+    public String getFilenameWithoutExtention(String filename) {
         String[] fnameParts = filename.split("\\.");
         String lastExt = fnameParts[fnameParts.length - 1];
         return filename.substring(0, filename.length() - 1 - lastExt.length());
     }
 
     @FXML
-    private void removeFile(ActionEvent event)
-    {
-        try
-        {
+    private void removeFile(ActionEvent event) {
+        try {
             Lview.getItems().remove(Lview.getSelectionModel().getSelectedItem());
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             String desc = "Attempted to remove nothing";
             String actionP = "Removed File" + ": " + Lview.getSelectionModel().getSelectedItem().getName();
             LocalDate localDate = datePicker.getValue();
@@ -292,35 +259,28 @@ public class UserViewController implements Initializable
     }
 
     @FXML
-    private void openConvertedTask(MouseEvent event) throws IOException
-    {
+    private void openConvertedTask(MouseEvent event) throws IOException {
         try {
-        for (int i = 0; i < outputfiles.size(); i++)
-        {
-            System.out.println(convertedList.getSelectionModel().getSelectedItem().getName());
-            if (outputfiles.get(i).contains(convertedList.getSelectionModel().getSelectedItem().getName()))
-            {
-                String fileName = outputfiles.get(i);
-                System.out.println(fileName);
-                File file = new File(fileName);
-                Desktop.getDesktop().open(file);
-                
-            
-        }
-        }
-         } catch (IOException e)
-        {
+            for (int i = 0; i < outputfiles.size(); i++) {
+                System.out.println(convertedList.getSelectionModel().getSelectedItem().getName());
+                if (outputfiles.get(i).contains(convertedList.getSelectionModel().getSelectedItem().getName())) {
+                    String fileName = outputfiles.get(i);
+                    System.out.println(fileName);
+                    File file = new File(fileName);
+                    Desktop.getDesktop().open(file);
+
+                }
+            }
+        } catch (IOException e) {
             String desc = "Attempted to open an invalid filepath";
             String actionP = "Attempted to open invalid file";
             LocalDate localDate = datePicker.getValue();
-            avm.addTraceLog(outputFilename, actionP, userName,localDate.toString(), desc);
+            avm.addTraceLog(outputFilename, actionP, userName, localDate.toString(), desc);
         }
-    }   
-        
+    }
 
     @FXML
-    private void openAdminPanel(ActionEvent event) throws IOException
-    {
+    private void openAdminPanel(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/shoreline/gui/view/AdminView.fxml"));
         Parent root = (Parent) fxmlLoader.load();
         root.getStylesheets().add("/shoreline/gui/view/Css/Style.css");

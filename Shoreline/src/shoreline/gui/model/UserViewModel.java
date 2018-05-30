@@ -8,25 +8,20 @@ package shoreline.gui.model;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.File;
 import java.io.IOException;
-import static java.nio.file.Files.list;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import shoreline.be.Header;
 import shoreline.be.Person;
 import shoreline.be.Tasks;
 import shoreline.be.User;
 import shoreline.bll.ConvertThread;
 import shoreline.bll.JFileReader;
-import shoreline.bll.JFileWriter;
 import shoreline.bll.UserManager;
 
 /**
@@ -38,7 +33,6 @@ public class UserViewModel {
     private static UserViewModel instance;
     UserManager uManager;
     JFileReader fileReader;
-    JFileWriter fileWriter;
     ConvertThread cThread = new ConvertThread();
     User user;
     ObservableList<User> userList;
@@ -49,7 +43,6 @@ public class UserViewModel {
         uManager = new UserManager();
         user = new User();
         fileReader = new JFileReader();
-        fileWriter = new JFileWriter();
         userList = FXCollections.observableArrayList();
     }
 
@@ -93,10 +86,6 @@ public class UserViewModel {
         fileReader.readXLSXAndConvertToJSON(filePath, ja, oneLine);
     }
 
-    public void convertToJson(String path, String json) throws IOException {
-        fileWriter.convertToJson(path, json);
-    }
-
     public List<Header> getFileHeaders(File file) throws IOException, InvalidFormatException {
         return fileReader.getFileHeaders(file);
     }
@@ -104,13 +93,6 @@ public class UserViewModel {
     public String XLSXR() throws JsonProcessingException {
         return fileReader.XLSXR();
     }
-//    public void setFilePoth (String filePoth) throws IOException {
-//    fileReader.readCSVAndConvertToJSON(filePoth);
-//    }
-//    public List<Header> getFileH (File file) throws IOException {
-//        return fileReader.getFileH(file);
-//        
-//    }
 
     public void setTemplate(Map<String, Header> jobj) {
         fileReader.setTemplate(jobj);
