@@ -21,8 +21,6 @@ import shoreline.be.Person;
 import shoreline.be.Tasks;
 import shoreline.be.User;
 import shoreline.bll.CfgManager;
-import shoreline.dal.ConvertThread;
-import shoreline.dal.TemplateFile;
 import shoreline.bll.UserManager;
 
 /**
@@ -52,10 +50,6 @@ public class UserViewModel {
 
     public ObservableList<User> getAllUsers() {
         return userList;
-    }
-
-    public void updateUser(User user) {
-        uManager.updateUser(user);
     }
 
     public static UserViewModel getInstance() throws SQLException, IOException {

@@ -51,26 +51,6 @@ public class UserDAO
         }
         return allUsers;
     }
-    
-    public void updateUsers(User user) {
-        String sql = "UPDATE Login "
-                + "username = ?, "
-                + "password = ?, "
-                + "encryptedPassword = ?, "
-                + " WHERE loginId = ? ;";
-        try (Connection con = dbConnector.getConnection())
-        {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, user.getUsername());
-            ps.setString(2, user.getCleanPassword());
-            ps.setBytes(3, user.getEncryptedPassword());
-            ps.setInt(4, user.getLoginId());
-
-            ps.executeUpdate();
-        }catch (SQLException ex) {
-            System.err.print(ex);
-        }
-    }
 
     public void createUser(User user) {
         try (Connection con = dbConnector.getConnection())

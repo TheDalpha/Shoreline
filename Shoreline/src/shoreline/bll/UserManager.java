@@ -32,10 +32,6 @@ public class UserManager
     public List<User> getAllUsers() {
         return udao.getAllUsers();
     }
-    
-    public void updateUser(User user) {
-        udao.updateUsers(user);
-    }
 
     public void createUser(User user) throws NoSuchAlgorithmException, InvalidKeySpecException {
         String passwordEntered = user.getCleanPassword();
