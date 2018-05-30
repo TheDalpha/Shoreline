@@ -100,11 +100,16 @@ public class AdminViewController implements Initializable
         {
             Logger.getLogger(AdminViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        // Loads all users
         usm.loadUsers();
+        // Sets the items in the tableview of all users
         tableView.setItems(usm.getAllUsers());
+        // Loads all logs
         avm.loadLoggins();
+        // Sets the items in tableview of logs
         logView.setItems(avm.getAllLoggins());
 
+        // Sets all columns cell value
         nameClm.setCellValueFactory(
                 new PropertyValueFactory("username"));
         userClm.setCellValueFactory(
@@ -119,6 +124,12 @@ public class AdminViewController implements Initializable
                 new PropertyValueFactory("date"));
     }
 
+    /**
+     * Makes a new user object and sets the user.
+     * @param event
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException 
+     */
     @FXML
     private void CreateUser(ActionEvent event) throws NoSuchAlgorithmException, InvalidKeySpecException
     {
@@ -130,16 +141,19 @@ public class AdminViewController implements Initializable
             user.setUsername(tfUsername.getText());
             user.setCleanPassword(tfPassword1.getText());
             usm.createUser(user);
+            
             userCreatedAlert.setTitle("Succes!");
             userCreatedAlert.setHeaderText("Succes!");
             userCreatedAlert.setContentText("User " + user.getUsername() + " has been created!");
             userCreatedAlert.showAndWait();
             userCreatedAlert.close();
-            String actionP = "User " + tfUsername.getText() + " was created";
+            // Loads all users and clear all textfields
             usm.loadUsers();
             tfUsername.clear();
             tfPassword1.clear();
             tfPassword2.clear();
+            // Sets the data for the log
+            String actionP = "User " + tfUsername.getText() + " was created";
             LocalDate localDate = datePicker.getValue();
             System.out.println(userName);
             avm.addTraceLog(" ", actionP, userName, localDate.toString(), " ");
@@ -154,6 +168,10 @@ public class AdminViewController implements Initializable
 
     }
 
+    /**
+     * Removes the selected user
+     * @param event 
+     */
     @FXML
     private void removeUser(ActionEvent event)
     {
@@ -163,10 +181,11 @@ public class AdminViewController implements Initializable
         deleteAlert.showAndWait();
         if (deleteAlert.getResult() == ButtonType.YES)
         {
-            String actionP = "User " + tableView.getSelectionModel().getSelectedItem().getUsername() + " was Removed";
             usm.deleteUser(tableView.getSelectionModel().getSelectedItem());
             tableView.getItems().remove(tableView.getSelectionModel().getSelectedItem());
             usm.loadUsers();
+            // Sets the data for the log
+            String actionP = "User " + tableView.getSelectionModel().getSelectedItem().getUsername() + " was Removed";
             LocalDate localDate = datePicker.getValue();
             avm.addTraceLog(" ", actionP, userName, localDate.toString(), " ");
         } else if (deleteAlert.getResult() == ButtonType.NO)
@@ -175,6 +194,10 @@ public class AdminViewController implements Initializable
         }
     }
 
+    /**
+     * Sets the active username
+     * @param person 
+     */
     public void setUserName(Person person)
     {
         userName = person.getUsername();

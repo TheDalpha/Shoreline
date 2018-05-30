@@ -66,7 +66,7 @@ public class TemplateFile {
                 }
             });
             testobj.put("Planning", planObjects);
-            jObList.put(jobj);
+            jObList.put(testobj);
             if (oneLine) {
                 break;
             }
@@ -124,9 +124,9 @@ public class TemplateFile {
     }
 
     public void setTemplate(Map<String, Header> jobj) {
-        this.jobj = new JSONObject();
+        this.testobj = new JSONObject();
         jobj.forEach((k, v) -> {
-            this.jobj.put(k, v);
+            this.testobj.put(k, v);
         });
     }
 

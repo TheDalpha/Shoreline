@@ -31,6 +31,12 @@ public class LoginViewModel
     private ObservableList<User> users = FXCollections.observableArrayList();
     private ObservableList<Admin> admins = FXCollections.observableArrayList();
     
+    /**
+     * Returns the instance of LoginViewModel
+     * @return
+     * @throws SQLException
+     * @throws IOException 
+     */
     public static LoginViewModel getInstance() throws SQLException, IOException
     {
         if (instance == null)
@@ -40,24 +46,47 @@ public class LoginViewModel
         return instance;
     }
     
+    /**
+     * Gets all users
+     * @return 
+     */
     public ObservableList<User> getAllUsers() {
         return users;
     }
     
+    /**
+     * Gets all users and put them in a list
+     */
     public void loadUsers(){
     List<User> allUsers = uManager.getAllUsers();
     users.addAll(allUsers);
     }
     
+    /**
+     * Gets all admins
+     * @return 
+     */
     public ObservableList<Admin> getAllAdmins() {
         return admins;
     }
     
+    /**
+     * Gets all admins and put them in a list
+     */
     public void loadAdmins() {
         List<Admin> allAdmins = aManager.getAllAdmins();
         admins.addAll(allAdmins);
     }
     
+    /**
+     * Sends the data further into the system
+     * @param passwordEntered
+     * @param passwordEncrypted
+     * @param salt
+     * @return
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException 
+     */
     public boolean authenticate(String passwordEntered, byte[] passwordEncrypted, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
         return pSecure.authenticate(passwordEntered, passwordEncrypted, salt);
     }

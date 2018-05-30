@@ -25,20 +25,36 @@ public class AdminViewModel {
     AdminManager aManager;
     ObservableList<Loggin> logginList;
 
+    /**
+     * Constructor
+     */
     private AdminViewModel() {
         aManager = new AdminManager();
         logginList = FXCollections.observableArrayList();
     }
 
+    /**
+     * Adds all logs to a list
+     */
     public void loadLoggins() {
         logginList.clear();
         logginList.addAll(aManager.getAllLoggins());
     }
 
+    /**
+     * Gets all logs
+     * @return List
+     */
     public ObservableList<Loggin> getAllLoggins() {
         return logginList;
     }
 
+    /**
+     * Returns the instance of AdminViewModel
+     * @return
+     * @throws SQLException
+     * @throws IOException 
+     */
     public static AdminViewModel getInstance() throws SQLException, IOException {
         if (instance == null) {
             instance = new AdminViewModel();
@@ -46,11 +62,24 @@ public class AdminViewModel {
         return instance;
     }
 
+    /**
+     * Sends the data further in to the system
+     * @param l
+     * @throws SQLException 
+     */
     public void uploadLogger(Loggin l) throws SQLException {
 
         aManager.uploadLogger(l);
     }
 
+    /**
+     * Makes a new logger and sets the data.
+     * @param name
+     * @param actionP
+     * @param userName
+     * @param date
+     * @param desc 
+     */
     public void addTraceLog(String name, String actionP, String userName,String date, String desc) {
         try { 
             Loggin l = new Loggin();

@@ -23,11 +23,20 @@ public class CfgModel {
     private static CfgModel instance;
     ObservableList<Attribute> attributeList;
 
+    /**
+     * Constructor
+     */
     public CfgModel() {
         cfgManager = new CfgManager();
         attributeList = FXCollections.observableArrayList();
     }
 
+    /**
+     * Returns the instance of CfgModel
+     * @return
+     * @throws SQLException
+     * @throws IOException 
+     */
     public static CfgModel getInstance() throws SQLException, IOException {
         if (instance == null) {
             instance = new CfgModel();
@@ -35,24 +44,45 @@ public class CfgModel {
         return instance;
     }
 
-    public void loadAttributes() {
+    /**
+     * Adds all configs to a list
+     */
+    public void loadConfig() {
         attributeList.clear();
         attributeList.addAll(cfgManager.getAllConfig());
     }
 
-    public ObservableList<Attribute> getAllAttributes() {
+    /**
+     * Gets all configs
+     * @return 
+     */
+    public ObservableList<Attribute> getAllConfigs() {
         return attributeList;
     }
 
+    /**
+     * Sends data further into the system
+     * @param config 
+     */
     public void configSave(Attribute config) {
         cfgManager.configSave(config);
     }
 
+    /**
+     * Sends data further into the system
+     * @param header 
+     */
     public void headerSave(Header header) {
         cfgManager.headerSave(header);
     }
 
+    /**
+     * Sends data further into the system
+     * @param config
+     * @param header 
+     */
     public void saveAll(Attribute config, Header header) {
         cfgManager.saveAll(config,header);
     }
+    
 }

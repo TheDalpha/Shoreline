@@ -37,21 +37,37 @@ public class UserViewModel {
     ObservableList<Tasks> tasksList = FXCollections.observableArrayList();
     private Person person;
 
+    /**
+     * Constructor
+     */
     public UserViewModel() {
         uManager = new UserManager();
         user = new User();
         userList = FXCollections.observableArrayList();
     }
 
+    /**
+     * Gets all users and put them in a list
+     */
     public void loadUsers() {
         userList.clear();
         userList.addAll(uManager.getAllUsers());
     }
 
+    /**
+     * Gets all users
+     * @return 
+     */
     public ObservableList<User> getAllUsers() {
         return userList;
     }
 
+    /**
+     * Returns the instance of UserViewModel
+     * @return
+     * @throws SQLException
+     * @throws IOException 
+     */
     public static UserViewModel getInstance() throws SQLException, IOException {
         if (instance == null) {
             instance = new UserViewModel();
@@ -59,46 +75,101 @@ public class UserViewModel {
         return instance;
     }
 
+    /**
+     * Gets a user
+     * @return 
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     * Sets a user
+     * @param user 
+     */
     public void setUser(User user) {
         this.user = user;
     }
 
+    /**
+     * Sends data further into the system
+     * @param user
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException 
+     */
     public void createUser(User user) throws NoSuchAlgorithmException, InvalidKeySpecException {
         uManager.createUser(user);
     }
 
+    /**
+     * Sends data further into the system
+     * @param selectedUser 
+     */
     public void deleteUser(User selectedUser) {
         uManager.deleteUser(selectedUser);
     }
 
+    /**
+     * Sends data further into the system
+     * @param filePath
+     * @param ja
+     * @param oneLine
+     * @throws Exception 
+     */
     public void readFirstLine(String filePath, Map<String, Header> ja, boolean oneLine) throws Exception {
         cfgM.readFirstLine(filePath, ja, oneLine);
     }
 
+    /**
+     * Sends data further into the system and return the list
+     * @param file
+     * @return
+     * @throws IOException
+     * @throws InvalidFormatException 
+     */
     public List<Header> getFileHeaders(File file) throws IOException, InvalidFormatException {
         return cfgM.getFileHeaders(file);
     }
 
+    /**
+     * Sends data further into the system and returns the string
+     * @return
+     * @throws JsonProcessingException 
+     */
     public String XLSXR() throws JsonProcessingException {
         return cfgM.XLSXR();
     }
 
+    /**
+     * Sends data further into the system
+     * @param jobj 
+     */
     public void setTemplate(Map<String, Header> jobj) {
         cfgM.setTemplate(jobj);
     }
 
+    /**
+     * Adds a task to a list
+     * @param task 
+     */
     public void setTask(Tasks task) {
         tasksList.add(task);
     }
 
+    /**
+     * Gets all tasks
+     * @return 
+     */
     public ObservableList<Tasks> getTasks() {
         return tasksList;
     }
 
+    /**
+     * Sends data further into the system
+     * @param task
+     * @throws IOException
+     * @throws InvalidFormatException 
+     */
     public void convert(Tasks task) throws IOException, InvalidFormatException {
         cfgM.convert(task);
     }

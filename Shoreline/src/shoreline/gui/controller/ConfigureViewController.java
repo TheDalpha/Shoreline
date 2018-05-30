@@ -54,7 +54,7 @@ public class ConfigureViewController implements Initializable {
 
     ObservableList<String> attList = FXCollections.observableArrayList("SiteName", "Asset Serial Number", "Type", "External Work Order", "System Status", "User Status", "Created On", "Created By", "Name", "Priority", "Status", "Latest Finish Date", "Earliest Start Date", "Latest Start Date", "Estimated Time");
     List<Header> alist = new ArrayList<>();
-    Map<String, Header> headerMap = new HashMap<>();
+    HashMap<String, Header> headerMap = new HashMap<>();
     JSONObject jobj = new JSONObject();
     File file;
     String outputFile;
@@ -104,46 +104,56 @@ public class ConfigureViewController implements Initializable {
             Logger.getLogger(ConfigureViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        // Updates the combobox
         cbUpdate();
+        // Sets the config names in the combobox
         configNames();
+        // Sets the items in the combobox
         attCB.setItems(attList);
+        // Sets the header names + index in the list
         headerNames();
         attributeView.getItems().addAll(attList);
         previewArea.setEditable(false);
     }
 
+    /**
+     * Goes through each header in the list and then through each item in the
+     * attributeView. If attributeView contains header name it will be saved.
+     *
+     * @param event
+     * @throws Exception
+     */
     @FXML
     private void saveConfiguration(ActionEvent event) throws Exception {
         try {
-        Attribute config = new Attribute();
+            Attribute config = new Attribute();
 
-        TextInputDialog nameDialog = new TextInputDialog("");
-        nameDialog.setTitle("Set configuration name");
-        nameDialog.setHeaderText("Set configuration name");
-        nameDialog.setContentText("Please set a configuration name");
-        if (nameDialog.showAndWait().isPresent()) {
-            config.setConfigurationName(nameDialog.getResult());
-            cfgM.configSave(config);
-            for (Header header : alist) {
-                for (int i = 0; i < attributeView.getItems().size(); i++) {
-                    if (attributeView.getItems().get(i).contains(header.getHeaderName())) {
-                        cfgM.headerSave(header);
-                        cfgM.saveAll(config, header);
+            TextInputDialog nameDialog = new TextInputDialog("");
+            nameDialog.setTitle("Set configuration name");
+            nameDialog.setHeaderText("Set configuration name");
+            nameDialog.setContentText("Please set a configuration name");
+            if (nameDialog.showAndWait().isPresent()) {
+                config.setConfigurationName(nameDialog.getResult());
+                cfgM.configSave(config);
+                for (Header header : alist) {
+                    for (int i = 0; i < attributeView.getItems().size(); i++) {
+                        if (attributeView.getItems().get(i).contains(header.getHeaderName())) {
+                            cfgM.headerSave(header);
+                            cfgM.saveAll(config, header);
 
+                        }
                     }
                 }
             }
-        }
-        cbUpdate();
-        String actionP = "Configuration " + nameDialog.getResult() + " was saved";
-        LocalDate localDate = datePicker.getValue();
-        avm.addTraceLog(" ", actionP, userName, localDate.toString(), " ");
-        } catch (Exception e)
-        {
+            cbUpdate();
+            String actionP = "Configuration " + nameDialog.getResult() + " was saved";
+            LocalDate localDate = datePicker.getValue();
+            avm.addTraceLog(file.getName(), actionP, userName, localDate.toString(), " ");
+        } catch (Exception e) {
             desc = e.toString();
             LocalDate localDate = datePicker.getValue();
             String actionP = "Nothing happens";
-            avm.addTraceLog(file.getName(), actionP, userName,localDate.toString(), desc);
+            avm.addTraceLog(file.getName(), actionP, userName, localDate.toString(), desc);
         }
     }
 
@@ -153,6 +163,14 @@ public class ConfigureViewController implements Initializable {
         stage1.close();
     }
 
+    /**
+     * Gets all headers and adds the to a list Then adds them to a listview
+     *
+     * @param file
+     * @throws IOException
+     * @throws InvalidFormatException
+     * @throws Exception
+     */
     public void setFileHeaders(File file) throws IOException, InvalidFormatException, Exception {
         this.file = file;
         List<Header> header;
@@ -164,6 +182,9 @@ public class ConfigureViewController implements Initializable {
         templateJson();
     }
 
+    /**
+     * Sets the cells for the listview
+     */
     public void headerNames() {
         selectedList.setCellFactory(lView -> new ListCell<Header>() {
             @Override
@@ -174,6 +195,9 @@ public class ConfigureViewController implements Initializable {
         });
     }
 
+    /**
+     * Sets the cell for the buttom cell in the combobox and the cells in the list
+     */
     private void configNames() {
         final ListCell<Attribute> buttonCell = new ListCell<Attribute>() {
             @Override
@@ -207,6 +231,15 @@ public class ConfigureViewController implements Initializable {
         });
     }
 
+    /**
+     * Gets the selected item in the attribute combobox and the selected header
+     * Then puts it in the attributeView listview
+     * Then it reads the first line of the file and puts the corresponding cell
+     * into the json preview
+     * @param event
+     * @throws JsonProcessingException
+     * @throws Exception 
+     */
     @FXML
     private void addAttribute(ActionEvent event) throws JsonProcessingException, Exception {
         String selectedCB = attCB.getSelectionModel().getSelectedItem();
@@ -228,15 +261,25 @@ public class ConfigureViewController implements Initializable {
         attributeView.getItems().remove(attributeView.getSelectionModel().getSelectedItem());
     }
 
+    /**
+     * Gets the selected header and attribute value and puts it in a hashmap
+     * @return HashMap
+     */
     public Map<String, Header> jArray() {
         Header h = selectedList.getSelectionModel().getSelectedItem();
         String sitenameheader = attCB.getValue();
         headerMap.put(sitenameheader, h);
-        System.out.println(headerMap);
         return headerMap;
 
     }
 
+    /**
+     * Goes through each of the attributes and sets the header name to an empty string
+     * and index to -1, so it doesn't read index 0 in the file.
+     * Then it puts it in the hashmap and sets the JSON preview
+     * @return HashMap
+     * @throws Exception 
+     */
     public Map<String, Header> templateJson() throws Exception {
 
         for (String string : attList) {
@@ -246,78 +289,103 @@ public class ConfigureViewController implements Initializable {
             headerMap.put(string, header);
         }
         uvm.setTemplate(headerMap);
-        uvm.readFirstLine(file.getPath(), headerMap, true);
         String json = uvm.XLSXR();
 
         previewArea.setText(json);
         return headerMap;
     }
 
+    /**
+     * Sets the active user
+     * @param userName 
+     */
     void setUsername(String userName) {
         this.userName = userName;
         lblUser.setText(userName);
     }
 
+    /**
+     * Updates the saved configuration combobox
+     */
     private void cbUpdate() {
-        cfgM.loadAttributes();
-        savedCombo.setItems(cfgM.getAllAttributes());
+        cfgM.loadConfig();
+        savedCombo.setItems(cfgM.getAllConfigs());
     }
 
+    /**
+     * Gets the chosen configuration and sets the attributeView listview
+     * and hashmap headermap accordingly
+     * @param event
+     * @throws Exception 
+     */
     @FXML
     private void chooseSaveConfig(ActionEvent event) throws Exception {
         try {
-        headerMap.clear();
-        attributeView.getItems().clear();
-        attributeView.getItems().addAll(attList);
-        templateJson();
-        List<Attribute> config = cfgM.getAllAttributes();
-        for (Attribute attribute : config) {
-            if (attribute.getOutId() == savedCombo.getValue().getOutId()) {
-                List<Header> header = attribute.getSavedHeader();
-                for (Header header1 : header) {
-                    attributeView.getItems().set(header1.getListIndex(), header1.getAttName() + " : " + header1.getHeaderName());
-                    headerMap.put(header1.getAttName(), header1);
+            headerMap.clear();
+            attributeView.getItems().clear();
+            attributeView.getItems().addAll(attList);
+            templateJson();
+            List<Attribute> config = cfgM.getAllConfigs();
+            for (Attribute attribute : config) {
+                if (attribute.getOutId() == savedCombo.getValue().getOutId()) {
+                    List<Header> header = attribute.getSavedHeader();
+                    for (Header header1 : header) {
+                        attributeView.getItems().set(header1.getListIndex(), header1.getAttName() + " : " + header1.getHeaderName());
+                        headerMap.put(header1.getAttName(), header1);
+                    }
                 }
             }
-        }
-        uvm.readFirstLine(file.getPath(), headerMap, true);
-        String json = uvm.XLSXR();
-        previewArea.setText(json);
-        } catch (Exception e)
-        {
+            uvm.readFirstLine(file.getPath(), headerMap, true);
+            String json = uvm.XLSXR();
+            previewArea.setText(json);
+        } catch (Exception e) {
             desc = e.toString();
             LocalDate localDate = datePicker.getValue();
             String actionP = "Nothing happens";
-            avm.addTraceLog(file.getName(), actionP, userName,localDate.toString(), desc);
+            avm.addTraceLog(file.getName(), actionP, userName, localDate.toString(), desc);
         }
     }
 
+    /**
+     * Gets the data that has been chosen and puts it in a task object
+     * @param event 
+     */
     @FXML
     private void addToTask(ActionEvent event) {
         try {
-        String taskName = null;
-        TextInputDialog taskDialog = new TextInputDialog();
-        taskDialog.setTitle("Set task name");
-        taskDialog.setHeaderText("Set task name");
-        taskDialog.setContentText("Please set a task name");
-        if (taskDialog.showAndWait().isPresent()) {
-            taskName = taskDialog.getResult();
-            String actionP = taskDialog.getResult() + " is added to task";
-            Tasks task = new Tasks(file, outputFile, taskName, headerMap);
-            uvm.setTask(task);
-            uvc.setTaskList();
-            LocalDate localDate = datePicker.getValue();
-            avm.addTraceLog(" ", actionP, userName, localDate.toString(), " ");
-        }
-        } catch (Exception e)
-        {
+            String taskName = null;
+            TextInputDialog taskDialog = new TextInputDialog();
+            taskDialog.setTitle("Set task name");
+            taskDialog.setHeaderText("Set task name");
+            taskDialog.setContentText("Please set a task name");
+            if (taskDialog.showAndWait().isPresent()) {
+                taskName = taskDialog.getResult();
+                String actionP = taskDialog.getResult() + " is added to task";
+                Tasks task = new Tasks();
+                headerMap.forEach((key, value) -> {
+                    task.getHeaderMap().put(key, value);
+                });
+                task.setInputFile(file);
+                task.setOutputFile(outputFile);
+                task.setTaskName(taskName);
+                uvm.setTask(task);
+                uvc.setTaskList();
+                headerMap.clear();
+                LocalDate localDate = datePicker.getValue();
+                avm.addTraceLog(" ", actionP, userName, localDate.toString(), " ");
+            }
+        } catch (Exception e) {
             desc = e.toString();
             LocalDate localDate = datePicker.getValue();
             String actionP = "Nothing happens";
-            avm.addTraceLog(file.getName(), actionP, userName,localDate.toString(), desc);
+            avm.addTraceLog(file.getName(), actionP, userName, localDate.toString(), desc);
         }
     }
 
+    /**
+     * Choose where the output file should go
+     * @param event 
+     */
     @FXML
     private void chooseFileDestination(ActionEvent event) {
         DirectoryChooser dirch = new DirectoryChooser();
@@ -325,7 +393,11 @@ public class ConfigureViewController implements Initializable {
         outputFile = Paths.get(outputDirectory.getAbsolutePath()).toString();
 
     }
-    
+
+    /**
+     * Sets the controller
+     * @param userVC 
+     */
     public void setController(UserViewController userVC) {
         this.uvc = userVC;
     }

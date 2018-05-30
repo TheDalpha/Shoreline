@@ -6,6 +6,7 @@
 package shoreline.be;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -17,15 +18,8 @@ public class Tasks {
     File inputFile;
     String outputFile;
     String taskName;
-    Map<String, Header> headerMap;
+    HashMap<String, Header> headerMap = new HashMap<>();
 
-    // Constructor
-    public Tasks(File inputFile, String outputFile, String taskName, Map<String, Header> headerMap) {
-        this.inputFile = inputFile;
-        this.outputFile = outputFile;
-        this.taskName = taskName;
-        this.headerMap = headerMap;
-    }
 
     // Get the input file
     public File getInputFile() {
@@ -63,7 +57,7 @@ public class Tasks {
     }
 
     // Sets the map of headers
-    public void setHeaderMap(Map<String, Header> headerMap) {
+    public void setHeaderMap(HashMap<String, Header> headerMap) {
         this.headerMap = headerMap;
     }
     

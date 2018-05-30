@@ -90,10 +90,18 @@ public class UserViewController implements Initializable {
         } catch (SQLException | IOException ex) {
             Logger.getLogger(UserViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        /**
+         * Sets the name of the files
+         */
         fileNames();
 
     }
 
+    /**
+     * Go through local computer to select a file
+     * @param event
+     * @throws Exception 
+     */
     @FXML
     private void chooseFile(ActionEvent event) throws Exception {
         try {
@@ -113,11 +121,16 @@ public class UserViewController implements Initializable {
 
     }
 
+    /**
+     * Sets the taskView listview
+     */
     public void setTaskList() {
-        System.out.println(uvm.getTasks());
         taskView.setItems(uvm.getTasks());
     }
 
+    /**
+     * Sets the cells of all the listviews
+     */
     public void fileNames() {
         Lview.setCellFactory(lView -> new ListCell<File>() {
             @Override
@@ -142,6 +155,10 @@ public class UserViewController implements Initializable {
         });
     }
 
+    /**
+     * Sets the active user
+     * @param person 
+     */
     public void setUserName(User person) {
         this.person = person;
         userName = person.getUsername();
@@ -154,6 +171,11 @@ public class UserViewController implements Initializable {
         }
     }
 
+    /**
+     * Closes the window and log a user out
+     * @param event
+     * @throws IOException 
+     */
     @FXML
     private void logout(ActionEvent event) throws IOException {
         try {
@@ -174,6 +196,13 @@ public class UserViewController implements Initializable {
         }
     }
 
+    /**
+     * Opens the configure view and sends the data with it
+     * @param event
+     * @throws IOException
+     * @throws InvalidFormatException
+     * @throws Exception 
+     */
     @FXML
     private void configure(ActionEvent event) throws IOException, InvalidFormatException, Exception {
         try {
@@ -207,6 +236,12 @@ public class UserViewController implements Initializable {
         }
     }
 
+    /**
+     * Starts the convert on tasks in the taskView
+     * Then adds the converted tasks to a listview
+     * @param event
+     * @throws IOException 
+     */
     @FXML
     private void startConvert(ActionEvent event) throws IOException {
         try {
@@ -240,12 +275,21 @@ public class UserViewController implements Initializable {
 //        }
     }
 
+    /**
+     * Gets filenames without extentions
+     * @param filename
+     * @return 
+     */
     public String getFilenameWithoutExtention(String filename) {
         String[] fnameParts = filename.split("\\.");
         String lastExt = fnameParts[fnameParts.length - 1];
         return filename.substring(0, filename.length() - 1 - lastExt.length());
     }
 
+    /**
+     * Removes a file from the listview
+     * @param event 
+     */
     @FXML
     private void removeFile(ActionEvent event) {
         try {
@@ -258,6 +302,11 @@ public class UserViewController implements Initializable {
         }
     }
 
+    /**
+     * Opens a converted task
+     * @param event
+     * @throws IOException 
+     */
     @FXML
     private void openConvertedTask(MouseEvent event) throws IOException {
         try {
@@ -279,6 +328,11 @@ public class UserViewController implements Initializable {
         }
     }
 
+    /**
+     * Opens the adminview panel
+     * @param event
+     * @throws IOException 
+     */
     @FXML
     private void openAdminPanel(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/shoreline/gui/view/AdminView.fxml"));

@@ -78,7 +78,13 @@ public class LoginViewController implements Initializable {
        
     }    
 
-    
+    /**
+     * Checks to see who logs in and open the correct view.
+     * @param event
+     * @throws IOException
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException 
+     */
     @FXML
     private void loginBtn(ActionEvent event) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException
     {
@@ -147,6 +153,16 @@ public class LoginViewController implements Initializable {
     }
     
 
+    /**
+     * Checks to see who logs in and open the correct view.
+     * @param event
+     * @throws NoSuchAlgorithmException
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException
+     * @throws IOException
+     * @throws InvalidKeySpecException
+     * @throws InvalidKeySpecException 
+     */
     @FXML
     private void login(KeyEvent event) throws NoSuchAlgorithmException, NoSuchAlgorithmException, InvalidKeySpecException, IOException, InvalidKeySpecException, InvalidKeySpecException
     {   
