@@ -38,7 +38,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.json.JSONObject;
-import shoreline.be.Attribute;
+import shoreline.be.Configuration;
 import shoreline.gui.model.CfgModel;
 import shoreline.be.Header;
 import shoreline.be.Tasks;
@@ -70,7 +70,7 @@ public class ConfigureViewController implements Initializable
     @FXML
     private Label lblUser;
     @FXML
-    private JFXComboBox<Attribute> savedCombo;
+    private JFXComboBox<Configuration> savedCombo;
     @FXML
     private ListView<Header> selectedList;
     @FXML
@@ -131,7 +131,7 @@ public class ConfigureViewController implements Initializable
     {
         try
         {
-            Attribute config = new Attribute();
+            Configuration config = new Configuration();
 
             TextInputDialog nameDialog = new TextInputDialog("");
             nameDialog.setTitle("Set configuration name");
@@ -210,10 +210,10 @@ public class ConfigureViewController implements Initializable
      */
     private void configNames()
     {
-        final ListCell<Attribute> buttonCell = new ListCell<Attribute>()
+        final ListCell<Configuration> buttonCell = new ListCell<Configuration>()
         {
             @Override
-            protected void updateItem(Attribute attribute, boolean empty)
+            protected void updateItem(Configuration attribute, boolean empty)
             {
                 super.updateItem(attribute, empty);
                 if (attribute != null)
@@ -227,15 +227,15 @@ public class ConfigureViewController implements Initializable
         };
         savedCombo.setButtonCell(buttonCell);
 
-        savedCombo.setCellFactory(new Callback<ListView<Attribute>, ListCell<Attribute>>()
+        savedCombo.setCellFactory(new Callback<ListView<Configuration>, ListCell<Configuration>>()
         {
             @Override
-            public ListCell<Attribute> call(ListView<Attribute> p)
+            public ListCell<Configuration> call(ListView<Configuration> p)
             {
-                final ListCell<Attribute> cell = new ListCell<Attribute>()
+                final ListCell<Configuration> cell = new ListCell<Configuration>()
                 {
                     @Override
-                    protected void updateItem(Attribute attribute, boolean empty)
+                    protected void updateItem(Configuration attribute, boolean empty)
                     {
                         super.updateItem(attribute, empty);
                         if (attribute != null)
@@ -359,8 +359,8 @@ public class ConfigureViewController implements Initializable
             attributeView.getItems().clear();
             attributeView.getItems().addAll(attList);
             templateJson();
-            List<Attribute> config = cfgM.getAllConfigs();
-            for (Attribute attribute : config)
+            List<Configuration> config = cfgM.getAllConfigs();
+            for (Configuration attribute : config)
             {
                 if (attribute.getOutId() == savedCombo.getValue().getOutId())
                 {

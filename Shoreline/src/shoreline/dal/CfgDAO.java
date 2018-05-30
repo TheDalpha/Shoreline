@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import shoreline.be.Attribute;
+import shoreline.be.Configuration;
 import shoreline.be.Header;
 
 /**
@@ -24,7 +24,7 @@ import shoreline.be.Header;
 public class CfgDAO {
 
     private DataBaseConnector dbConnector;
-    List<Attribute> allConfig = new ArrayList();
+    List<Configuration> allConfig = new ArrayList();
 
     /**
      * Constructor
@@ -38,7 +38,7 @@ public class CfgDAO {
      * Sets each Config and header
      * @return List
      */
-    public List<Attribute> getAllConfigs() {
+    public List<Configuration> getAllConfigs() {
 
         getConfigs();
         try (Connection con = dbConnector.getConnection()) {
@@ -47,7 +47,7 @@ public class CfgDAO {
                             + "configRelation.headerId = Header.headerId AND configRelation.configId = Config.configId");
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                Attribute attribute = new Attribute();
+                Configuration attribute = new Configuration();
                 attribute.setOutId(rs.getInt("configId"));
                 Header header = new Header();
                 header.setHeaderName(rs.getString("headerName"));
@@ -57,7 +57,7 @@ public class CfgDAO {
                 
                 // Goes through list of all configs, if the config id is equal to the config id
                 // from the database, it will add the header to that config
-                for (Attribute attribute1 : allConfig) {
+                for (Configuration attribute1 : allConfig) {
                     if (attribute1.getOutId() == attribute.getOutId()) {
                         attribute1.getSavedHeader().add(header);
                     }
@@ -75,7 +75,7 @@ public class CfgDAO {
      * Gets all configs and adds them to a list
      * @return List
      */
-    public List<Attribute> getConfigs() {
+    public List<Configuration> getConfigs() {
         allConfig.clear();
 
         try (Connection con = dbConnector.getConnection()) {
@@ -85,7 +85,7 @@ public class CfgDAO {
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                Attribute config = new Attribute();
+                Configuration config = new Configuration();
                 config.setOutId(rs.getInt("configId"));
                 config.setConfigurationName(rs.getString("configName"));
 
@@ -103,7 +103,7 @@ public class CfgDAO {
      * Connects to the database and inserts a config into the Config Table
      * @param config 
      */
-    public void configSave(Attribute config) {
+    public void configSave(Configuration config) {
         try (Connection con = dbConnector.getConnection()) {
             String sql
                     = "INSERT INTO Config"
@@ -164,7 +164,7 @@ public class CfgDAO {
      * @param config
      * @param header 
      */
-    public void saveAll(Attribute config, Header header) {
+    public void saveAll(Configuration config, Header header) {
         try (Connection con = dbConnector.getConnection()) {
             String sql = "INSERT INTO configRelation"
                     + " VALUES (?,?)";

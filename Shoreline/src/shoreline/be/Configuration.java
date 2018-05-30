@@ -12,14 +12,14 @@ import java.util.List;
  *
  * @author ollie
  */
-public class Attribute {
+public class Configuration {
 
     public int outId;
     public String ConfigurationName;
     public final List<Header> savedHeader;
 
     // Constructor
-    public Attribute() {
+    public Configuration() {
         this.savedHeader = new ArrayList<>();
     }
 

@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import shoreline.be.Attribute;
+import shoreline.be.Configuration;
 import shoreline.be.Header;
 import shoreline.be.Tasks;
 import shoreline.dal.CfgDAO;
@@ -39,7 +39,7 @@ public class CfgManager
      * Gets all configs
      * @return all config
      */
-    public List<Attribute> getAllConfig() {
+    public List<Configuration> getAllConfig() {
         return udao.getAllConfigs();
     }
 
@@ -47,7 +47,7 @@ public class CfgManager
      * Sends information on the config
      * @param config 
      */
-    public void configSave(Attribute config) {
+    public void configSave(Configuration config) {
         udao.configSave(config);
     }
 
@@ -64,7 +64,7 @@ public class CfgManager
      * @param config
      * @param header 
      */
-    public void saveAll(Attribute config, Header header) {
+    public void saveAll(Configuration config, Header header) {
         udao.saveAll(config, header);
     }
 

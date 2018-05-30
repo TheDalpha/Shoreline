@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import shoreline.be.Attribute;
+import shoreline.be.Configuration;
 import shoreline.be.Header;
 import shoreline.bll.CfgManager;
 
@@ -21,7 +21,7 @@ public class CfgModel {
 
     CfgManager cfgManager;
     private static CfgModel instance;
-    ObservableList<Attribute> attributeList;
+    ObservableList<Configuration> attributeList;
 
     /**
      * Constructor
@@ -56,7 +56,7 @@ public class CfgModel {
      * Gets all configs
      * @return 
      */
-    public ObservableList<Attribute> getAllConfigs() {
+    public ObservableList<Configuration> getAllConfigs() {
         return attributeList;
     }
 
@@ -64,7 +64,7 @@ public class CfgModel {
      * Sends data further into the system
      * @param config 
      */
-    public void configSave(Attribute config) {
+    public void configSave(Configuration config) {
         cfgManager.configSave(config);
     }
 
@@ -81,7 +81,7 @@ public class CfgModel {
      * @param config
      * @param header 
      */
-    public void saveAll(Attribute config, Header header) {
+    public void saveAll(Configuration config, Header header) {
         cfgManager.saveAll(config,header);
     }
     
