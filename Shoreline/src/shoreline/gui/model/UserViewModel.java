@@ -20,8 +20,9 @@ import shoreline.be.Header;
 import shoreline.be.Person;
 import shoreline.be.Tasks;
 import shoreline.be.User;
-import shoreline.bll.ConvertThread;
-import shoreline.bll.JFileReader;
+import shoreline.bll.CfgManager;
+import shoreline.dal.ConvertThread;
+import shoreline.dal.TemplateFile;
 import shoreline.bll.UserManager;
 
 /**
@@ -32,8 +33,7 @@ public class UserViewModel {
 
     private static UserViewModel instance;
     UserManager uManager;
-    JFileReader fileReader;
-    ConvertThread cThread = new ConvertThread();
+    CfgManager cfgM = new CfgManager();
     User user;
     ObservableList<User> userList;
     ObservableList<Tasks> tasksList = FXCollections.observableArrayList();
@@ -42,7 +42,6 @@ public class UserViewModel {
     public UserViewModel() {
         uManager = new UserManager();
         user = new User();
-        fileReader = new JFileReader();
         userList = FXCollections.observableArrayList();
     }
 
@@ -82,20 +81,20 @@ public class UserViewModel {
         uManager.deleteUser(selectedUser);
     }
 
-    public void setFilePath(String filePath, Map<String, Header> ja, boolean oneLine) throws Exception {
-        fileReader.readXLSXAndConvertToJSON(filePath, ja, oneLine);
+    public void readFirstLine(String filePath, Map<String, Header> ja, boolean oneLine) throws Exception {
+        cfgM.readFirstLine(filePath, ja, oneLine);
     }
 
     public List<Header> getFileHeaders(File file) throws IOException, InvalidFormatException {
-        return fileReader.getFileHeaders(file);
+        return cfgM.getFileHeaders(file);
     }
 
     public String XLSXR() throws JsonProcessingException {
-        return fileReader.XLSXR();
+        return cfgM.XLSXR();
     }
 
     public void setTemplate(Map<String, Header> jobj) {
-        fileReader.setTemplate(jobj);
+        cfgM.setTemplate(jobj);
     }
 
     public void setTask(Tasks task) {
@@ -107,6 +106,6 @@ public class UserViewModel {
     }
 
     public void convert(Tasks task) throws IOException, InvalidFormatException {
-        cThread.convert(task);
+        cfgM.convert(task);
     }
 }

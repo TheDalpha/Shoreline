@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package shoreline.bll;
+package shoreline.dal;
 
 import shoreline.be.Header;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -29,7 +29,7 @@ import shoreline.be.Tasks;
  *
  * @author Jesper
  */
-public class JFileReader {
+public class TemplateFile {
 
     private Tasks ct;
     JSONObject jobj;
@@ -37,7 +37,7 @@ public class JFileReader {
     List<Object> Total;
     JSONArray jObList;
 
-    public void readXLSXAndConvertToJSON(String filePath, Map<String, Header> ja, boolean oneLine) throws Exception {
+    public void readFirstLine(String filePath, Map<String, Header> ja, boolean oneLine) throws Exception {
 
         File file = new File(filePath);
         testobj = new JSONObject();

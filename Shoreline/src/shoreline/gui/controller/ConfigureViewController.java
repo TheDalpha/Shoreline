@@ -217,7 +217,7 @@ public class ConfigureViewController implements Initializable {
         alist.add(selected);
         System.out.println(alist);
         jArray();
-        uvm.setFilePath(file.getPath(), headerMap, true);
+        uvm.readFirstLine(file.getPath(), headerMap, true);
         String json = uvm.XLSXR();
         previewArea.setText(json);
 
@@ -246,7 +246,7 @@ public class ConfigureViewController implements Initializable {
             headerMap.put(string, header);
         }
         uvm.setTemplate(headerMap);
-        uvm.setFilePath(file.getPath(), headerMap, true);
+        uvm.readFirstLine(file.getPath(), headerMap, true);
         String json = uvm.XLSXR();
 
         previewArea.setText(json);
@@ -280,7 +280,7 @@ public class ConfigureViewController implements Initializable {
                 }
             }
         }
-        uvm.setFilePath(file.getPath(), headerMap, true);
+        uvm.readFirstLine(file.getPath(), headerMap, true);
         String json = uvm.XLSXR();
         previewArea.setText(json);
         } catch (Exception e)

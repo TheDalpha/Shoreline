@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package shoreline.bll;
+package shoreline.dal;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -77,9 +77,9 @@ public class ConvertFile implements Runnable{
         } catch (IOException ex) {
 
         } catch (InvalidFormatException ex) {
-            Logger.getLogger(JFileReader.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TemplateFile.class.getName()).log(Level.SEVERE, null, ex);
         } catch (EncryptedDocumentException ex) {
-            Logger.getLogger(JFileReader.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TemplateFile.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
