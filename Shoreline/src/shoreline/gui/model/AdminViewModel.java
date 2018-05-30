@@ -50,10 +50,6 @@ public class AdminViewModel {
 
         aManager.uploadLogger(l);
     }
-    
-    public void uploadL (Loggin el) throws SQLException  {
-        aManager.uploadL(el);
-    }
 
     public void addTraceLog(String name, String actionP, String userName,String date, String desc) {
         try { 

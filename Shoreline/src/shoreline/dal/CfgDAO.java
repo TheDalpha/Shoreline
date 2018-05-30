@@ -26,16 +26,25 @@ public class CfgDAO {
     private DataBaseConnector dbConnector;
     List<Attribute> allConfig = new ArrayList();
 
+    /**
+     * Constructor
+     */
     public CfgDAO() {
         dbConnector = new DataBaseConnector();
     }
 
+    /**
+     * Connects to the database and selects all from Config, configRelation, Header table
+     * Sets each Config and header
+     * @return List
+     */
     public List<Attribute> getAllConfigs() {
 
-        getAttributes();
+        getConfigs();
         try (Connection con = dbConnector.getConnection()) {
             PreparedStatement pstmt
-                    = con.prepareStatement("SELECT * FROM Config,configRelation,Header WHERE configRelation.headerId = Header.headerId AND configRelation.configId = Config.configId");
+                    = con.prepareStatement("SELECT * FROM Config,configRelation,Header WHERE "
+                            + "configRelation.headerId = Header.headerId AND configRelation.configId = Config.configId");
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 Attribute attribute = new Attribute();
@@ -45,6 +54,9 @@ public class CfgDAO {
                 header.setHeaderIndex(rs.getInt("headerIndex"));
                 header.setAttName(rs.getString("attName"));
                 header.setListIndex(rs.getInt("listIndex"));
+                
+                // Goes through list of all configs, if the config id is equal to the config id
+                // from the database, it will add the header to that config
                 for (Attribute attribute1 : allConfig) {
                     if (attribute1.getOutId() == attribute.getOutId()) {
                         attribute1.getSavedHeader().add(header);
@@ -58,7 +70,12 @@ public class CfgDAO {
         return allConfig;
     }
 
-    public List<Attribute> getAttributes() {
+    /**
+     * Connect to the database and selects all from Config Table
+     * Gets all configs and adds them to a list
+     * @return List
+     */
+    public List<Attribute> getConfigs() {
         allConfig.clear();
 
         try (Connection con = dbConnector.getConnection()) {
@@ -82,6 +99,10 @@ public class CfgDAO {
 
     }
 
+    /**
+     * Connects to the database and inserts a config into the Config Table
+     * @param config 
+     */
     public void configSave(Attribute config) {
         try (Connection con = dbConnector.getConnection()) {
             String sql
@@ -95,7 +116,7 @@ public class CfgDAO {
                 throw new SQLException("Can't save configuration");
             }
 
-            //Get Database generated id and set user id
+            //Get Database generated id and set config id
             ResultSet rs = pstmt.getGeneratedKeys();
             if (rs.next()) {
                 config.setOutId(rs.getInt(1));
@@ -106,6 +127,10 @@ public class CfgDAO {
         }
     }
 
+    /**
+     * Connects to the database and inserts a header into the Header table
+     * @param header 
+     */
     public void headerSave(Header header) {
         try (Connection con = dbConnector.getConnection()) {
             String sql
@@ -122,7 +147,7 @@ public class CfgDAO {
                 throw new SQLException("Can't save configuration");
             }
 
-            //Get Database generated id and set user id
+            //Get Database generated id and set header id
             ResultSet rs = pstmt.getGeneratedKeys();
             if (rs.next()) {
                 header.setHeaderId(rs.getInt(1));
@@ -133,6 +158,12 @@ public class CfgDAO {
         }
     }
 
+    /**
+     * Connects to the database and
+     * inserts the config id and header id into the configRelation table
+     * @param config
+     * @param header 
+     */
     public void saveAll(Attribute config, Header header) {
         try (Connection con = dbConnector.getConnection()) {
             String sql = "INSERT INTO configRelation"

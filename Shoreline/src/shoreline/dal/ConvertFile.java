@@ -32,20 +32,27 @@ public class ConvertFile implements Runnable{
     
     private Tasks ct;
     
+    /**
+     * Constructor
+     * @param task 
+     */
     public ConvertFile(Tasks task) {
         this.ct = task;
     }
     
+    /**
+     * Reads through the file and put it in JSONObjects and then writes the file.
+     */
     public void run() {
         try {
             File file = new File(ct.getInputFile().getPath());
-            System.out.println(ct.getInputFile().getPath());
             File fileOutput = new File(ct.getOutputFile() + "/" + ct.getTaskName() + ".json");
             FileWriter jsonWriter = new FileWriter(fileOutput);
+            
             JSONObject job = new JSONObject();
             JSONArray jObL = new JSONArray();
             JSONObject planObjects = new JSONObject();
-//        XSSFWorkbook workbook1 = new XSSFWorkbook(filePath);
+            
             Workbook workbook = WorkbookFactory.create(file);
             Sheet sheet = workbook.getSheetAt(0);
             int rowStart = sheet.getFirstRowNum() + 1;
@@ -59,14 +66,14 @@ public class ConvertFile implements Runnable{
                         if (value.getHeaderIndex() == -1) {
                             planObjects.put(key, "");
                         } else {
-                            Cell mValue = row.getCell(value.getHeaderIndex(), Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
-                            planObjects.put(key, printCellValue(mValue).toString());
+                            Cell cell = row.getCell(value.getHeaderIndex(), Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                            planObjects.put(key, printCellValue(cell).toString());
                         }
                     } else if (value.getHeaderIndex() == -1) {
                         job.put(key, "");
                     } else {
-                        Cell mValue = row.getCell(value.getHeaderIndex(), Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
-                        job.put(key, printCellValue(mValue).toString());
+                        Cell cell = row.getCell(value.getHeaderIndex(), Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                        job.put(key, printCellValue(cell).toString());
                     }
                 });
                 job.put("Planning", planObjects);
@@ -82,7 +89,12 @@ public class ConvertFile implements Runnable{
             Logger.getLogger(TemplateFile.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+    /**
+     * Checks to see what the current cell datatype is
+     * Then return it as its datatype value
+     * @param cell
+     * @return cell
+     */
     private Object printCellValue(Cell cell) {
         switch (cell.getCellTypeEnum()) {
             case BOOLEAN:

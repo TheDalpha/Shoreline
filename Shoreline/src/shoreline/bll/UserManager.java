@@ -21,15 +21,28 @@ public class UserManager
     UserDAO udao;
     PassSecurity pSecure;
     
+    /**
+     * Constructor
+     */
     public UserManager() {
         this.udao = new UserDAO();
         this.pSecure = new PassSecurity();
     }
     
+    /**
+     * Gets all users
+     * @return List
+     */
     public List<User> getAllUsers() {
         return udao.getAllUsers();
     }
 
+    /**
+     * Sets the user salt generation and a encrypted version of the password
+     * @param user
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException 
+     */
     public void createUser(User user) throws NoSuchAlgorithmException, InvalidKeySpecException {
         String passwordEntered = user.getCleanPassword();
         byte[] salt = pSecure.generateSalt();
@@ -38,6 +51,10 @@ public class UserManager
         udao.createUser(user);
     }
     
+    /**
+     * Sends information on the selected user
+     * @param selectedUser 
+     */
     public void deleteUser(User selectedUser) {
         udao.deleteUser(selectedUser);
     }

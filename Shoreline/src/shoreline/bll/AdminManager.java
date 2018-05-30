@@ -18,23 +18,35 @@ public class AdminManager {
 
     AdminDAO adao;
     
+    /**
+     * Constructor
+     */
     public AdminManager() {
         this.adao = new AdminDAO();
     }
     
+    /**
+     * Gets all admins
+     * @return All admins
+     */
     public List<Admin> getAllAdmins() {
         return adao.getAllAdmins();
     }
     
+    /**
+     * Gets all logs
+     * @return All logs
+     */
     public List<Loggin> getAllLoggins() {
        return adao.getAllLoggins();
     }
     
+    /**
+     * Sends information on a log
+     * @param l
+     * @throws SQLException 
+     */
     public void uploadLogger(Loggin l) throws SQLException {
         adao.uploadLog(l);
-    }
-    
-    public void uploadL (Loggin el) throws SQLException {
-        adao.uploadLog(el);
     }
 }

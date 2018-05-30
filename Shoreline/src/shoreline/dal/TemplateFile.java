@@ -23,7 +23,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import shoreline.be.Tasks;
 
 /**
  *
@@ -31,7 +30,6 @@ import shoreline.be.Tasks;
  */
 public class TemplateFile {
 
-    private Tasks ct;
     JSONObject jobj;
     JSONObject testobj;
     List<Object> Total;

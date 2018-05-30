@@ -23,10 +23,18 @@ public class AdminDAO {
     
     private DataBaseConnector dbConnector;
     
+    /**
+     * Constructor
+     */
     public AdminDAO(){
         dbConnector = new DataBaseConnector();
     }
     
+    /**
+     * Connects to the database and selects all admins from the admin table
+     * Sets each admin and adds them to a list
+     * @return List
+     */
     public List<Admin> getAllAdmins() {
         List<Admin> allAdmins = new ArrayList();
         
@@ -48,7 +56,11 @@ public class AdminDAO {
         return allAdmins;
     }
     
-    
+    /**
+     * Connects to the database and selects all logs from the log table
+     * Sets each log and adds them to a list
+     * @return List
+     */
     public List<Loggin> getAllLoggins() {
         List<Loggin> allLoggins = new ArrayList();
         
@@ -72,6 +84,11 @@ public class AdminDAO {
         return allLoggins;
     }
     
+    /**
+     * Connects to the database and insert a log into the Log table
+     * @param log
+     * @throws SQLException 
+     */
     public void uploadLog (Loggin log) throws SQLException {
         try (Connection con = dbConnector.getConnection())
         {

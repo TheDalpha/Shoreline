@@ -24,10 +24,18 @@ public class UserDAO
 {
     private DataBaseConnector dbConnector;
     
+    /**
+     * Constructor
+     */
     public UserDAO(){
         dbConnector = new DataBaseConnector();
     }
     
+    /**
+     * Connects to the database and selects all from the Login Table
+     * And sets each user and then adds them to a list
+     * @return List
+     */
     public List<User> getAllUsers() {
         List<User> allUsers = new ArrayList();
         
@@ -51,6 +59,10 @@ public class UserDAO
         return allUsers;
     }
 
+    /**
+     * Connects to the database and inserts a user into the Login Table
+     * @param user 
+     */
     public void createUser(User user) {
         try (Connection con = dbConnector.getConnection())
         {
@@ -82,6 +94,10 @@ public class UserDAO
         }
     }
 
+    /**
+     * Connects to the database and deletes the selected user from the Login table
+     * @param selectedUser 
+     */
     public void deleteUser(User selectedUser) {
         try (Connection con = dbConnector.getConnection()) {
             String sql

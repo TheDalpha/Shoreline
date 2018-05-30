@@ -37,7 +37,7 @@ public class CfgModel {
 
     public void loadAttributes() {
         attributeList.clear();
-        attributeList.addAll(cfgManager.getAllAttributes());
+        attributeList.addAll(cfgManager.getAllConfig());
     }
 
     public ObservableList<Attribute> getAllAttributes() {

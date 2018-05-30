@@ -5,7 +5,6 @@
  */
 package shoreline.dal;
 
-import shoreline.dal.ConvertFile;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -19,6 +18,9 @@ public class ConvertThread {
 
     public static Thread thread;
 
+    /**
+     * Makes a new thread
+     */
     private static final ExecutorService executor = Executors.newSingleThreadExecutor(new ThreadFactory() {
         public Thread newThread(Runnable runnable) {
             Thread thread = Executors.defaultThreadFactory().newThread(runnable);
@@ -27,6 +29,10 @@ public class ConvertThread {
         }
     });
 
+    /**
+     * Execute the convert with a new thread
+     * @param task 
+     */
     public void convert(Tasks task) {
         executor.submit(new ConvertFile(task));
     }
