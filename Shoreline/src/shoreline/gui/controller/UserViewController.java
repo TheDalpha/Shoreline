@@ -288,6 +288,7 @@ public class UserViewController implements Initializable {
         AdminViewController amController = fxmlLoader.getController();
         adminView.setTitle("Shoreline Admin Window");
         adminView.setScene(new Scene(root));
+        amController.setUserName(person);
         adminView.show();
     }
 }

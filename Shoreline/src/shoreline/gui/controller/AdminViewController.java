@@ -141,6 +141,7 @@ public class AdminViewController implements Initializable
             tfPassword1.clear();
             tfPassword2.clear();
             LocalDate localDate = datePicker.getValue();
+            System.out.println(userName);
             avm.addTraceLog(" ", actionP, userName, localDate.toString(), " ");
         } else
         {
@@ -162,7 +163,7 @@ public class AdminViewController implements Initializable
         deleteAlert.showAndWait();
         if (deleteAlert.getResult() == ButtonType.YES)
         {
-            String actionP = "User " + tableView.getSelectionModel().getSelectedItem().toString() + " was Removed";
+            String actionP = "User " + tableView.getSelectionModel().getSelectedItem().getUsername() + " was Removed";
             usm.deleteUser(tableView.getSelectionModel().getSelectedItem());
             tableView.getItems().remove(tableView.getSelectionModel().getSelectedItem());
             usm.loadUsers();
@@ -177,7 +178,6 @@ public class AdminViewController implements Initializable
     public void setUserName(Person person)
     {
         userName = person.getUsername();
-        lblUser.setText(userName);
     }
 
     @FXML

@@ -39,7 +39,6 @@ public class UserDAO
                 User user = new User();
                 user.setLoginId(rs.getInt("loginId"));
                 user.setUsername(rs.getString("username"));
-                user.setCleanPassword(rs.getString("password"));
                 user.setEncryptedPassword(rs.getBytes("encryptedPassword"));
                 user.setSalt(rs.getBytes("salt"));
                 user.setAdmin(rs.getBoolean("admin"));
@@ -57,15 +56,14 @@ public class UserDAO
         {
             String sql
                     = "INSERT INTO Login"
-                    + "(username, password, encryptedPassword, salt, admin) "
-                    + "VALUES(?,?,?,?,?)";
+                    + "(username, encryptedPassword, salt, admin) "
+                    + "VALUES(?,?,?,?)";
 
             PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, user.getUsername());
-            pstmt.setString(2, user.getCleanPassword());
-            pstmt.setBytes(3, user.getEncryptedPassword());
-            pstmt.setBytes(4, user.getSalt());
-            pstmt.setBoolean(5, user.isAdmin());
+            pstmt.setBytes(2, user.getEncryptedPassword());
+            pstmt.setBytes(3, user.getSalt());
+            pstmt.setBoolean(4, user.isAdmin());
             
             int affected = pstmt.executeUpdate();
             if(affected<1)

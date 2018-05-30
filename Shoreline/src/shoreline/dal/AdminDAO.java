@@ -38,7 +38,6 @@ public class AdminDAO {
                 Admin admin = new Admin();
                 admin.setLoginId(rs.getInt("adminId"));
                 admin.setUsername(rs.getString("username"));
-                admin.setCleanPassword(rs.getString("password"));
                 admin.setEncryptedPassword(rs.getBytes("encryptedPassword"));
                 admin.setSalt(rs.getBytes("salt"));
                 allAdmins.add(admin);

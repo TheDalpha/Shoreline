@@ -12,13 +12,9 @@ package shoreline.be;
 public abstract class Person {
     
  public String username;
- 
  public String cleanPassword;
- 
  public byte[] encryptedPassword;
-    
  public byte[] salt;
- 
  public int loginId;
 
     public String getUsername() {
