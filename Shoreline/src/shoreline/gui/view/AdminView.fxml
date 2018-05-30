@@ -110,15 +110,7 @@
                         <Image url="@../../../LOGO.png" />
                      </image>
                   </ImageView>
-                  <HBox alignment="CENTER" GridPane.columnIndex="2">
-                     <children>
-                        <JFXButton fx:id="closeBtn" onAction="#close" text="Close">
-                           <HBox.margin>
-                              <Insets right="5.0" />
-                           </HBox.margin>
-                        </JFXButton>
-                     </children>
-                  </HBox>
+                  <HBox alignment="CENTER" GridPane.columnIndex="2" />
                </children>
             </GridPane>
          </top>

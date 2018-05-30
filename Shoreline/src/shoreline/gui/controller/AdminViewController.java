@@ -50,15 +50,13 @@ public class AdminViewController implements Initializable
     AdminViewModel avm;
     private Person person;
     String userName;
-    
+
     @FXML
     private JFXTextField tfUsername;
     @FXML
     private JFXPasswordField tfPassword1;
     @FXML
     private JFXPasswordField tfPassword2;
-    @FXML
-    private JFXButton logOut;
     @FXML
     private TableView<User> tableView;
     @FXML
@@ -76,10 +74,7 @@ public class AdminViewController implements Initializable
     @FXML
     private TableColumn<String, Loggin> errorClm;
     @FXML
-    private JFXButton fileConvertingBtn;
-    @FXML
     private JFXCheckBox adminCheckB;
-    @FXML
     private JFXButton closeBtn;
 
     /**
@@ -126,9 +121,10 @@ public class AdminViewController implements Initializable
 
     /**
      * Makes a new user object and sets the user.
+     *
      * @param event
      * @throws NoSuchAlgorithmException
-     * @throws InvalidKeySpecException 
+     * @throws InvalidKeySpecException
      */
     @FXML
     private void CreateUser(ActionEvent event) throws NoSuchAlgorithmException, InvalidKeySpecException
@@ -141,7 +137,7 @@ public class AdminViewController implements Initializable
             user.setUsername(tfUsername.getText());
             user.setCleanPassword(tfPassword1.getText());
             usm.createUser(user);
-            
+
             userCreatedAlert.setTitle("Succes!");
             userCreatedAlert.setHeaderText("Succes!");
             userCreatedAlert.setContentText("User " + user.getUsername() + " has been created!");
@@ -170,7 +166,8 @@ public class AdminViewController implements Initializable
 
     /**
      * Removes the selected user
-     * @param event 
+     *
+     * @param event
      */
     @FXML
     private void removeUser(ActionEvent event)
@@ -196,18 +193,12 @@ public class AdminViewController implements Initializable
 
     /**
      * Sets the active username
-     * @param person 
+     *
+     * @param person
      */
     public void setUserName(Person person)
     {
         userName = person.getUsername();
-    }
-
-    @FXML
-    private void close(ActionEvent event)
-    {
-        Stage stage1 = (Stage) closeBtn.getScene().getWindow();
-        stage1.close();
     }
 
 }

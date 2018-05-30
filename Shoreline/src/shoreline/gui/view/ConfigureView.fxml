@@ -16,6 +16,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="489.0" prefWidth="816.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="shoreline.gui.controller.ConfigureViewController">
    <top>
@@ -45,11 +46,7 @@
                         <Label fx:id="lblUser" prefHeight="21.0" prefWidth="147.0" />
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER" prefHeight="64.0" prefWidth="145.0">
-                     <children>
-                        <JFXButton fx:id="cancelBtn" onAction="#cancel" text="Cancel" VBox.vgrow="SOMETIMES" />
-                     </children>
-                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="64.0" prefWidth="145.0" />
                </children>
             </HBox>
          </children>
@@ -60,9 +57,14 @@
          <children>
             <VBox alignment="TOP_CENTER" prefHeight="375.0" prefWidth="196.0" HBox.hgrow="SOMETIMES">
                <children>
-                  <JFXComboBox fx:id="savedCombo" onAction="#chooseSaveConfig" prefHeight="31.0" prefWidth="168.0" promptText="Saved Configurations" VBox.vgrow="SOMETIMES">
+                  <Label text="Saved Configurations" textFill="#41abff">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <JFXComboBox fx:id="savedCombo" onAction="#chooseSaveConfig" prefHeight="31.0" prefWidth="168.0" VBox.vgrow="SOMETIMES">
                      <VBox.margin>
-                        <Insets bottom="16.0" top="25.0" />
+                        <Insets bottom="16.0" />
                      </VBox.margin>
                   </JFXComboBox>
                   <ListView fx:id="selectedList" prefHeight="326.0" prefWidth="196.0" VBox.vgrow="SOMETIMES">

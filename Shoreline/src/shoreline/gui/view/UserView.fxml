@@ -113,7 +113,7 @@
                               </JFXListView>
                               <HBox prefHeight="26.0" prefWidth="331.0">
                                  <children>
-                                    <JFXButton fx:id="startBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#startConvert" text="Start / pause" HBox.hgrow="SOMETIMES">
+                                    <JFXButton fx:id="startBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#startConvert" text="Start" HBox.hgrow="SOMETIMES">
                                        <HBox.margin>
                                           <Insets bottom="5.0" left="30.0" top="5.0" />
                                        </HBox.margin>
