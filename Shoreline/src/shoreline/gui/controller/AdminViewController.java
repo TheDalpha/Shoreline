@@ -45,23 +45,24 @@ public class AdminViewController implements Initializable
 {
 
     DatePicker datePicker = new DatePicker(LocalDate.now());
+    LoginViewModel lvm;
+    UserViewModel usm;
+    AdminViewModel avm;
+    private Person person;
+    String userName;
+    
     @FXML
     private JFXTextField tfUsername;
     @FXML
     private JFXPasswordField tfPassword1;
     @FXML
     private JFXPasswordField tfPassword2;
+    @FXML
     private JFXButton logOut;
     @FXML
     private TableView<User> tableView;
     @FXML
     private TableColumn<User, String> nameClm;
-
-    LoginViewModel lvm;
-    UserViewModel usm;
-    AdminViewModel avm;
-    private Person person;
-    String userName;
     @FXML
     private TableView<Loggin> logView;
     @FXML
@@ -74,10 +75,10 @@ public class AdminViewController implements Initializable
     private TableColumn<String, Loggin> fileNameClm;
     @FXML
     private TableColumn<String, Loggin> errorClm;
+    @FXML
     private JFXButton fileConvertingBtn;
     @FXML
     private JFXCheckBox adminCheckB;
-    private Label lblUser;
     @FXML
     private JFXButton closeBtn;
 
@@ -116,7 +117,6 @@ public class AdminViewController implements Initializable
                 new PropertyValueFactory("error"));
         whenClm.setCellValueFactory(
                 new PropertyValueFactory("date"));
-//        setUserName(person);
     }
 
     @FXML

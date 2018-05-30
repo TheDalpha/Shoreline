@@ -12,49 +12,40 @@ import java.util.List;
  *
  * @author ollie
  */
-public class Attribute
-{
+public class Attribute {
+
     public int outId;
     public String ConfigurationName;
-    public String siteName;
     public final List<Header> savedHeader;
 
+    // Constructor
     public Attribute() {
         this.savedHeader = new ArrayList<>();
     }
 
+    // Get list of headers
     public List<Header> getSavedHeader() {
         return savedHeader;
     }
 
-    
+    // Get configuration name
     public String getConfigurationName() {
         return ConfigurationName;
     }
 
+    // Sets the configuration name
     public void setConfigurationName(String ConfigurationName) {
         this.ConfigurationName = ConfigurationName;
     }
 
-    
-    public int getOutId()
-    {
+    // Get the configuration id
+    public int getOutId() {
         return outId;
     }
 
-    public void setOutId(int outId)
-    {
+    // Sets the configuration id
+    public void setOutId(int outId) {
         this.outId = outId;
     }
 
-    public String getSiteName()
-    {
-        return siteName;
-    }
-
-    public void setSiteName(String siteName)
-    {
-        this.siteName = siteName;
-    }
-    
 }
