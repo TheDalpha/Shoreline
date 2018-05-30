@@ -15,6 +15,7 @@ import javafx.collections.ObservableList;
 import shoreline.be.Admin;
 import shoreline.be.User;
 import shoreline.bll.AdminManager;
+import shoreline.bll.PassSecurity;
 import shoreline.bll.UserManager;
 
 /**
@@ -24,6 +25,7 @@ import shoreline.bll.UserManager;
 public class LoginViewModel
 {
     private static LoginViewModel instance;
+    private PassSecurity pSecure = new PassSecurity();
     private UserManager uManager = new UserManager();
     private AdminManager aManager = new AdminManager();
     private ObservableList<User> users = FXCollections.observableArrayList();
@@ -57,7 +59,7 @@ public class LoginViewModel
     }
     
     public boolean authenticate(String passwordEntered, byte[] passwordEncrypted, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        return uManager.authenticate(passwordEntered, passwordEncrypted, salt);
+        return pSecure.authenticate(passwordEntered, passwordEncrypted, salt);
     }
 
 }

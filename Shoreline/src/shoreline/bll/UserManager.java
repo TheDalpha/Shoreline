@@ -24,9 +24,11 @@ public class UserManager
 {
     
     UserDAO udao;
+    PassSecurity pSecure;
     
     public UserManager() {
         this.udao = new UserDAO();
+        this.pSecure = new PassSecurity();
     }
     
     public List<User> getAllUsers() {
@@ -35,33 +37,12 @@ public class UserManager
 
     public void createUser(User user) throws NoSuchAlgorithmException, InvalidKeySpecException {
         String passwordEntered = user.getCleanPassword();
-        byte[] salt = generateSalt();
+        byte[] salt = pSecure.generateSalt();
         user.setSalt(salt);
-        user.setEncryptedPassword(getEncryptedPassword(passwordEntered, salt));
+        user.setEncryptedPassword(pSecure.getEncryptedPassword(passwordEntered, salt));
         udao.createUser(user);
     }
     
-    public boolean authenticate(String passwordEntered, byte[] passwordEncrypted, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        byte[] encryptedPasswordEntered = getEncryptedPassword(passwordEntered, salt);
-        return Arrays.equals(passwordEncrypted, encryptedPasswordEntered);
-    }
-    
-    public byte[] getEncryptedPassword(String password, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException{
-        String algortihm = "PBKDF2WithHmacSHA1";
-        int derivedKeyLenght = 160;
-        int iterations = 20000;
-        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterations, derivedKeyLenght);
-        SecretKeyFactory f = SecretKeyFactory.getInstance(algortihm);
-        return f.generateSecret(spec).getEncoded();
-    }
-    
-    public byte[] generateSalt() throws NoSuchAlgorithmException {
-        SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
-        byte[] salt = new byte[8];
-        random.nextBytes(salt);
-        return salt;
-    }
-
     public void deleteUser(User selectedUser) {
         udao.deleteUser(selectedUser);
     }
