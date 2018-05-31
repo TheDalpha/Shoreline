@@ -450,11 +450,13 @@ public class ConfigureViewController implements Initializable
         this.uvc = userVC;
     }
 
+    /**
+     * Gets the selected configuration and sends the config further in the system
+     * @param event 
+     */
     @FXML
     private void deleteConfiguration(ActionEvent event) {
         Configuration config = savedCombo.getValue();
-        System.out.println(config.getSavedHeader().size());
-        System.out.println(config.getSavedHeader().get(0).getHeaderId());
         cfgM.deleteConfig(config);
         cbUpdate();
     }

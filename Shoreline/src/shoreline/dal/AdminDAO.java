@@ -5,6 +5,7 @@
  */
 package shoreline.dal;
 
+import shoreline.dal.dbConnector.DataBaseConnector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import shoreline.be.Admin;
 import shoreline.be.Loggin;
+import shoreline.dal.dbConnector.ConnectionPool;
 
 /**
  *
@@ -21,14 +23,7 @@ import shoreline.be.Loggin;
  */
 public class AdminDAO {
     
-    private DataBaseConnector dbConnector;
-    
-    /**
-     * Constructor
-     */
-    public AdminDAO(){
-        dbConnector = new DataBaseConnector();
-    }
+    ConnectionPool dbConnector = ConnectionPool.getInstance();
     
     /**
      * Connects to the database and selects all admins from the admin table
@@ -37,8 +32,8 @@ public class AdminDAO {
      */
     public List<Admin> getAllAdmins() {
         List<Admin> allAdmins = new ArrayList();
-        
-        try (Connection con = dbConnector.getConnection()) {
+        Connection con = dbConnector.checkOut();
+        try {
             PreparedStatement pstmt
                     = con.prepareStatement("SELECT * FROM Admin");
             ResultSet rs = pstmt.executeQuery();
@@ -53,7 +48,11 @@ public class AdminDAO {
         } catch (SQLException ex) {
             System.err.print(ex);
         }
+        finally {
+                dbConnector.checkIn(con);
+                }
         return allAdmins;
+        
     }
     
     /**
@@ -63,8 +62,9 @@ public class AdminDAO {
      */
     public List<Loggin> getAllLoggins() {
         List<Loggin> allLoggins = new ArrayList();
-        
-        try (Connection con = dbConnector.getConnection()) {
+        Connection con = dbConnector.checkOut();
+        System.out.println(con);
+        try {
             PreparedStatement pstmt
                     = con.prepareStatement("SELECT * FROM Log");
             ResultSet rs = pstmt.executeQuery();
@@ -81,6 +81,9 @@ public class AdminDAO {
         } catch (SQLException ex) {
             System.err.print(ex);
         }
+        finally {
+                dbConnector.checkIn(con);
+                }
         return allLoggins;
     }
     
@@ -90,7 +93,8 @@ public class AdminDAO {
      * @throws SQLException 
      */
     public void uploadLog (Loggin log) throws SQLException {
-        try (Connection con = dbConnector.getConnection())
+        Connection con = dbConnector.checkOut();
+        try
         {
             String sql
                     = "INSERT INTO Log"
@@ -108,5 +112,8 @@ public class AdminDAO {
             if(affected<1)
                 throw new SQLException("Can't Update Log");
     }
+        finally {
+                dbConnector.checkIn(con);
+                }
     }
 }

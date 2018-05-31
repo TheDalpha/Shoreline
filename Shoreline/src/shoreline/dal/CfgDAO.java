@@ -5,6 +5,7 @@
  */
 package shoreline.dal;
 
+import shoreline.dal.dbConnector.DataBaseConnector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import shoreline.be.Configuration;
 import shoreline.be.Header;
+import shoreline.dal.dbConnector.ConnectionPool;
 
 /**
  *
@@ -23,15 +25,8 @@ import shoreline.be.Header;
  */
 public class CfgDAO {
 
-    private DataBaseConnector dbConnector;
+    ConnectionPool dbConnector = ConnectionPool.getInstance();
     List<Configuration> allConfig = new ArrayList();
-
-    /**
-     * Constructor
-     */
-    public CfgDAO() {
-        dbConnector = new DataBaseConnector();
-    }
 
     /**
      * Connects to the database and selects all from Config, configRelation,
@@ -42,7 +37,8 @@ public class CfgDAO {
     public List<Configuration> getAllConfigs() {
 
         getConfigs();
-        try (Connection con = dbConnector.getConnection()) {
+        Connection con = dbConnector.checkOut();
+        try {
             PreparedStatement pstmt
                     = con.prepareStatement("SELECT * FROM Config,configRelation,Header WHERE "
                             + "configRelation.headerId = Header.headerId AND configRelation.configId = Config.configId");
@@ -68,6 +64,8 @@ public class CfgDAO {
         } catch (SQLException ex) {
             System.err.print(ex);
             return null;
+        } finally {
+            dbConnector.checkIn(con);
         }
         return allConfig;
     }
@@ -80,8 +78,9 @@ public class CfgDAO {
      */
     public List<Configuration> getConfigs() {
         allConfig.clear();
+        Connection con = dbConnector.checkOut();
 
-        try (Connection con = dbConnector.getConnection()) {
+        try {
 
             PreparedStatement pstmt
                     = con.prepareStatement("Select * FROM Config");
@@ -97,6 +96,8 @@ public class CfgDAO {
         } catch (SQLException ex) {
             Logger.getLogger(CfgDAO.class.getName()).log(
                     Level.SEVERE, null, ex);
+        } finally {
+            dbConnector.checkIn(con);
         }
         return allConfig;
 
@@ -108,7 +109,8 @@ public class CfgDAO {
      * @param config
      */
     public void configSave(Configuration config) {
-        try (Connection con = dbConnector.getConnection()) {
+        Connection con = dbConnector.checkOut();
+        try {
             String sql
                     = "INSERT INTO Config"
                     + " VALUES(?)";
@@ -128,6 +130,8 @@ public class CfgDAO {
 
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            dbConnector.checkIn(con);
         }
     }
 
@@ -137,7 +141,8 @@ public class CfgDAO {
      * @param header
      */
     public void headerSave(Header header) {
-        try (Connection con = dbConnector.getConnection()) {
+        Connection con = dbConnector.checkOut();
+        try {
             String sql
                     = "INSERT INTO Header"
                     + " VALUES(?,?,?,?)";
@@ -160,6 +165,8 @@ public class CfgDAO {
 
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            dbConnector.checkIn(con);
         }
     }
 
@@ -171,7 +178,8 @@ public class CfgDAO {
      * @param header
      */
     public void saveAll(Configuration config, Header header) {
-        try (Connection con = dbConnector.getConnection()) {
+        Connection con = dbConnector.checkOut();
+        try {
             String sql = "INSERT INTO configRelation"
                     + " VALUES (?,?)";
             PreparedStatement pstmt
@@ -186,11 +194,18 @@ public class CfgDAO {
 
         } catch (SQLException ex) {
             Logger.getLogger(CfgDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            dbConnector.checkIn(con);
         }
     }
 
+    /**
+     * Connects to the database and deletes all configrelations with the config id
+     * @param config 
+     */
     public void deleteConfigRelations(Configuration config) {
-        try (Connection con = dbConnector.getConnection()) {
+        Connection con = dbConnector.checkOut();
+        try {
             String sql
                     = "DELETE FROM configRelation WHERE configId=?";
             PreparedStatement pstmt
@@ -200,11 +215,18 @@ public class CfgDAO {
             pstmt.execute();
         } catch (SQLException ex) {
             Logger.getLogger(Configuration.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            dbConnector.checkIn(con);
         }
     }
 
+    /**
+     * Connects to the database and deletes the config with the config id
+     * @param config 
+     */
     public void deleteConfig(Configuration config) {
-        try (Connection con = dbConnector.getConnection()) {
+        Connection con = dbConnector.checkOut();
+        try {
             String sql
                     = "DELETE FROM Config WHERE configId=?";
             PreparedStatement pstmt
@@ -214,11 +236,18 @@ public class CfgDAO {
             pstmt.execute();
         } catch (SQLException ex) {
             Logger.getLogger(Configuration.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            dbConnector.checkIn(con);
         }
     }
 
+    /**
+     * Connects to the database and deletes all headers related to that config
+     * @param config 
+     */
     public void deleteHeader(Configuration config) {
-        try (Connection con = dbConnector.getConnection()) {
+        Connection con = dbConnector.checkOut();
+        try {
             for (int i = 0; i < config.getSavedHeader().size(); i++) {
                 String sql
                         = "DELETE FROM Header WHERE headerId=?";
@@ -233,6 +262,8 @@ public class CfgDAO {
 
         } catch (SQLException ex) {
             Logger.getLogger(Configuration.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            dbConnector.checkIn(con);
         }
     }
 

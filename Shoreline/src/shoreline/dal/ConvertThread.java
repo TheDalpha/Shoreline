@@ -37,6 +37,9 @@ public class ConvertThread {
         executor.submit(new ConvertFile(task));
     }
 
+    /**
+     * Interrupts the thread in progress
+     */
     public void stopConvert() {
         thread.interrupt();
     }

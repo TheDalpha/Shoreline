@@ -85,6 +85,10 @@ public class CfgModel {
         cfgManager.saveAll(config,header);
     }
 
+    /**
+     * Sends data on the config that needs to be deleted
+     * @param config 
+     */
     public void deleteConfig(Configuration config) {
         cfgManager.deleteConfig(config);
     }

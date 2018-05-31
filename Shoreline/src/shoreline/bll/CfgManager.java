@@ -114,12 +114,19 @@ public class CfgManager
         tfile.readFirstLine(filePath, ja, oneLine);
     }
 
+    /**
+     * Sends data of the config that needs to be deleted
+     * @param config 
+     */
     public void deleteConfig(Configuration config) {
         cfgDAO.deleteConfigRelations(config);
         cfgDAO.deleteHeader(config);
         cfgDAO.deleteConfig(config);
     }
 
+    /**
+     * Calls on a method from the ConvertThread class
+     */
     public void stopConvert() {
         cThread.stopConvert();
     }

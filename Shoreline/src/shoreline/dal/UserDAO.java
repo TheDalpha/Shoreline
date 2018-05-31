@@ -5,6 +5,7 @@
  */
 package shoreline.dal;
 
+import shoreline.dal.dbConnector.DataBaseConnector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import shoreline.be.User;
+import shoreline.dal.dbConnector.ConnectionPool;
 
 /**
  *
@@ -22,14 +24,7 @@ import shoreline.be.User;
  */
 public class UserDAO
 {
-    private DataBaseConnector dbConnector;
-    
-    /**
-     * Constructor
-     */
-    public UserDAO(){
-        dbConnector = new DataBaseConnector();
-    }
+    ConnectionPool dbConnector = ConnectionPool.getInstance();
     
     /**
      * Connects to the database and selects all from the Login Table
@@ -38,8 +33,10 @@ public class UserDAO
      */
     public List<User> getAllUsers() {
         List<User> allUsers = new ArrayList();
+        Connection con = dbConnector.checkOut();
         
-        try (Connection con = dbConnector.getConnection()) {
+        try {
+            System.out.println(con);
             PreparedStatement pstmt
                     = con.prepareStatement("SELECT * FROM Login");
             ResultSet rs = pstmt.executeQuery();
@@ -56,6 +53,9 @@ public class UserDAO
             System.err.print(ex);
             return null;
         }
+        finally {
+            dbConnector.checkIn(con);
+        }
         return allUsers;
     }
 
@@ -64,7 +64,8 @@ public class UserDAO
      * @param user 
      */
     public void createUser(User user) {
-        try (Connection con = dbConnector.getConnection())
+        Connection con = dbConnector.checkOut();
+        try
         {
             String sql
                     = "INSERT INTO Login"
@@ -87,10 +88,11 @@ public class UserDAO
                 user.setLoginId(rs.getInt(1));
             }
               
-        } 
-        
-        catch (SQLException ex) {
+        }catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally {
+            dbConnector.checkIn(con);
         }
     }
 
@@ -99,7 +101,8 @@ public class UserDAO
      * @param selectedUser 
      */
     public void deleteUser(User selectedUser) {
-        try (Connection con = dbConnector.getConnection()) {
+        Connection con = dbConnector.checkOut();
+        try {
             String sql
                     = "DELETE FROM Login WHERE loginId=?";
             PreparedStatement pstmt
@@ -110,6 +113,9 @@ public class UserDAO
             
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally {
+            dbConnector.checkIn(con);
         }
     }
     
