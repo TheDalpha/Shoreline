@@ -145,7 +145,7 @@ public class ConfigureViewController implements Initializable
                 {
                     for (int i = 0; i < attributeView.getItems().size(); i++)
                     {
-                        if (attributeView.getItems().get(i).contains(header.getHeaderName()))
+                        if (attributeView.getItems().get(i).contains(header.toString()))
                         {
                             cfgM.headerSave(header);
                             cfgM.saveAll(config, header);
@@ -359,14 +359,15 @@ public class ConfigureViewController implements Initializable
             attributeView.getItems().clear();
             attributeView.getItems().addAll(attList);
             templateJson();
-            List<Configuration> config = cfgM.getAllConfigs();
-            for (Configuration attribute : config)
+            List<Configuration> configs = cfgM.getAllConfigs();
+            for (Configuration config : configs)
             {
-                if (attribute.getOutId() == savedCombo.getValue().getOutId())
+                if (config.getOutId() == savedCombo.getValue().getOutId())
                 {
-                    List<Header> header = attribute.getSavedHeader();
+                    List<Header> header = config.getSavedHeader();
                     for (Header header1 : header)
                     {
+                        System.out.println(header1.getHeaderId());
                         attributeView.getItems().set(header1.getListIndex(), header1.getAttName() + " : " + header1.getHeaderName());
                         headerMap.put(header1.getAttName(), header1);
                     }
@@ -451,8 +452,12 @@ public class ConfigureViewController implements Initializable
     }
 
     @FXML
-    private void deleteConfig(ActionEvent event) {
-        Configuration config = savedCombo.getSelectionModel().getSelectedItem();
+    private void deleteConfiguration(ActionEvent event) {
+        Configuration config = savedCombo.getValue();
+        System.out.println(config.getSavedHeader().size());
+        System.out.println(config.getSavedHeader().get(0).getHeaderId());
         cfgM.deleteConfig(config);
+        cbUpdate();
     }
+
 }

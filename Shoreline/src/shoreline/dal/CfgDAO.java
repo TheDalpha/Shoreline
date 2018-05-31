@@ -51,6 +51,7 @@ public class CfgDAO {
                 Configuration attribute = new Configuration();
                 attribute.setOutId(rs.getInt("configId"));
                 Header header = new Header();
+                header.setHeaderId(rs.getInt("headerId"));
                 header.setHeaderName(rs.getString("headerName"));
                 header.setHeaderIndex(rs.getInt("headerIndex"));
                 header.setAttName(rs.getString("attName"));
@@ -223,6 +224,7 @@ public class CfgDAO {
                         = "DELETE FROM Header WHERE headerId=?";
                 PreparedStatement pstmt
                         = con.prepareStatement(sql);
+                System.out.println(config.getSavedHeader().get(i).getHeaderId());
                 pstmt.setInt(1, config.getSavedHeader().get(i).getHeaderId());
 
                 pstmt.execute();
