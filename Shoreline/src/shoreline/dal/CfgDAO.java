@@ -34,8 +34,9 @@ public class CfgDAO {
     }
 
     /**
-     * Connects to the database and selects all from Config, configRelation, Header table
-     * Sets each Config and header
+     * Connects to the database and selects all from Config, configRelation,
+     * Header table Sets each Config and header
+     *
      * @return List
      */
     public List<Configuration> getAllConfigs() {
@@ -54,7 +55,7 @@ public class CfgDAO {
                 header.setHeaderIndex(rs.getInt("headerIndex"));
                 header.setAttName(rs.getString("attName"));
                 header.setListIndex(rs.getInt("listIndex"));
-                
+
                 // Goes through list of all configs, if the config id is equal to the config id
                 // from the database, it will add the header to that config
                 for (Configuration attribute1 : allConfig) {
@@ -71,8 +72,9 @@ public class CfgDAO {
     }
 
     /**
-     * Connect to the database and selects all from Config Table
-     * Gets all configs and adds them to a list
+     * Connect to the database and selects all from Config Table Gets all
+     * configs and adds them to a list
+     *
      * @return List
      */
     public List<Configuration> getConfigs() {
@@ -101,7 +103,8 @@ public class CfgDAO {
 
     /**
      * Connects to the database and inserts a config into the Config Table
-     * @param config 
+     *
+     * @param config
      */
     public void configSave(Configuration config) {
         try (Connection con = dbConnector.getConnection()) {
@@ -129,7 +132,8 @@ public class CfgDAO {
 
     /**
      * Connects to the database and inserts a header into the Header table
-     * @param header 
+     *
+     * @param header
      */
     public void headerSave(Header header) {
         try (Connection con = dbConnector.getConnection()) {
@@ -159,10 +163,11 @@ public class CfgDAO {
     }
 
     /**
-     * Connects to the database and
-     * inserts the config id and header id into the configRelation table
+     * Connects to the database and inserts the config id and header id into the
+     * configRelation table
+     *
      * @param config
-     * @param header 
+     * @param header
      */
     public void saveAll(Configuration config, Header header) {
         try (Connection con = dbConnector.getConnection()) {
@@ -182,4 +187,51 @@ public class CfgDAO {
             Logger.getLogger(CfgDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public void deleteConfigRelations(Configuration config) {
+        try (Connection con = dbConnector.getConnection()) {
+            String sql
+                    = "DELETE FROM configRelation WHERE configId=?";
+            PreparedStatement pstmt
+                    = con.prepareStatement(sql);
+            pstmt.setInt(1, config.getOutId());
+
+            pstmt.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(Configuration.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void deleteConfig(Configuration config) {
+        try (Connection con = dbConnector.getConnection()) {
+            String sql
+                    = "DELETE FROM Config WHERE configId=?";
+            PreparedStatement pstmt
+                    = con.prepareStatement(sql);
+            pstmt.setInt(1, config.getOutId());
+
+            pstmt.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(Configuration.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void deleteHeader(Configuration config) {
+        try (Connection con = dbConnector.getConnection()) {
+            for (int i = 0; i < config.getSavedHeader().size(); i++) {
+                String sql
+                        = "DELETE FROM Header WHERE headerId=?";
+                PreparedStatement pstmt
+                        = con.prepareStatement(sql);
+                pstmt.setInt(1, config.getSavedHeader().get(i).getHeaderId());
+
+                pstmt.execute();
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Configuration.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 }

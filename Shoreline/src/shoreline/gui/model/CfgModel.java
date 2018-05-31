@@ -84,5 +84,9 @@ public class CfgModel {
     public void saveAll(Configuration config, Header header) {
         cfgManager.saveAll(config,header);
     }
+
+    public void deleteConfig(Configuration config) {
+        cfgManager.deleteConfig(config);
+    }
     
 }

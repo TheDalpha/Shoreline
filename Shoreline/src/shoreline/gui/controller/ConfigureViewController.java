@@ -449,4 +449,10 @@ public class ConfigureViewController implements Initializable
     {
         this.uvc = userVC;
     }
+
+    @FXML
+    private void deleteConfig(ActionEvent event) {
+        Configuration config = savedCombo.getSelectionModel().getSelectedItem();
+        cfgM.deleteConfig(config);
+    }
 }

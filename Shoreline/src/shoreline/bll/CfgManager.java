@@ -24,7 +24,7 @@ import shoreline.dal.TemplateFile;
  */
 public class CfgManager
 {
-    CfgDAO udao;
+    CfgDAO cfgDAO;
     ConvertThread cThread = new ConvertThread();
     TemplateFile tfile = new TemplateFile();
     
@@ -32,7 +32,7 @@ public class CfgManager
      * Constructor
      */
     public CfgManager() {
-        this.udao = new CfgDAO();
+        this.cfgDAO = new CfgDAO();
     }
     
     /**
@@ -40,7 +40,7 @@ public class CfgManager
      * @return all config
      */
     public List<Configuration> getAllConfig() {
-        return udao.getAllConfigs();
+        return cfgDAO.getAllConfigs();
     }
 
     /**
@@ -48,7 +48,7 @@ public class CfgManager
      * @param config 
      */
     public void configSave(Configuration config) {
-        udao.configSave(config);
+        cfgDAO.configSave(config);
     }
 
     /**
@@ -56,7 +56,7 @@ public class CfgManager
      * @param header 
      */
     public void headerSave(Header header) {
-        udao.headerSave(header);
+        cfgDAO.headerSave(header);
     }
 
     /**
@@ -65,7 +65,7 @@ public class CfgManager
      * @param header 
      */
     public void saveAll(Configuration config, Header header) {
-        udao.saveAll(config, header);
+        cfgDAO.saveAll(config, header);
     }
 
     /**
@@ -112,5 +112,11 @@ public class CfgManager
      */
     public void readFirstLine(String filePath, Map<String, Header> ja, boolean oneLine) throws Exception {
         tfile.readFirstLine(filePath, ja, oneLine);
+    }
+
+    public void deleteConfig(Configuration config) {
+        cfgDAO.deleteConfigRelations(config);
+        cfgDAO.deleteHeader(config);
+        cfgDAO.deleteConfig(config);
     }
 }
