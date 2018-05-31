@@ -49,9 +49,9 @@ public class ConvertFile implements Runnable{
             File fileOutput = new File(ct.getOutputFile() + "/" + ct.getTaskName() + ".json");
             FileWriter jsonWriter = new FileWriter(fileOutput);
             
-            JSONObject job = new JSONObject();
+            
             JSONArray jObL = new JSONArray();
-            JSONObject planObjects = new JSONObject();
+            
             
             Workbook workbook = WorkbookFactory.create(file);
             Sheet sheet = workbook.getSheetAt(0);
@@ -60,6 +60,8 @@ public class ConvertFile implements Runnable{
 
             for (int i = rowStart; i < rowEnd; i++) {
                 Row row = sheet.getRow(i);
+                JSONObject job = new JSONObject();
+                JSONObject planObjects = new JSONObject();
 
                 ct.getHeaderMap().forEach((key, value) -> {
                     if (key.equals("Latest Finish Date") || key.equals("Earliest Start Date") || key.equals("Latest Start Date") || key.equals("Estimated Time")) {
@@ -79,7 +81,7 @@ public class ConvertFile implements Runnable{
                 job.put("Planning", planObjects);
                 jObL.put(job);
             }
-            jsonWriter.write(jObL.toString(4));
+            jsonWriter.write(jObL.toString(4) + System.lineSeparator());
             jsonWriter.close();
         } catch (IOException ex) {
 

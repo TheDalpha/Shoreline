@@ -119,4 +119,8 @@ public class CfgManager
         cfgDAO.deleteHeader(config);
         cfgDAO.deleteConfig(config);
     }
+
+    public void stopConvert() {
+        cThread.stopConvert();
+    }
 }

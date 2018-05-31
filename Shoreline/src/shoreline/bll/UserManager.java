@@ -8,6 +8,7 @@ package shoreline.bll;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
+import shoreline.be.Tasks;
 import shoreline.be.User;
 import shoreline.dal.UserDAO;
 

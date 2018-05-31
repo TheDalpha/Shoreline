@@ -173,4 +173,8 @@ public class UserViewModel {
     public void convert(Tasks task) throws IOException, InvalidFormatException {
         cfgM.convert(task);
     }
+
+    public void stopConvert() {
+        cfgM.stopConvert();
+    }
 }

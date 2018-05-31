@@ -35,7 +35,6 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.json.JSONObject;
 import shoreline.be.Configuration;

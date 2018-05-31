@@ -23,7 +23,7 @@ public class ConvertThread {
      */
     private static final ExecutorService executor = Executors.newSingleThreadExecutor(new ThreadFactory() {
         public Thread newThread(Runnable runnable) {
-            Thread thread = Executors.defaultThreadFactory().newThread(runnable);
+            thread = Executors.defaultThreadFactory().newThread(runnable);
             thread.setDaemon(true);
             return thread;
         }
@@ -35,5 +35,9 @@ public class ConvertThread {
      */
     public void convert(Tasks task) {
         executor.submit(new ConvertFile(task));
+    }
+
+    public void stopConvert() {
+        thread.interrupt();
     }
 }

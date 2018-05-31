@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
@@ -55,8 +56,11 @@ public class UserViewController implements Initializable {
     String outputFilename;
     String userName;
     String desc;
+    Tasks task;
     List<String> outputfiles = new ArrayList<>();
     DatePicker datePicker = new DatePicker(LocalDate.now());
+    CompletableFuture comFu;
+    Thread thread;
 
     @FXML
     private ListView<File> Lview;
@@ -99,8 +103,9 @@ public class UserViewController implements Initializable {
 
     /**
      * Go through local computer to select a file
+     *
      * @param event
-     * @throws Exception 
+     * @throws Exception
      */
     @FXML
     private void chooseFile(ActionEvent event) throws Exception {
@@ -157,7 +162,8 @@ public class UserViewController implements Initializable {
 
     /**
      * Sets the active user
-     * @param person 
+     *
+     * @param person
      */
     public void setUserName(User person) {
         this.person = person;
@@ -173,8 +179,9 @@ public class UserViewController implements Initializable {
 
     /**
      * Closes the window and log a user out
+     *
      * @param event
-     * @throws IOException 
+     * @throws IOException
      */
     @FXML
     private void logout(ActionEvent event) throws IOException {
@@ -198,10 +205,11 @@ public class UserViewController implements Initializable {
 
     /**
      * Opens the configure view and sends the data with it
+     *
      * @param event
      * @throws IOException
      * @throws InvalidFormatException
-     * @throws Exception 
+     * @throws Exception
      */
     @FXML
     private void configure(ActionEvent event) throws IOException, InvalidFormatException, Exception {
@@ -237,48 +245,50 @@ public class UserViewController implements Initializable {
     }
 
     /**
-     * Starts the convert on tasks in the taskView
-     * Then adds the converted tasks to a listview
+     * Starts the convert on tasks in the taskView Then adds the converted tasks
+     * to a listview
+     *
      * @param event
-     * @throws IOException 
+     * @throws IOException
      */
     @FXML
     private void startConvert(ActionEvent event) throws IOException {
-        try {
-            Tasks task = taskView.getSelectionModel().getSelectedItem();
-            uvm.convert(task);
-            taskView.getItems().remove(task);
-            File file = new File(task.getTaskName() + ".json");
-            convertedList.getItems().add(file);
-            outputfiles.add(task.getOutputFile() + "\\" + task.getTaskName() + ".json");
+//        comFu = CompletableFuture.runAsync(() -> {
+//            thread = Thread.currentThread();
+            try {
+                task = taskView.getSelectionModel().getSelectedItem();
+                uvm.convert(task);
+                taskView.getItems().remove(task);
+                File file = new File(task.getTaskName() + ".json");
+                convertedList.getItems().add(file);
+                outputfiles.add(task.getOutputFile() + "\\" + task.getTaskName() + ".json");
 //            for (Tasks task : uvm.getTasks()) {
 //                uvm.convert(task);
 //                System.out.println(task.getHeaderMap());
 //            }   io null         
-        } catch (IOException | InvalidFormatException e) {
-            String desc = "Not a valid file";
-            String actionP = "Attempted to startConvert without a valid file";
-            LocalDate localDate = datePicker.getValue();
-            avm.addTraceLog(" ", actionP, userName, localDate.toString(), desc);
-        }
+            } catch (IOException | InvalidFormatException e) {
+                String desc = "Not a valid file";
+                String actionP = "Attempted to startConvert without a valid file";
+                LocalDate localDate = datePicker.getValue();
+                avm.addTraceLog(" ", actionP, userName, localDate.toString(), desc);
+            }
+//            });
+    }
+    
+    private void stopConvert() {
+        uvm.stopConvert();
     }
 
     @FXML
     private void stopConvert(ActionEvent event) {
-//        try
-//        {
-//            
-//        } catch (Exception e) {
-//                 desc = e.toString();
-//                 String actionP = "Nothing happens";
-//                 avm.addTraceLog(" ", actionP, userName, desc);
-//        }
+        stopConvert();
     }
 
     /**
      * Gets filenames without extentions
+     *
      * @param filename
-     * @return 
+     * @return
      */
     public String getFilenameWithoutExtention(String filename) {
         String[] fnameParts = filename.split("\\.");
@@ -288,7 +298,8 @@ public class UserViewController implements Initializable {
 
     /**
      * Removes a file from the listview
-     * @param event 
+     *
+     * @param event
      */
     @FXML
     private void removeFile(ActionEvent event) {
@@ -304,8 +315,9 @@ public class UserViewController implements Initializable {
 
     /**
      * Opens a converted task
+     *
      * @param event
-     * @throws IOException 
+     * @throws IOException
      */
     @FXML
     private void openConvertedTask(MouseEvent event) throws IOException {
@@ -330,8 +342,9 @@ public class UserViewController implements Initializable {
 
     /**
      * Opens the adminview panel
+     *
      * @param event
-     * @throws IOException 
+     * @throws IOException
      */
     @FXML
     private void openAdminPanel(ActionEvent event) throws IOException {
