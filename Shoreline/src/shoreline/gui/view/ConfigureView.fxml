@@ -66,6 +66,13 @@
                      <VBox.margin>
                         <Insets bottom="16.0" />
                      </VBox.margin>
+                     <contextMenu>
+                        <ContextMenu>
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Delete" />
+                          </items>
+                        </ContextMenu>
+                     </contextMenu>
                   </JFXComboBox>
                   <ListView fx:id="selectedList" prefHeight="326.0" prefWidth="196.0" VBox.vgrow="SOMETIMES">
                      <VBox.margin>
