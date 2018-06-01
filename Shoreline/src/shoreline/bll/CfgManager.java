@@ -5,7 +5,6 @@
  */
 package shoreline.bll;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -88,7 +87,7 @@ public class CfgManager
      * @return string
      * @throws JsonProcessingException 
      */
-    public String XLSXR() throws JsonProcessingException {
+    public String XLSXR(){
         return tfile.XLSXR();
     }
 

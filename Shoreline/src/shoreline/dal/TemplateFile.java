@@ -6,7 +6,6 @@
 package shoreline.dal;
 
 import shoreline.be.Header;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -73,7 +72,7 @@ public class TemplateFile {
         }
     }
 
-    public String XLSXR() throws JsonProcessingException {
+    public String XLSXR() {
 
         return testobj.toString(4);
 

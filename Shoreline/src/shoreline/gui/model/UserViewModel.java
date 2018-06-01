@@ -5,7 +5,6 @@
  */
 package shoreline.gui.model;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -134,9 +133,8 @@ public class UserViewModel {
     /**
      * Sends data further into the system and returns the string
      * @return
-     * @throws JsonProcessingException 
      */
-    public String XLSXR() throws JsonProcessingException {
+    public String XLSXR() {
         return cfgM.XLSXR();
     }
 

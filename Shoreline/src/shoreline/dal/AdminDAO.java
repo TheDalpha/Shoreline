@@ -63,7 +63,6 @@ public class AdminDAO {
     public List<Loggin> getAllLoggins() {
         List<Loggin> allLoggins = new ArrayList();
         Connection con = dbConnector.checkOut();
-        System.out.println(con);
         try {
             PreparedStatement pstmt
                     = con.prepareStatement("SELECT * FROM Log");

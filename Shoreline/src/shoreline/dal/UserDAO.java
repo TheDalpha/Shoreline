@@ -36,7 +36,6 @@ public class UserDAO
         Connection con = dbConnector.checkOut();
         
         try {
-            System.out.println(con);
             PreparedStatement pstmt
                     = con.prepareStatement("SELECT * FROM Login");
             ResultSet rs = pstmt.executeQuery();

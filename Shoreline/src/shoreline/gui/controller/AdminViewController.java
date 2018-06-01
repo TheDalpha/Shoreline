@@ -178,11 +178,11 @@ public class AdminViewController implements Initializable
         deleteAlert.showAndWait();
         if (deleteAlert.getResult() == ButtonType.YES)
         {
+            String actionP = "User " + tableView.getSelectionModel().getSelectedItem().getUsername() + " was Removed";
             usm.deleteUser(tableView.getSelectionModel().getSelectedItem());
             tableView.getItems().remove(tableView.getSelectionModel().getSelectedItem());
             usm.loadUsers();
-            // Sets the data for the log
-            String actionP = "User " + tableView.getSelectionModel().getSelectedItem().getUsername() + " was Removed";
+            // Sets the data for the log 
             LocalDate localDate = datePicker.getValue();
             avm.addTraceLog(" ", actionP, userName, localDate.toString(), " ");
         } else if (deleteAlert.getResult() == ButtonType.NO)

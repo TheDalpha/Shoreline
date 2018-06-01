@@ -29,7 +29,8 @@ public class PassSecurity {
      * @throws NoSuchAlgorithmException
      * @throws InvalidKeySpecException 
      */
-    public boolean authenticate(String passwordEntered, byte[] passwordEncrypted, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public boolean authenticate(String passwordEntered, byte[] passwordEncrypted, 
+            byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
         byte[] encryptedPasswordEntered = getEncryptedPassword(passwordEntered, salt);
         return Arrays.equals(passwordEncrypted, encryptedPasswordEntered);
     }
@@ -42,7 +43,9 @@ public class PassSecurity {
      * @throws NoSuchAlgorithmException
      * @throws InvalidKeySpecException 
      */
-    public byte[] getEncryptedPassword(String password, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public byte[] getEncryptedPassword(String password, byte[] salt) 
+            throws NoSuchAlgorithmException, InvalidKeySpecException {
+        
         String algortihm = "PBKDF2WithHmacSHA1";
         int derivedKeyLenght = 160;
         int iterations = 20000;

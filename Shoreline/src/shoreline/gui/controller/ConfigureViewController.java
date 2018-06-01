@@ -5,7 +5,6 @@
  */
 package shoreline.gui.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -261,7 +260,7 @@ public class ConfigureViewController implements Initializable
      * @throws Exception
      */
     @FXML
-    private void addAttribute(ActionEvent event) throws JsonProcessingException, Exception
+    private void addAttribute(ActionEvent event) throws Exception
     {
         String selectedCB = attCB.getSelectionModel().getSelectedItem();
         Header selected = selectedList.getSelectionModel().getSelectedItem();
